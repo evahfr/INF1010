@@ -1,8 +1,8 @@
 public class Bok implements TilUtlaan {
-    String tittel;
-    String forfatter;
-    boolean utlaant;
-    String laaner;
+    private String tittel;
+    private String forfatter;
+    private boolean utlaant;
+    private String laaner;
 
     public Bok(String t, String f) {
 	tittel = t;
@@ -27,5 +27,17 @@ public class Bok implements TilUtlaan {
 	    utlaant = false;
 	    laaner = null;
 	}
+    }
+
+    public String hentTittel() {
+	return tittel;
+    }
+
+    public String hentforfatter() {
+	return forfatter;
+    }
+
+    public String hentLaaner() {
+	return laaner;
     }
 }
