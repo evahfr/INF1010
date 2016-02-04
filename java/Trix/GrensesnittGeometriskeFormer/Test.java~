@@ -1,0 +1,24 @@
+public class Test {
+
+    public static void main(String[] args) {
+
+        Square squares[] = {new Square(1), new Square(2), new Square(3)};
+        Circle circles[] = {new Circle(4), new Circle(5), new Circle(6)};
+
+        double totalArea = 0, totalPerimeter = 0;
+        for (Square s : squares){
+            totalArea += s.area();
+        }
+        for (Square s : squares){
+            totalPerimeter += s.perimeter();
+        }
+        for (Circle c : circles){
+            totalArea += c.area();
+        }
+        for (Circle c : circles){
+            totalPerimeter += c.perimeter();
+        }
+        System.out.println("totalArea:\t" + totalArea);
+        System.out.println("totalPerimeter:\t" + totalPerimeter);
+    }
+}

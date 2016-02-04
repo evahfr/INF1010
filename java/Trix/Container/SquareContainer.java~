@@ -1,0 +1,11 @@
+public class SquareContainer {
+    private Square square;
+
+    public ??? put(??? square) {
+	this.square = square;
+    }
+    
+    public ??? take() {
+	return this.square;
+    }
+}

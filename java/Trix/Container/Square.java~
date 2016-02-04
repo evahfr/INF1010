@@ -1,0 +1,11 @@
+public class Square {
+    private double sidelengde;
+
+    public void omkrets() {
+
+    }
+
+    public void areal() {
+
+    }
+}
