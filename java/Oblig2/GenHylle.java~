@@ -1,6 +1,0 @@
-interface GenHylle<E> {
-    public int hyllestr();
-    public void settInn(E ting);
-    public boolean plassLedig(int plass);
-    public E taUt(int plass);
-}
