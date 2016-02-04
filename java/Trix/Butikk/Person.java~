@@ -1,9 +1,0 @@
-public class Person {
-    private String navn;
-    private String gjenstand;
-
-    public Person(String n, String g) {
-	navn = n;
-	gjenstand = g;
-    }
-}
