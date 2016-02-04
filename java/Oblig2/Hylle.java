@@ -19,9 +19,9 @@ public class Hylle<T> implements GenHylle<T> {
 	}
     }
 
-    public void settInn(T ting, int plass) {
+    public void settInn(T enTing, int plass) {
 	if (hylle[plass] == null) {  // Prøv (T.plassLedig(plass)) her
-	    hylle[plass] = ting;
+	    hylle[plass] = enTing;
 	}
 	else {
 	    System.out.println("Plassen er ikke ledig: Kan ikke sette inn gjenstand.");
