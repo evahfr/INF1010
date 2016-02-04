@@ -1,6 +1,6 @@
-interface GenHylle<T> {
+interface GenHylle<E> {
     public int hylleStr();
-    public void settInn(T ting);
+    public void settInn(E ting, int plass);
     public boolean plassLedig(int plass);
-    public T taUt(int plass);
+    public E taUt(int plass);
 }
