@@ -13,7 +13,6 @@ public class Bok implements TilUtlaan {
 
     public void laanUt(String l) {
 	if (!utlaant) {
-	    //public String laaner = l;
 	    laaner = l;
 	    utlaant = true;
 	}
