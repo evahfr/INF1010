@@ -19,23 +19,25 @@ public class Hylle<T> implements GenHylle<T> {
 	}
     }
 
-    public void settInn(T enTing, int plass) {
-	if (hylle[plass] == null) {  // Prøv (T.plassLedig(plass)) her
+    public boolean settInn(T enTing, int plass) {
+	if (plassLedig(plass)) {  
 	    hylle[plass] = enTing;
+	    return true;
 	}
 	else {
-	    System.out.println("Plassen er ikke ledig: Kan ikke sette inn gjenstand.");
+	    System.out.println("Kan ikke sette inn gjenstand.");
+	    return false;
 	}
     }
 
     public T taUt(int plass) {
-	if (hylle[plass] != null) {
+	if (!plassLedig(plass)) {
 	    T enTing = hylle[plass];
 	    hylle[plass] = null;
 	    return enTing;
 	}
 	else {
-	    System.out.println("Plassen er tom: Kan ikke ta ut gjenstand.");
+	    System.out.println("Plassen er tom.");
 	    return null;
 	}
     }
