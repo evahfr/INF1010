@@ -10,8 +10,9 @@ public class Hylle<T> implements GenHylle<T> {
     }
 
     public boolean plassLedig(int plass) {
+	// Sjekker baade om plassen er ledig og om plassen eksisterer.
 	if (plass >= 0 && plass <= hylle.length-1) {
-	    return hylle[plass] == null;
+	    return hylle[plass] == null;         
 	}
 	else {
 	    System.out.println("Denne plassen finnes ikke.");

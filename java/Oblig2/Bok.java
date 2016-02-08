@@ -17,7 +17,7 @@ public class Bok implements TilUtlaan {
 	    utlaant = true;
 	}
 	else {
-	    System.out.println("Boka er lånt ut.");
+	    System.out.println("Boka er laant ut.");
 	}
     }
 
