@@ -1,12 +1,12 @@
 public class Fossilbil extends Bil {
     protected double utslipp;
     
-    public Fossilbil(String regNummer, double utslipp) {
+    public Fossilbil(String regNummer, double ut) {
 	super(regNummer);
-	utslipp = this.utslipp;
+	utslipp = ut;
     }
 
     public void skrivUt() {
-	System.out.format("Type: Fossilbil\n  Registreringsnummer: %s\n  Utslipp: %.3f\n\n", regNummer, utslipp);
+	System.out.format("Type: Fossilbil\n  Registreringsnummer: %s\n  Utslipp: %.2f\n\n", regNummer, utslipp);
     }
 }

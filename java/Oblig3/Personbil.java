@@ -1,12 +1,12 @@
 public class Personbil extends Fossilbil {
     protected int antPassasjerer;
     
-    public Personbil(String regNummer, double utslipp, int antPassasjerer) {
+    public Personbil(String regNummer, double utslipp, int antP) {
 	super(regNummer, utslipp);
-	antPassasjerer = this.antPassasjerer;
+	antPassasjerer = antP;
     }
 
     public void skrivUt() {
-	System.out.format("Type: Personbil\n  Registreringsnummer: %s\n  Utslipp: %.3f\n  Antall Seter: %d\n\n", regNummer, utslipp, antPassasjerer);
+	System.out.format("Type: Personbil\n  Registreringsnummer: %s\n  Utslipp: %.2f\n  Antall Seter: %d\n\n", regNummer, utslipp, antPassasjerer);
     }
 }

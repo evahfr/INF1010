@@ -1,9 +1,9 @@
 public class ElBil extends Bil {
     protected int batteriStr;
 
-    public ElBil(String regNummer, int batteriStr) {
+    public ElBil(String regNummer, int bStr) {
 	super(regNummer);
-	batteriStr = this.batteriStr;
+	batteriStr = bStr;
     }
     
     public void skrivUt() {
