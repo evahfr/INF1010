@@ -1,4 +1,7 @@
 public class Bil {
-    protected String bilnummer;
+    protected String regNummer;
     
+    public Bil(String regNummer) {
+	regNummer = this.regNummer;
+    }
 }
