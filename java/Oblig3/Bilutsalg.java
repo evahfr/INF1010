@@ -37,26 +37,25 @@ public class Bilutsalg {
 	String filnavn = terminal.next();
 
 	Scanner innFil = new Scanner(new File(filnavn));
-	Bil[] biler = new Bil[100];
-	int teller = 0;
+	ArrayList<Bil> biler = new ArrayList<Bil>(); 
 
 	while (innFil.hasNextLine()) {
 	    String[] linjeInfo = innFil.nextLine().split(" ");
 
 	    if (linjeInfo[0].equals("BIL")) {
-		biler[teller++] = lagNyBil(linjeInfo);
+		biler.add(lagNyBil(linjeInfo));
 	    }
 	    else if (linjeInfo[0].equals("EL")) {
-		biler[teller++] = lagNyElBil(linjeInfo);
+		biler.add(lagNyElBil(linjeInfo));
 	    }
 	    else if (linjeInfo[0].equals("FOSSIL")) {
-		biler[teller++] = lagNyFossilbil(linjeInfo);
+		biler.add(lagNyFossilbil(linjeInfo));
 	    }
 	    else if (linjeInfo[0].equals("PERSONFOSSILBIL")) {
-		biler[teller++] = lagNyPersonbil(linjeInfo);
+		biler.add(lagNyPersonbil(linjeInfo));
 	    }
 	    else if (linjeInfo[0].equals("LASTEBIL")) {
-		biler[teller++] = lagNyLastebil(linjeInfo);
+		biler.add(lagNyLastebil(linjeInfo));
 	    }
 	    else {
 		System.out.println("Advarsel: En linje i filen '" + filnavn + "' kunne ikke tolkes. Hopper over linjen.");
@@ -66,7 +65,9 @@ public class Bilutsalg {
 	innFil.close();
 
 	for (Bil b : biler) {
-	    System.out.println(b);
+	    if (b instanceof Fossilbil) {
+		b.skrivUt();
+	    }
 	}
     }
 }
