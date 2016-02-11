@@ -4,4 +4,8 @@ public class Bil {
     public Bil(String regNummer) {
 	regNummer = this.regNummer;
     }
+
+    public void skrivUt() {
+	System.out.format("Type: Bil\n  Registreringsnummer: %s\n\n", regNummer);
+    }
 }

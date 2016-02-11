@@ -5,4 +5,8 @@ public class Fossilbil extends Bil {
 	super(regNummer);
 	utslipp = this.utslipp;
     }
+
+    public void skrivUt() {
+	System.out.format("Type: Fossilbil\n  Registreringsnummer: %s\n  Utslipp: %.3f\n\n", regNummer, utslipp);
+    }
 }
