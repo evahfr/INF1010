@@ -1,15 +1,20 @@
 public abstract class Legemiddel {
     protected String navn;
-    protected int id;
     protected double pris;
+    protected int LegemiddelID;
+    private static int LegemiddelTeller = 0;
 
-    public Legemiddel(String n, int i, double p) {
+    public Legemiddel(String n, double p) {
+	LegemiddelID = LegemiddelTeller;
+	LegemiddelTeller ++;
+
 	navn = n;
-	id = i;
 	pris = p;
     }
     
     public double hentPris() {
 	return pris;
     }
+
+    public abstract double virkestoffInnholdTot();
 }

@@ -1,11 +1,11 @@
 public class MiksturA extends TypeA  implements Mikstur {
     private int volum;
-    private double virkestoff;
+    private double virkestoffPerCm3;
 
-    public MiksturA(String navn, int id, double pris, int styrke, int vol, double v) {
-	super(navn, id, pris, styrke);
+    public MiksturA(String navn, double pris, int styrke, int vol, double vpcm3) {
+	super(navn, pris, styrke);
 	volum = vol;
-	virkestoff = v;
+	virkestoffPerCm3 = vpcm3;
     }
 
     public double hentVolum() {
@@ -13,6 +13,10 @@ public class MiksturA extends TypeA  implements Mikstur {
     }
 
     public double hentVirkestoffPerCm3() {
-	return virkestoff;
+	return virkestoffPerCm3;
+    }
+
+    public double virkestoffInnholdTot() {
+	return volum*virkestoffPerCm3;
     }
 }

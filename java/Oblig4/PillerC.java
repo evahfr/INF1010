@@ -1,11 +1,11 @@
 public class PillerC extends TypeC  implements Piller {
     private int antPiller;
-    private double virkestoff;
+    private double virkestoffPerPille;
 
-    public PillerC(String navn, int id, double pris, int antP, double v) {
-	super(navn, id, pris);
+    public PillerC(String navn, double pris, int antP, double vpp) {
+	super(navn, pris);
 	antPiller = antP;
-	virkestoff = v;
+	virkestoffPerPille = vpp;
     }
 
     public int hentAntall() {
@@ -13,6 +13,10 @@ public class PillerC extends TypeC  implements Piller {
     }
 
     public double hentVirkestoffPerPille() {
-	return virkestoff;
+	return virkestoffPerPille;
+    }
+
+    public double virkestoffInnholdTot() {
+	return antPiller*virkestoffPerPille;
     }
 }

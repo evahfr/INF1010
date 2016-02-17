@@ -1,6 +1,8 @@
 public abstract class TypeC extends Legemiddel {
 
-    public TypeC(String navn, int id, double pris) {
-	super(navn, id, pris);
+    public TypeC(String navn, double pris) {
+	super(navn, pris);
     }
+
+    public abstract double virkestoffInnholdTot();
 }

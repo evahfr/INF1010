@@ -1,6 +1,6 @@
 public class BlaaResept extends Resept {
-    public BlaaResept(int id, Legemiddel legemiddel, String lege, String pasient, int reit) {
-	super(id, legemiddel, lege, pasient, reit);
+    public BlaaResept(Legemiddel legemiddel, String lege, String pasient, int reit) {
+	super(legemiddel, lege, pasient, reit);
     }
     
     public double beregnPris() {

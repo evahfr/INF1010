@@ -1,4 +1,4 @@
-public class Lege implements Lik {
+public class Lege implements Lik, KommuneAvtale {
     protected String navn;
     protected int avtalenummer;
 

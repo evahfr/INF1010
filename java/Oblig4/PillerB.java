@@ -1,11 +1,11 @@
 public class PillerB extends TypeB  implements Piller {
     private int antPiller;
-    private double virkestoff;
+    private double virkestoffPerPille;
 
-    public PillerB(String navn, int id, double pris, int vanedannende, int antP, double v) {
-	super(navn, id, pris, vanedannende);
+    public PillerB(String navn, double pris, int vanedannende, int antP, double vpp) {
+	super(navn, pris, vanedannende);
 	antPiller = antP;
-	virkestoff = v;
+	virkestoffPerPille = vpp;
     }
 
     public int hentAntall() {
@@ -13,6 +13,10 @@ public class PillerB extends TypeB  implements Piller {
     }
 
     public double hentVirkestoffPerPille() {
-	return virkestoff;
+	return virkestoffPerPille;
+    }
+
+    public double virkestoffInnholdTot() {
+	return antPiller*virkestoffPerPille;
     }
 }

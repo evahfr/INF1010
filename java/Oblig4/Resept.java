@@ -1,16 +1,19 @@
 public abstract class Resept {
-    protected int id;
     protected Legemiddel legemiddel;
     protected String lege;
     protected String pasient;
     protected int reit;
+    protected int reseptID;
+    private static int reseptTeller = 0;
 
-    public Resept(int id, Legemiddel legemiddel, String lege, String pasient, int reit){
-	this.id = id;
-	this.legemiddel = legemiddel;
-	this.lege = lege;
-	this.pasient = pasient;
-	this.reit = reit;
+    public Resept(Legemiddel lm, String l, String p, int r){
+	reseptID = reseptTeller;
+	reseptTeller++;
+
+	legemiddel = lm;
+	lege = l;
+	pasient = p;
+	reit = r;
     }
 
     public boolean reseptGyldig() {
