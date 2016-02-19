@@ -1,20 +1,28 @@
 public abstract class Legemiddel {
     protected String navn;
     protected double pris;
-    protected int LegemiddelID;
-    private static int LegemiddelTeller = 0;
+    protected int legemiddelID;
+    private static int legemiddelTeller = 0;
 
     public Legemiddel(String n, double p) {
-	LegemiddelID = LegemiddelTeller;
-	LegemiddelTeller ++;
+	legemiddelID = legemiddelTeller;  
+	legemiddelTeller ++;
 
 	navn = n;
 	pris = p;
     }
     
+    /**
+     * Returnerer prisen til legemiddelet.
+     * @return pris
+     */
     public double hentPris() {
 	return pris;
     }
 
+    /**
+     * Beregner legemiddelets totale innhold av virkestoff.
+     * @return totalt innhold av virkestoff
+     */
     public abstract double virkestoffInnholdTot();
 }

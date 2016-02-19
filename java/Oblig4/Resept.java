@@ -16,7 +16,13 @@ public abstract class Resept {
 	reit = r;
     }
 
+    /**
+     * Sjekker om reseptet er gyldig.
+     * @return true hvis reit != 0, ellers false
+     */
     public boolean reseptGyldig() {
-	return reit != 0;
+	return reit > 0;
     }
+
+    public abstract double beregnPris();
 }

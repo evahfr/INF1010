@@ -3,6 +3,10 @@ public class BlaaResept extends Resept {
 	super(legemiddel, lege, pasient, reit);
     }
     
+    /**
+     * Beregner prisen til reseptet, blaa resepter er gratis.
+     * @return pris
+     */
     public double beregnPris() {
 	return 0.0;
     }

@@ -5,12 +5,12 @@ public class Pasient {
     private int pasientID;
     private static int pasientTeller = 0;
 
-    public Pasient(String n, int fnr, String adr) {
+    public Pasient(String n, int fnr, String veinavn, int veinummer, int postnummer) {
 	pasientID = pasientTeller;
 	pasientTeller ++;
 
 	navn = n;
 	foedselsnummer = fnr;
-	adresse = adr;
+	adresse = String.format("Adresse: %s %d, %d", veinavn, veinummer, postnummer);
     }
 }
