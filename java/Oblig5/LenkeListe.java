@@ -1,6 +1,5 @@
 public class LenkeListe<E extends Comparable<E>> {
     private Node foran;
-    private int antall = 0;
 
     private class Node {
 	E data;
@@ -20,52 +19,60 @@ public class LenkeListe<E extends Comparable<E>> {
     }
 
     /**
-     * Legger til et objekt foran i listen.
+     * Legger til et objekt i en sortert liste, sortert fra minste til stoerste.
      * @param objekt
      */
     public void leggTil(E e) {
-	Node nyNode = new Node(e);
-	nyNode.neste = foran;
-	foran = nyNode;
-	antall++;
-    }
-
-    public E fjernMinste() {
-	E minste = null;
-	if (antall > 0) {
-	    antall--;
-	    Node iter = foran;
-	    Node foranIter = null;
-	    Node bakIter = null;
-	    Node tempIter = null;
-	    while (iter != null) {
-		// Endrer bare pekeren til minste hvis det er et objekt som er
-		// mindre. Og første gangen.
-		if (minste == null) {
-		    minste = iter.data;
-		    bakIter = iter.neste;
-		}
-		if (iter.data.compareTo(minste) < 0) {
-		    minste = iter.data;
-		    foranIter = tempIter;
-		    bakIter = iter.neste;
-		}
-		tempIter = iter;
-		iter = iter.neste;
-	    }
-	    if (antall > 0) {
-		foranIter.neste = bakIter;
-	    }
-	    else {
-		foran = null;
-	    }
+	Node nyNode = new Node(e); 
+	
+	if (tom()) { // 1: Hvis listen er tom, og dette er foerste node i listen.
+	    foran = nyNode;
+	    return;
 	}
-	return minste;
+
+	Node forrige = foran; // For gjennomgang av lista; peker på noden bak "denne" - noden.
+	Node denne = foran.neste; // For gjennomgang av lista; peker på "denne" - noden.
+
+	if (forrige.data.compareTo(e) > 0) { // 2: Hvis noden skal settes inn foerst i listen.
+	    nyNode.neste = forrige;
+	    foran = nyNode;
+	    return;
+	}
+
+	while (denne != null) { // 3: Hvis noden skal settes inn et sted i midten av to noder (pekt paa av 'denne' og 'forrige').
+	    if (denne.data.compareTo(e) > 0) {
+		nyNode.neste = denne;
+		forrige.neste = nyNode;
+		return;
+	    }
+	    // Oppdaterer pekerene:
+	    denne = denne.neste;
+	    forrige = forrige.neste;
+	}
+
+	// 4 og 5: Hvis noden skal settes inn bakerst i listen eller listen bestaar av bare en node.
+	forrige.neste = nyNode;
     }
 
+    /**
+     * Fjerner minste element i listen. Dette tilsvarer foeste element ettersom listen er sortert.
+     * @return minste 
+     */
+    public E fjernMinste() {
+	E tmp = foran.data;
+	foran = foran.neste;
+	return tmp;
+    }
+
+    /**
+     * Sjekker om listen inneholder et likt elementet som det som sendes inn.
+     * @param element som skal sammenlignes
+     * @return true hvis listen inneholder et likt element, ellers false
+     */
     public boolean inneholder(E e) {
-	if (antall > 0) {
+	if (!tom()) {
 	    Node iter = foran;
+
 	    while (iter != null) {
 		if (e.compareTo(iter.data) == 0) {
 		    return true;
