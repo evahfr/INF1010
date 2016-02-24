@@ -7,7 +7,7 @@ public class ListeDemo {
 	navneListe.leggTil("Kari");
 	navneListe.leggTil("Mona");
 	navneListe.leggTil("Hans");
-	System.out.println("Listen inneholder navnet Daniel: " + navneListe.inneholder("Daniel"));
+	System.out.println("Listen inneholder navnet Kari: " + navneListe.inneholder("Kari"));
 	//System.out.println(navneListe.fjernMinste());
 	while (!navneListe.tom()) {
 	    System.out.println(navneListe.fjernMinste());
