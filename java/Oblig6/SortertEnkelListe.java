@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 public class SortertEnkelListe<T extends Comparable<T> & Lik> implements AbstraktSortertEnkelListe<T> {
     private Node foran;
 
@@ -20,7 +22,11 @@ public class SortertEnkelListe<T extends Comparable<T> & Lik> implements Abstrak
 	
     }
 
-    public void listInnhold() {
+    public Iterator<T> iterator() {
+	return new ListeIterator();
+    }
+
+    private class ListeIterator implements Iterator<T> {
 
     }
 }

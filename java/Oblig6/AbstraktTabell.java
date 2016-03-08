@@ -1,4 +1,4 @@
-public interface AbstraktTabell<T> {
+public interface AbstraktTabell<T> extends Iterable<T> {
     /**
      * Setter inn et objekt i tabellen paa en oppgitt plass (indeks).
      * @param objekt - det som skal settes inn
@@ -13,10 +13,4 @@ public interface AbstraktTabell<T> {
      * @return objektet
      */
     public T finnElement(int indeks);
-
-    /**
-     * Itererer over listen.
-     * 
-     */
-    public void gaaIgjennom();
 }
