@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class EnkelReseptListe implements Iterable<Resept> {
+public abstract class EnkelReseptListe implements Iterable<Resept> {
 
     protected Node listeHode;
     protected Node forste;
@@ -21,21 +21,7 @@ public class EnkelReseptListe implements Iterable<Resept> {
 	siste = listeHode;
     }
 
-    public void settInn(Resept nyResept) {
-	Node ny = new Node(nyResept);
-	
-	// LIFO liste.
-	if (listeHode.neste == null) {
-	    forste = ny;
-	    siste = ny;
-	    listeHode.neste = forste;
-	} 
-	else {
-	    ny.neste = forste;
-	    forste = ny;
-	    listeHode.neste = forste;
-	}
-    }
+    public abstract void settInn(Resept nyResept);
 
     public Resept finn(int reseptnr) {
 	Node tmp = listeHode;
