@@ -41,7 +41,7 @@ public class EnkelReseptListe implements Iterable {
 	    if (tmp.neste.resept.reseptID == reseptID) return tmp.neste.resept;
 	    tmp = tmp.neste;
 	}
-	return null;
+	throw new NoSuchElementException();
     }
 
     private class ReseptIterator implements Iterator {
@@ -53,17 +53,17 @@ public class EnkelReseptListe implements Iterable {
 	    return denne.neste != null;
 	}
 
-	public T next() {
+	public Resept next() {
 	    if (hasNext() && forrige.neste == denne.neste) {
 		denne = denne.neste;
 		denneDataHentet = true;
-		return denne.data;
+		return denne.resept;
 	    }
 	    else if (hasNext() && forrige.neste == denne) {
 		forrige = denne;
 		denne = denne.neste;
 		denneDataHentet = true;
-		return denne.data;
+		return denne.resept;
 	    }
 	    else {
 		throw new NoSuchElementException();
