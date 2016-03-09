@@ -84,7 +84,7 @@ public class EnkelReseptListe implements Iterable<Resept> {
 	}
     }
 
-    public Iterator iterator() {
+    public Iterator<Resept> iterator() {
 	return new ReseptIterator();
     }
 }
