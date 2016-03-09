@@ -1,12 +1,12 @@
 import java.util.*;
 
-public class EnkelReseptListe implements Iterable<Person> {
+public class EnkelReseptListe implements Iterable<Resept> {
 
-    private Node listeHode;
-    private Node forste;
-    private Node siste;
+    protected Node listeHode;
+    protected Node forste;
+    protected Node siste;
 
-    private class Node {
+    protected class Node {
 	Resept resept;
 	Node neste;
 
@@ -47,7 +47,7 @@ public class EnkelReseptListe implements Iterable<Person> {
 	throw new NoSuchElementException();
     }
 
-    private class ReseptIterator implements Iterator {
+    private class ReseptIterator implements Iterator<Resept> {
 	private Node denne = listeHode;
 	private Node forrige = listeHode;
 	private boolean denneDataHentet = false;
