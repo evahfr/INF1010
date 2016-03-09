@@ -27,7 +27,7 @@ public abstract class EnkelReseptListe implements Iterable<Resept> {
 	Node tmp = listeHode;
 
 	while (tmp != siste) {
-	    if (tmp.neste.resept.reseptID == reseptnr) return tmp.neste.resept; // Må muligens lage en hentReseptID() metode i Resept klassen.
+	    if (tmp.neste.resept.hentReseptNr() == reseptnr) return tmp.neste.resept; 
 	    tmp = tmp.neste;
 	}
 	throw new NoSuchElementException();
