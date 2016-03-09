@@ -45,17 +45,39 @@ public class EnkelReseptListe implements Iterable {
     }
 
     private class ReseptIterator implements Iterator {
+	private Node denne = listeHode;
+	private Node forrige = listeHode;
+	private boolean denneDataHentet = false;
 
 	public boolean hasNext() {
-	    return true;
+	    return denne.neste != null;
 	}
 
-	public Resept next() {
-	    return null;
+	public T next() {
+	    if (hasNext() && forrige.neste == denne.neste) {
+		denne = denne.neste;
+		denneDataHentet = true;
+		return denne.data;
+	    }
+	    else if (hasNext() && forrige.neste == denne) {
+		forrige = denne;
+		denne = denne.neste;
+		denneDataHentet = true;
+		return denne.data;
+	    }
+	    else {
+		throw new NoSuchElementException();
+	    }
 	}
 
 	public void remove() {
-
+	    if (denneDataHentet) {
+		forrige.neste = denne.neste;
+		denneDataHentet = false;
+	    }
+	    else {
+		throw new IllegalStateException();
+	    }
 	}
     }
 
