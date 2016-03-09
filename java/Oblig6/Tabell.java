@@ -15,7 +15,7 @@ public class Tabell<T> implements AbstraktTabell<T> {
 	return false;
     }
     
-    public T finnElement(int indeks) {
+    public T hent(int indeks) {
 	return tabell[indeks];
     }
 
@@ -23,8 +23,16 @@ public class Tabell<T> implements AbstraktTabell<T> {
 	private int indeks = -1;
 	private boolean indeksDataHentet = false;
 
-	public boolean hasNext() {
-	    if (indeks+1 >= 0 && indeks+1 < tabell.length && tabell[indeks+1] != null) {
+	/**
+	 * Sjekker om neste indeks er en gyldig indeks, og at det er et element paa plassen.
+	 * @return true hvis det finnes et element paa neste plass, ellers false
+	 */
+	public boolean hasNext() {	    
+	    if (indeks+1 >= 0 && indeks+1 < tabell.length) { 
+		while (tabell[indeks+1] == null && indeks+1 < tabell.length) {
+		    indeks++;
+		    if (indeks+1 == tabell.length) return false;
+		}
 		return true;
 	    }
 	    else {
@@ -35,7 +43,7 @@ public class Tabell<T> implements AbstraktTabell<T> {
 	public T next() {
 	    if (hasNext()) {
 		indeksDataHentet = true;
-		indeks ++;
+		indeks++;
 		return tabell[indeks];
 	    }
 	    else {

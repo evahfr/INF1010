@@ -17,12 +17,47 @@ public class SortertEnkelListe<T extends Comparable<T> & Lik> implements Abstrak
 	listeHode = new Node(null);
     }
 
-    public boolean settInn(T element) {
-	Node ny = new Node(element);
-	return true;
+    public boolean settInn(T nyData) {
+	Node ny = new Node(nyData);
+
+	// 1: Hvis dette er foerste node.
+	if (listeHode.neste == null) {
+	    listeHode.neste = ny;
+	    return true;
+	}
+
+	Node forrige = listeHode;
+	Node denne = listeHode.neste;
+
+	// 3: Hvis noden skal settes inn et sted i mellom to noder eller foerst i listen.
+	while (denne != null) {
+	    if (denne.data.compareTo(nyData) > 0) {
+		forrige.neste = ny;
+		ny.neste = denne;
+		return true;
+	    }
+	    // Oppdaterer pekere
+	    denne = denne.neste;
+	    forrige = forrige.neste;
+	}
+	
+	// 4: Noden skal legges inn bakerst i listen, hvis ikke var ikke operasjonen vellykket.
+	if (forrige.neste == null && forrige.data.compareTo(nyData) < 0) {
+	    forrige.neste = ny;
+	    return true;
+	}
+	else {
+	    return false;
+	}
     }
 
+    
     public T finn(String noekkel) {
+	Node tmp = listeHode.neste;
+	
+	while (tmp != null) {
+	    if (tmp.data.samme(noekkel)) return tmp.data;
+	}
 	return null;
     }
 
