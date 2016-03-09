@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class EnkelReseptListe implements Iterable {
+public class EnkelReseptListe implements Iterable<Person> {
 
     private Node listeHode;
     private Node forste;
@@ -23,22 +23,25 @@ public class EnkelReseptListe implements Iterable {
 
     public void settInn(Resept nyResept) {
 	Node ny = new Node(nyResept);
-
+	
+	// LIFO liste.
 	if (listeHode.neste == null) {
 	    forste = ny;
 	    siste = ny;
+	    listeHode.neste = forste;
 	} 
 	else {
 	    ny.neste = forste;
 	    forste = ny;
+	    listeHode.neste = forste;
 	}
     }
 
-    public Resept finn(int reseptID) {
+    public Resept finn(int reseptnr) {
 	Node tmp = listeHode;
 
 	while (tmp != siste) {
-	    if (tmp.neste.resept.reseptID == reseptID) return tmp.neste.resept;
+	    if (tmp.neste.resept.reseptID == reseptnr) return tmp.neste.resept; // Må muligens lage en hentReseptID() metode i Resept klassen.
 	    tmp = tmp.neste;
 	}
 	throw new NoSuchElementException();
