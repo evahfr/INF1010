@@ -8,7 +8,7 @@ public class Tabell<T> implements AbstraktTabell<T> {
     }
 
     public boolean settInn(T element, int indeks) {
-	if (indeks >= 0 && indeks < tabell.length) {
+	if (indeks >= 0 && indeks < tabell.length && tabell[indeks]==null) {
 	    tabell[indeks] = element;
 	    return true;
 	}
