@@ -64,7 +64,7 @@ public class Tabell<T> implements AbstraktTabell<T> {
 	    if (gyldigIndeks(indeks+1)) { 
 		while (plassTom(indeks+1) && gyldigIndeks(indeks+1)) {
 		    indeks++;
-		    if (indeks+1 == tabell.length) {
+		    if (!gyldigIndeks(indeks+1)) {
 			return false;
 		    } 
 		}
