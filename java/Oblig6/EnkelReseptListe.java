@@ -23,12 +23,19 @@ public abstract class EnkelReseptListe implements Iterable<Resept> {
 
     public abstract void settInn(Resept nyResept);
 
+    /**
+     * Finner et resept basert paa et reseptnummer.
+     * @param reseptnummer
+     * @return reseptet
+     */
     public Resept finn(int reseptnr) {
-	Node tmp = listeHode;
+	Node denne = listeHode;
 
-	while (tmp != siste) {
-	    if (tmp.neste.resept.hentReseptNr() == reseptnr) return tmp.neste.resept; 
-	    tmp = tmp.neste;
+	while (denne != siste) {
+	    if (denne.neste.resept.hentReseptNr() == reseptnr) {
+		return denne.neste.resept;
+	    } 
+	    denne = denne.neste;
 	}
 	throw new NoSuchElementException();
     }
@@ -43,11 +50,13 @@ public abstract class EnkelReseptListe implements Iterable<Resept> {
 	}
 
 	public Resept next() {
+	    // 1: Etter at remove() har blitt kalt, og naar neste og forrige peker paa listeHode.
 	    if (hasNext() && forrige.neste == denne.neste) {
 		denne = denne.neste;
 		denneDataHentet = true;
 		return denne.resept;
 	    }
+	    // 2: Ellers.
 	    else if (hasNext() && forrige.neste == denne) {
 		forrige = denne;
 		denne = denne.neste;

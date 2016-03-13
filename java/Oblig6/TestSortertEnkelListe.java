@@ -32,14 +32,14 @@ public class TestSortertEnkelListe {
 
 	test("Tester om iteratoren sin next() gir det samme elementet som ble satt inn", true, l1==listeIter.next());
 
-	test("Tester om iteratoren sin hasNext() er false etter at elementet er fjernet igjen (listen er tom)", false,listeIter.hasNext());
+	test("Tester om iteratoren sin hasNext() er false etter at elementet er fjernet igjen (listen er tom)", false, listeIter.hasNext()); //
 
 	liste.settInn(l1);
 	liste.settInn(l2);
 	liste.settInn(l3);
 	liste.settInn(l4);
 
-	test("Tester om finn() finner riktig lege", true, l3.hentNavn()=="Dr. Avery");
+	test("Tester om finn() finner riktig lege", true, l3.hentNavn().equals("Dr. Avery")); 
 
 	boolean alfabetisk = false;
 	Lege forrige = null;
@@ -53,6 +53,7 @@ public class TestSortertEnkelListe {
 	    }
 	    else {
 		alfabetisk = false;
+		return;
 	    }
 	    forrige = l;
 	}

@@ -42,6 +42,6 @@ public class TestTabell {
 
 	test("Tester at hent() returnerer riktig objekt", true, lm2==tabell.hent(2));
 
-	test("Tester at det ikke gaar aa sette inn et objekt paa en plass om er opptatt", false, 	tabell.settInn(lm3, 2));
+	test("Tester at det ikke gaar aa sette inn et objekt paa en plass om er opptatt", false, tabell.settInn(lm3, 2));
     }
 }

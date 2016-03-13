@@ -7,8 +7,36 @@ public class Tabell<T> implements AbstraktTabell<T> {
 	tabell = (T[]) new Object[antElementer];
     }
 
+    /**
+     * Sjekker om en indeks er gyldig.
+     * @param indeks
+     * @return true hvis indeks er gyldig, ellers false
+     */
+    private boolean gyldigIndeks(int indeks) {
+	if (indeks >= 0 && indeks < tabell.length) {
+	    return true;
+	}
+	else {
+	    return false;
+	}
+    }
+
+    /**
+     * Sjekker om en plass, gitt ved en indeks, er tom (ledig).
+     * @param indeks
+     * @return true hvis plassen ikke er null, ellers false
+     */
+    private boolean plassTom(int indeks) {
+	if(tabell[indeks]==null) {
+	    return true;
+	}
+	else {
+	    return false;
+	}
+    }
+
     public boolean settInn(T element, int indeks) {
-	if (indeks >= 0 && indeks < tabell.length && tabell[indeks]==null) {
+	if (gyldigIndeks(indeks) && plassTom(indeks)) {
 	    tabell[indeks] = element;
 	    return true;
 	}
@@ -16,7 +44,12 @@ public class Tabell<T> implements AbstraktTabell<T> {
     }
     
     public T hent(int indeks) {
-	return tabell[indeks];
+	if (gyldigIndeks(indeks)) {
+	    return tabell[indeks];
+	}
+	else {
+	    throw new IndexOutOfBoundsException();
+	}
     }
 
     private class TabellIterator implements Iterator<T> {
@@ -27,11 +60,13 @@ public class Tabell<T> implements AbstraktTabell<T> {
 	 * Sjekker om neste indeks er en gyldig indeks, og at det er et element paa plassen.
 	 * @return true hvis det finnes et element paa neste plass, ellers false
 	 */
-	public boolean hasNext() {	    
-	    if (indeks+1 >= 0 && indeks+1 < tabell.length) { 
-		while (tabell[indeks+1] == null && indeks+1 < tabell.length) {
+	public boolean hasNext() {
+	    if (gyldigIndeks(indeks+1)) { 
+		while (plassTom(indeks+1) && gyldigIndeks(indeks+1)) {
 		    indeks++;
-		    if (indeks+1 == tabell.length) return false;
+		    if (indeks+1 == tabell.length) {
+			return false;
+		    } 
 		}
 		return true;
 	    }
@@ -44,7 +79,7 @@ public class Tabell<T> implements AbstraktTabell<T> {
 	    if (hasNext()) {
 		indeksDataHentet = true;
 		indeks++;
-		return tabell[indeks];
+		return tabell[indeks]; // se pa indeksen
 	    }
 	    else {
 		throw new NoSuchElementException();

@@ -53,10 +53,13 @@ public class SortertEnkelListe<T extends Comparable<T> & Lik> implements Abstrak
 
     
     public T finn(String noekkel) {
-	Node tmp = listeHode.neste;
+	Node denne = listeHode.neste;
 	
-	while (tmp != null) {
-	    if (tmp.data.samme(noekkel)) return tmp.data;
+	while (denne != null) {
+	    if (denne.data.samme(noekkel)) {
+		return tmp.data;
+	    }
+	    denne = denne.neste;
 	}
 	return null;
     }
@@ -71,11 +74,13 @@ public class SortertEnkelListe<T extends Comparable<T> & Lik> implements Abstrak
 	}
 
 	public T next() {
+	    // 1: Etter at remove() har blitt kalt, og naar neste og forrige peker paa listeHode.
 	    if (hasNext() && forrige.neste == denne.neste) {
 		denne = denne.neste;
 		denneDataHentet = true;
 		return denne.data;
 	    }
+	    // 2: Ellers.
 	    else if (hasNext() && forrige.neste == denne) {
 		forrige = denne;
 		denne = denne.neste;
