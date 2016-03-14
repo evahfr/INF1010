@@ -9,7 +9,6 @@ public class HvitResept extends Resept {
      * @return pris
      */
     public double beregnPris() {
-	double pris = legemiddel.hentPris();
-	return pris;
+	return legemiddel.hentPris();
     }
 }

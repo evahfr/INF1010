@@ -8,6 +8,6 @@ public class BlaaResept extends Resept {
      * @return pris
      */
     public double beregnPris() {
-	return 0.0;
+	return 0.0*legemiddel.hentPris();
     }
 }

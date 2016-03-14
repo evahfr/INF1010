@@ -34,11 +34,17 @@ public class TestTabell {
 
 	test("Tester om iteratoren sin hasNext() er false etter at elementet er fjernet igjen (tabellen er tom)", false,tabellIter.hasNext());
 	
-	test("Tester at det ikke gaar aa sette inn et element paa en plass utenfor tabellen (indeks en over lengen)", false, tabell.settInn(lm1,tabellLengde+1));
+	test("Tester at det ikke gaar aa sette inn et element paa en plass utenfor tabellen (indeks en over lengen)", false, tabell.settInn(lm1,tabellLengde));
 
 	test("Tester at det ikke gaar aa sette inn et element paa en plass utenfor tabellen (indeks = -1)", false, tabell.settInn(lm1,-1));
 
 	tabell.settInn(lm2, 2);
+
+	tabell.settInn(lm3, 4);
+
+	for (Legemiddel lm : tabell) {
+	    System.out.println(lm.hentPris());
+	}
 
 	test("Tester at hent() returnerer riktig objekt", true, lm2==tabell.hent(2));
 

@@ -53,18 +53,21 @@ public class Tabell<T> implements AbstraktTabell<T> {
     }
 
     private class TabellIterator implements Iterator<T> {
-	private int indeks = -1;
+	private int indeks = 0;
 	private boolean indeksDataHentet = false;
 
 	/**
-	 * Sjekker om neste indeks er en gyldig indeks, og at det er et element paa plassen.
-	 * @return true hvis det finnes et element paa neste plass, ellers false
+	 * Sjekker om indeksen er en gyldig indeks, og at det er et element paa plassen.
+	 * Hopper videre inntil en indeks som ikke er tom er funnet.
+	 * @return true hvis det finnes et neste element, ellers false
 	 */
 	public boolean hasNext() {
-	    if (gyldigIndeks(indeks+1)) { 
-		while (plassTom(indeks+1) && gyldigIndeks(indeks+1)) {
+	    if (gyldigIndeks(indeks)) { 
+		while (plassTom(indeks)) { 
 		    indeks++;
-		    if (!gyldigIndeks(indeks+1)) {
+		    
+		    // Kommet til slutten av tabellen uten aa finne et nytt element.
+		    if (!gyldigIndeks(indeks)) {
 			return false;
 		    } 
 		}
@@ -78,8 +81,7 @@ public class Tabell<T> implements AbstraktTabell<T> {
 	public T next() {
 	    if (hasNext()) {
 		indeksDataHentet = true;
-		indeks++;
-		return tabell[indeks]; // se pa indeksen
+		return tabell[indeks++]; 
 	    }
 	    else {
 		throw new NoSuchElementException();
@@ -88,7 +90,7 @@ public class Tabell<T> implements AbstraktTabell<T> {
 
 	public void remove() {
 	    if (indeksDataHentet) {
-		tabell[indeks] = null;
+		tabell[indeks-1] = null;
 		indeksDataHentet = false;
 	    }
 	    else {
