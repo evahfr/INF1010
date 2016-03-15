@@ -18,37 +18,50 @@ public class TestEldsteForstReseptListe {
 
 	PillerB lm = new PillerB("Paralgin Forte", 65, 5, 10, 400);
 
-	BlaaResept r1 = new BlaaResept(lm, "Lege", "Pasient 1", 3);
-	HvitResept r2 = new HvitResept(lm, "Lege", "Pasient 2", 3);
-	HvitResept r3 = new HvitResept(lm, "Lege", "Pasient 3", 3);
-	HvitResept r4 = new HvitResept(lm, "Lege", "Pasient 4", 3);
+	Resept[] resepter = { new BlaaResept(lm, "Lege", "Pasient 1", 3),
+			      new HvitResept(lm, "Lege", "Pasient 2", 3),
+			      new HvitResept(lm, "Lege", "Pasient 3", 3),
+			      new HvitResept(lm, "Lege", "Pasient 4", 3)
+	};
 
 	Iterator<Resept> listeIter = liste.iterator();
 
 	test("Tester om iteratoren sin hasNext() er false for en tom liste", false, listeIter.hasNext());
 
-	listeIter = liste.iterator();
-	liste.settInn(r1);
+	for (Resept r : resepter) {
+	    liste.settInn(r);
+	}
 
-	test("Tester om iteratoren sin hasNext() er true etter at et element er satt inn", true,listeIter.hasNext());
+	test("Tester om iteratoren sin hasNext() er true etter at resepter har blitt satt inn", true, listeIter.hasNext());
 
-	test("Tester om iteratoren sin next() gir det samme elementet som ble satt inn", true, r1==listeIter.next());
+	// Tester remove metoden til beholderen.
+	while (listeIter.hasNext()) { 
+	    listeIter.next();
+	    listeIter.remove();
+	}
 
-	test("Tester om iteratoren sin hasNext() er false etter at elementet er fjernet igjen (listen er tom)", false,listeIter.hasNext());
+	test("Tester om iteratoren sin hasNext() er false etter at alle resepter er fjernet igjen (listen er tom)", false, listeIter.hasNext());
 
-	liste.settInn(r1);
-	liste.settInn(r2);
-	liste.settInn(r3);
-	liste.settInn(r4);
+	String testbeskrivelse;
+	for (Resept r : resepter) {
+	    liste.settInn(r);
+	    testbeskrivelse = String.format("Tester om finn() metoden finner resepten med reseptnummer: %d, som nettopp ble satt inn", r.hentReseptNr());
+	    test(testbeskrivelse, true, liste.finn(r.hentReseptNr()).hentReseptNr() == r.hentReseptNr());
+	}
 
-	Resept forste = null;
-	Resept siste = null;
+	int indeks = 0;
+	boolean sortert = false;
 	for (Resept r : liste) {
-	    if (forste == null) forste = r;
-	    siste = r;
+	    if (r == resepter[indeks++]) {
+		sortert = true;
+	    }
+	    else {
+		sortert = false;
+		return;
+	    }
 	}
 	
-	test("Tester om lista er sortert med eldste forst og yngste sist", true, forste==r1 && siste==r4);
+	test("Tester om lista er sortert med eldste forst og yngste sist", true, sortert);
     }
 }
 

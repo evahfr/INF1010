@@ -16,30 +16,36 @@ public class TestSortertEnkelListe {
 
 	SortertEnkelListe<Lege> liste = new SortertEnkelListe<Lege>();
 
-	Lege l1 = new Lege("Dr. Grey");
-	LegeMedAvtale l2 = new LegeMedAvtale("Dr. Hunt", 63634);
-	LegeMedAvtale l3 = new LegeMedAvtale("Dr. Avery", 342);
-	Lege l4 = new Lege("Dr. Yang");
+	Lege[] leger = { new Lege("Dr. Grey"),
+			 new LegeMedAvtale("Dr. Hunt", 63634),
+			 new LegeMedAvtale("Dr. Avery", 342),
+			 new Lege("Dr. Yang")
+	};
 
 	Iterator<Lege> listeIter = liste.iterator();
 
 	test("Tester om iteratoren sin hasNext() er false for en tom liste", false, listeIter.hasNext());
 
-	listeIter = liste.iterator();
-	liste.settInn(l1);
+	for (Lege l : leger) {
+	    liste.settInn(l);
+	}
 
-	test("Tester om iteratoren sin hasNext() er true etter at et element er satt inn", true,listeIter.hasNext());
+	test("Tester om iteratoren sin hasNext() er true etter at leger har blitt satt inn", true, listeIter.hasNext());
 
-	test("Tester om iteratoren sin next() gir det samme elementet som ble satt inn", true, l1==listeIter.next());
+	// Tester remove metoden til beholderen.
+	while (listeIter.hasNext()) { 
+	    listeIter.next();
+	    listeIter.remove();
+	}
 
-	test("Tester om iteratoren sin hasNext() er false etter at elementet er fjernet igjen (listen er tom)", false, listeIter.hasNext()); //
+	test("Tester om iteratoren sin hasNext() er false etter at alle elementene er fjernet igjen (listen er tom)", false, listeIter.hasNext());
 
-	liste.settInn(l1);
-	liste.settInn(l2);
-	liste.settInn(l3);
-	liste.settInn(l4);
-
-	test("Tester om finn() finner riktig lege", true, l3.hentNavn().equals("Dr. Avery")); 
+	String testbeskrivelse;
+	for (Lege l : leger) {
+	    liste.settInn(l);
+	    testbeskrivelse = String.format("Tester om finn() metoden finner legen: %s, som nettopp ble satt inn", l.hentNavn());
+	    test(testbeskrivelse, true, liste.finn(l.hentNavn()).hentNavn().equals(l.hentNavn()));
+	}
 
 	boolean alfabetisk = false;
 	Lege forrige = null;

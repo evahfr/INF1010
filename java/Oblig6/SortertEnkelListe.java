@@ -57,7 +57,7 @@ public class SortertEnkelListe<T extends Comparable<T> & Lik> implements Abstrak
 	
 	while (denne != null) {
 	    if (denne.data.samme(noekkel)) {
-		return tmp.data;
+		return denne.data;
 	    }
 	    denne = denne.neste;
 	}
