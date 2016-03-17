@@ -15,6 +15,7 @@ public class Demo {
 	System.out.println("----------------------------------");
 	System.out.println("h: Hjelp");
 	System.out.println("q: Avslutt");
+	System.out.println("----------------------------------\n");
     }
 
     private static void printKommandoerForListData() {
@@ -27,6 +28,7 @@ public class Demo {
 	System.out.println("b: Tilbake");
 	System.out.println("h: Hjelp");
 	System.out.println("q: Avslutt");
+	System.out.println("----------------------------------\n");
     }
 
     private static void printKommandoerForOppretting() {
@@ -39,33 +41,60 @@ public class Demo {
 	System.out.println("b: Tilbake");
 	System.out.println("h: Hjelp");
 	System.out.println("q: Avslutt");
+	System.out.println("----------------------------------\n");
+    }
+
+    private static boolean lesFraFil(String filnavn) {
+	Scanner innFil;
+	try {
+	    innFil = new Scanner(new File(filnavn));
+	} catch (FileNotFoundException e) {
+	    System.out.printf("Kunne ikke finne filen '%s'\n", filnavn);
+	    return false;
+	}
+
+	String linje = innFil.nextLine();
+	while (!linje.equals("# Slutt")) {
+	    System.out.println(linje);
+	    linje = innFil.nextLine();
+	}
+
+	innFil.close();
+	return true;
     }
 
     public static void main(String[] args) {
+	System.out.println("Velkommen!\n");
 	Scanner terminal = new Scanner(System.in);
 	printKommandoer();
 
-	String kommando = terminal.next();
+	while (terminal.hasNext()) {
+	    String kommando = terminal.next();
 
-	if (kommando.equals("1")) {
+	    if (kommando.equals("1")) {
+		System.out.printf("Oppgi filnavn: ");
+		String filnavn = terminal.next();
+		lesFraFil(filnavn);
+		
+	    } else if (kommando.equals("2")) {
+		
+	    } else if (kommando.equals("3")) {
+		printKommandoerForListData();
+		
+	    } else if (kommando.equals("4")) {
+		printKommandoerForOppretting();
+		
+	    } else if (kommando.equals("5")) {
+		
+	    } else if (kommando.equals("6")) {
 
-	} else if (kommando.equals("2")) {
-	    
-	} else if (kommando.equals("3")) {
-	    printKommandoerForListData();
+	    } else if (kommando.equals("h")) {
+		printKommandoer();
 
-	} else if (kommando.equals("4")) {
-	    printKommandoerForOppretting();
-
-	} else if (kommando.equals("5")) {
-
-	} else if (kommando.equals("6")) {
-
-	} else if (kommando.equals("h")) {
-	    printKommandoer();
-
-	} else if (kommando.equals("q")) {
-
+	    } else if (kommando.equals("q")) {
+		System.out.println("\nGoodbye");
+		return;
+	    }
 	}
     }
 }
