@@ -44,6 +44,22 @@ public class Demo {
 	System.out.println("----------------------------------\n");
     }
 
+    private static Pasient lagNyPasient(String[] data) {
+	return null;
+    }
+
+    private static Legemiddel lagNyttLegemiddel(String[] data) {
+	return null;
+    }
+
+    private static Lege lagNyLege(String[] data) {
+	return null;
+    }
+
+    private static Resept lagNyttResept(String[] data) {
+	return null;
+    }
+
     private static boolean lesFraFil(String filnavn) {
 	Scanner innFil;
 	try {
@@ -53,9 +69,46 @@ public class Demo {
 	    return false;
 	}
 
+	String[] data;
 	String linje = innFil.nextLine();
 	while (!linje.equals("# Slutt")) {
-	    System.out.println(linje);
+
+	    if (linje.startsWith("# Personer")) {
+		linje = innFil.nextLine();
+
+		while (!linje.isEmpty()) {
+		    data = linje.split(", ");
+		    lagNyPasient(data);
+		    linje = innFil.nextLine();
+		}
+		
+	    } else if (linje.startsWith("# Legemidler")) {
+		linje = innFil.nextLine();
+
+		while (!linje.isEmpty()) {
+		    data = linje.split(", ");
+		    lagNyttLegemiddel(data);
+		    linje = innFil.nextLine();
+		}
+
+	    } else if (linje.startsWith("# Leger")) {
+		linje = innFil.nextLine();
+
+		while (!linje.isEmpty()) {
+		    data = linje.split(", ");
+		    lagNylege(data);
+		    linje = innFil.nextLine();
+		}
+
+	    } else if (linje.startsWith("# Resepter")) {
+		linje = innFil.nextLine();
+
+		while (!linje.isEmpty()) {
+		    data = linje.split(", ");
+		    lagNyttResept(data);
+		    linje = innFil.nextLine();
+		}
+	    } 
 	    linje = innFil.nextLine();
 	}
 
