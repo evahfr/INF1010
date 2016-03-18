@@ -16,6 +16,4 @@ public class Lege implements Lik, Comparable<Lege> {
     public int compareTo(Lege lege) {
 	return navn.compareTo(lege.hentNavn());
     }
-    
-
 }

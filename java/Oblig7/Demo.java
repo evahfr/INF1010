@@ -44,13 +44,15 @@ public class Demo {
 	System.out.println("----------------------------------\n");
     }
 
+    /*
+     * Maa behandle exceptions i lagNy* metodene.
+     * Maa finne legemiddelet i lagNyttResept metoden.
+     */
     private static Pasient lagNyPasient(String[] data) {
 	String navn = data[1];
 	String fodselsnummer = data[2];
 	String adresse = data[3];
 	String postnummer = data[4];
-	Pasient p = new Pasient(navn, fodselsnummer, adresse, postnummer);
-	System.out.println("Laget pasient: " + p);
 	return new Pasient(navn, fodselsnummer, adresse, postnummer);
     }
 
@@ -66,16 +68,13 @@ public class Demo {
        	    
 	    if (type.equals("a")) {
 		int styrke = Integer.parseInt(data[7]);
-
 		return new MiksturA(navn, pris, styrke, mengde, virkestoff);
 
 	    } else if (type.equals("b")) {
 		int vanedannende = Integer.parseInt(data[7]);
-
 		return new MiksturB(navn, pris, vanedannende, mengde, virkestoff);
 		
 	    } else if (type.equals("c")) {
-
 		return new MiksturC(navn, pris, mengde, virkestoff);
 		
 	    } else {
@@ -88,16 +87,13 @@ public class Demo {
        	    
 	    if (type.equals("a")) {
 		int styrke = Integer.parseInt(data[7]);
-
 		return new PillerA(navn, pris, styrke, antall, virkestoff);
 
 	    } else if (type.equals("b")) {
 		int vanedannende = Integer.parseInt(data[7]);
-
 		return new PillerB(navn, pris, vanedannende, antall, virkestoff);
 		
 	    } else if (type.equals("c")) {
-
 		return new PillerC(navn, pris, antall, virkestoff);
 		
 	    } else {
@@ -106,7 +102,6 @@ public class Demo {
 
 	}	
 	return null;
-
     }
 
     private static Lege lagNyLege(String[] data) {
@@ -114,10 +109,8 @@ public class Demo {
 	int avtaleNr = Integer.parseInt(data[1]);
 
 	if (avtaleNr != 0) {
-
 	    return new LegeMedAvtale(navn, avtaleNr);
 	} else {
-
 	    return new Lege(navn);
 	}
     }
@@ -135,6 +128,10 @@ public class Demo {
 	    return null;
 	}
 	return null;
+    }
+    
+    private static void settInn() {
+
     }
 
     private static boolean lesFraFil(String filnavn) {

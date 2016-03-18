@@ -21,6 +21,14 @@ public abstract class Legemiddel {
     }
 
     /**
+     * Returnerer legemiddelets unike ID.
+     * @return legemiddelID
+     */
+    public int hentID() {
+	return legemiddelID;
+    }
+
+    /**
      * Beregner legemiddelets totale innhold av virkestoff.
      * @return totalt innhold av virkestoff
      */
