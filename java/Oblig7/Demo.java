@@ -45,18 +45,95 @@ public class Demo {
     }
 
     private static Pasient lagNyPasient(String[] data) {
-	return null;
+	String navn = data[1];
+	String fodselsnummer = data[2];
+	String adresse = data[3];
+	String postnummer = data[4];
+	Pasient p = new Pasient(navn, fodselsnummer, adresse, postnummer);
+	System.out.println("Laget pasient: " + p);
+	return new Pasient(navn, fodselsnummer, adresse, postnummer);
     }
 
     private static Legemiddel lagNyttLegemiddel(String[] data) {
+	String navn = data[1];
+	String form = data[2];
+	String type = data[3];
+	double pris = Double.parseDouble(data[4]);
+	
+	if (form.equals("mikstur")) {
+	    int mengde = Integer.parseInt(data[5]);
+	    double virkestoff = Double.parseDouble(data[6]);
+       	    
+	    if (type.equals("a")) {
+		int styrke = Integer.parseInt(data[7]);
+
+		return new MiksturA(navn, pris, styrke, mengde, virkestoff);
+
+	    } else if (type.equals("b")) {
+		int vanedannende = Integer.parseInt(data[7]);
+
+		return new MiksturB(navn, pris, vanedannende, mengde, virkestoff);
+		
+	    } else if (type.equals("c")) {
+
+		return new MiksturC(navn, pris, mengde, virkestoff);
+		
+	    } else {
+		return null;
+	    }
+
+	} else if (form.equals("pille")) {
+	    int antall = Integer.parseInt(data[5]);
+	    double virkestoff = Double.parseDouble(data[6]);
+       	    
+	    if (type.equals("a")) {
+		int styrke = Integer.parseInt(data[7]);
+
+		return new PillerA(navn, pris, styrke, antall, virkestoff);
+
+	    } else if (type.equals("b")) {
+		int vanedannende = Integer.parseInt(data[7]);
+
+		return new PillerB(navn, pris, vanedannende, antall, virkestoff);
+		
+	    } else if (type.equals("c")) {
+
+		return new PillerC(navn, pris, antall, virkestoff);
+		
+	    } else {
+		return null;
+	    }
+
+	}	
 	return null;
+
     }
 
     private static Lege lagNyLege(String[] data) {
-	return null;
+	String navn = data[1];
+	int avtaleNr = Integer.parseInt(data[1]);
+
+	if (avtaleNr != 0) {
+
+	    return new LegeMedAvtale(navn, avtaleNr);
+	} else {
+
+	    return new Lege(navn);
+	}
     }
 
     private static Resept lagNyttResept(String[] data) {
+	String type = data[1];
+	int pasientID = Integer.parseInt(data[2]);
+	String navnLege = data[3];
+	int legemiddelID = Integer.parseInt(data[4]);
+	int reit = Integer.parseInt(data[5]); //Maa lete etter legemiddel i beholder.
+
+	if (type.equals(blaa)) {
+	    return null;
+	} else if (type.equals(hvit)) {
+	    return null;
+	}
 	return null;
     }
 
@@ -96,7 +173,7 @@ public class Demo {
 
 		while (!linje.isEmpty()) {
 		    data = linje.split(", ");
-		    lagNylege(data);
+		    lagNyLege(data);
 		    linje = innFil.nextLine();
 		}
 
