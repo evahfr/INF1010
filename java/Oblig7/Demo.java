@@ -3,6 +3,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Demo {
+    private static Tabell<Legemiddel> legemiddelListe = new Tabell<Legemiddel>(100);
+    private static Tabell<Pasient> pasientListe = new Tabell<Pasient>(100);
+    private static SortertEnkelListe<Lege> legeListe = new SortertEnkelListe<Lege>();
+
 
     private static void printKommandoer() {
 	System.out.println("---------------Valg---------------");
@@ -47,16 +51,22 @@ public class Demo {
     /*
      * Maa behandle exceptions i lagNy* metodene.
      * Maa finne legemiddelet i lagNyttResept metoden.
+     * objektene må settes inn i beholdere
      */
     private static Pasient lagNyPasient(String[] data) {
+	Pasient nyPasient;
 	String navn = data[1];
 	String fodselsnummer = data[2];
 	String adresse = data[3];
 	String postnummer = data[4];
-	return new Pasient(navn, fodselsnummer, adresse, postnummer);
+
+	nyPasient = new Pasient(navn, fodselsnummer, adresse, postnummer);
+	pasientListe.settInn(nyPasient, nyPasient.hentID());
+	return nyPasient;
     }
 
     private static Legemiddel lagNyttLegemiddel(String[] data) {
+	Legemiddel nyttLegemiddel;
 	String navn = data[1];
 	String form = data[2];
 	String type = data[3];
@@ -68,15 +78,21 @@ public class Demo {
        	    
 	    if (type.equals("a")) {
 		int styrke = Integer.parseInt(data[7]);
-		return new MiksturA(navn, pris, styrke, mengde, virkestoff);
+		nyttLegemiddel = new MiksturA(navn, pris, styrke, mengde, virkestoff);
+		legemiddelListe.settInn(nyttLegemiddel, nyttLegemiddel.hentID());
+		return nyttLegemiddel;
 
 	    } else if (type.equals("b")) {
 		int vanedannende = Integer.parseInt(data[7]);
-		return new MiksturB(navn, pris, vanedannende, mengde, virkestoff);
-		
+		nyttLegemiddel = new MiksturB(navn, pris, vanedannende, mengde, virkestoff);
+		legemiddelListe.settInn(nyttLegemiddel, nyttLegemiddel.hentID());
+		return nyttLegemiddel;
+
 	    } else if (type.equals("c")) {
-		return new MiksturC(navn, pris, mengde, virkestoff);
-		
+		nyttLegemiddel = new MiksturC(navn, pris, mengde, virkestoff);
+		legemiddelListe.settInn(nyttLegemiddel, nyttLegemiddel.hentID());
+		return nyttLegemiddel;
+
 	    } else {
 		return null;
 	    }
@@ -87,15 +103,21 @@ public class Demo {
        	    
 	    if (type.equals("a")) {
 		int styrke = Integer.parseInt(data[7]);
-		return new PillerA(navn, pris, styrke, antall, virkestoff);
+		nyttLegemiddel = new PillerA(navn, pris, styrke, antall, virkestoff);
+		legemiddelListe.settInn(nyttLegemiddel, nyttLegemiddel.hentID());
+		return nyttLegemiddel;
 
 	    } else if (type.equals("b")) {
 		int vanedannende = Integer.parseInt(data[7]);
-		return new PillerB(navn, pris, vanedannende, antall, virkestoff);
-		
+		nyttLegemiddel = new PillerB(navn, pris, vanedannende, antall, virkestoff);
+		legemiddelListe.settInn(nyttLegemiddel, nyttLegemiddel.hentID());
+		return nyttLegemiddel;
+
 	    } else if (type.equals("c")) {
-		return new PillerC(navn, pris, antall, virkestoff);
-		
+		nyttLegemiddel = new PillerC(navn, pris, antall, virkestoff);
+		legemiddelListe.settInn(nyttLegemiddel, nyttLegemiddel.hentID());
+		return nyttLegemiddel;
+
 	    } else {
 		return null;
 	    }
@@ -105,33 +127,50 @@ public class Demo {
     }
 
     private static Lege lagNyLege(String[] data) {
-	String navn = data[1];
+	Lege nyLege;
+	String navn = data[0];
 	int avtaleNr = Integer.parseInt(data[1]);
 
 	if (avtaleNr != 0) {
-	    return new LegeMedAvtale(navn, avtaleNr);
+	    nyLege = new LegeMedAvtale(navn, avtaleNr);
+	    legeListe.settInn(nyLege);
+	    return nyLege;
 	} else {
-	    return new Lege(navn);
+	    nyLege = new Lege(navn);
+	    legeListe.settInn(nyLege);
+	    return nyLege;
 	}
     }
 
     private static Resept lagNyttResept(String[] data) {
+	Resept nyttResept;
+	String navnPasient = data[0];
 	String type = data[1];
 	int pasientID = Integer.parseInt(data[2]);
 	String navnLege = data[3];
 	int legemiddelID = Integer.parseInt(data[4]);
 	int reit = Integer.parseInt(data[5]); //Maa lete etter legemiddel i beholder.
 
-	if (type.equals(blaa)) {
-	    return null;
-	} else if (type.equals(hvit)) {
-	    return null;
+	Pasient pasienten = pasientListe.hent(pasientID); // Maa ha noe try catch her, hvis vi ikke finner det vi leter etter.
+	Lege legen = legeListe.finn(navnLege);
+	Legemiddel legemiddelet = legemiddelListe.hent(legemiddelID);
+
+	YngsteForstReseptListe pasientReseptListe = pasienten.hentReseptListe();
+	EldsteForstReseptListe legeReseptListe = legen.hentReseptListe();
+
+	if (type.equals("blaa")) {
+	    nyttResept = new HvitResept(legemiddelet, navnLege, navnPasient, reit);
+	    pasientReseptListe.settInn(nyttResept);
+	    legeReseptListe.settInn(nyttResept);
+	    return nyttResept;
+
+	} else if (type.equals("hvit")) {
+	    nyttResept = new BlaaResept(legemiddelet, navnLege, navnPasient, reit);
+	    pasientReseptListe.settInn(nyttResept);
+	    legeReseptListe.settInn(nyttResept);
+	    return nyttResept;
 	}
 	return null;
-    }
-    
-    private static void settInn() {
-
     }
 
     private static boolean lesFraFil(String filnavn) {
@@ -157,7 +196,7 @@ public class Demo {
 		}
 		
 	    } else if (linje.startsWith("# Legemidler")) {
-		linje = innFil.nextLine();
+		linje = innFil.nextLine(); 
 
 		while (!linje.isEmpty()) {
 		    data = linje.split(", ");
@@ -191,6 +230,7 @@ public class Demo {
     }
 
     public static void main(String[] args) {
+
 	System.out.println("Velkommen!\n");
 	Scanner terminal = new Scanner(System.in);
 	printKommandoer();

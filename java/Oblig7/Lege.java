@@ -1,5 +1,6 @@
 public class Lege implements Lik, Comparable<Lege> {
     protected String navn;
+    protected EldsteForstReseptListe reseptListe = new EldsteForstReseptListe();
 
     public Lege(String n) {
 	navn = n;
@@ -15,5 +16,9 @@ public class Lege implements Lik, Comparable<Lege> {
 
     public int compareTo(Lege lege) {
 	return navn.compareTo(lege.hentNavn());
+    }
+
+    public EldsteForstReseptListe hentReseptListe() {
+	return reseptListe;
     }
 }
