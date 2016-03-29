@@ -24,4 +24,12 @@ public class Pasient {
     public YngsteForstReseptListe hentReseptListe() {
 	return reseptListe;
     }
+
+    /**
+     * Returnerer en streng med en beskrivelse av pasienten.
+     * @return kort beskrivelse
+     */
+    public String hentInfo() {
+	return String.format("%d, %s, %s, %s, %s\n", pasientID, navn, foedselsnummer, adresse, postnummer);
+    }
 }

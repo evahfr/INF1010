@@ -5,4 +5,6 @@ public abstract class TypeC extends Legemiddel {
     }
 
     public abstract double virkestoffInnholdTot();
+
+    public abstract String hentInfo();
 }

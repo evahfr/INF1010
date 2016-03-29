@@ -29,4 +29,10 @@ public abstract class Resept {
     }
 
     public abstract double beregnPris();
+
+    /**
+     * Returnerer en streng med en beskrivelse av reseptet.
+     * @return kort beskrivelse
+     */
+    public abstract String hentInfo();
 }

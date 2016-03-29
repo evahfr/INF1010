@@ -24,6 +24,12 @@ public abstract class EnkelReseptListe implements Iterable<Resept> {
     public abstract void settInn(Resept nyResept);
 
     /**
+     * Returnerer en streng med en beskrivelse av reseptet.
+     * @return kort beskrivelse
+     */
+    public abstract String hentInfo();
+
+    /**
      * Finner et resept basert paa et reseptnummer.
      * @param reseptnummer
      * @return reseptet

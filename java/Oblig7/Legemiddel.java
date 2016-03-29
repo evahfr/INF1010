@@ -33,4 +33,10 @@ public abstract class Legemiddel {
      * @return totalt innhold av virkestoff
      */
     public abstract double virkestoffInnholdTot();
+
+    /**
+     * Returnerer en streng med en beskrivelse av legemiddelet.
+     * @return kort beskrivelse
+     */
+    public abstract String hentInfo();
 }

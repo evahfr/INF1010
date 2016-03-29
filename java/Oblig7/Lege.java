@@ -21,4 +21,12 @@ public class Lege implements Lik, Comparable<Lege> {
     public EldsteForstReseptListe hentReseptListe() {
 	return reseptListe;
     }
+
+    /**
+     * Returnerer en streng med en beskrivelse av legen.
+     * @return kort beskrivelse
+     */
+    public String hentInfo() {
+	return String.format("%s, 0\n", navn);
+    }
 }

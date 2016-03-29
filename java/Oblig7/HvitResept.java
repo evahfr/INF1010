@@ -1,6 +1,9 @@
 public class HvitResept extends Resept {
+    private String info;
+    
     public HvitResept(Legemiddel legemiddel, String lege, String pasient, int reit) {
 	super(legemiddel, lege, pasient, reit);
+	info = String.format("%d, hvit, %s, %s, %d, %d\n", reseptID, pasient, lege, legemiddel.hentID(), reit);
     }
     
     /**
@@ -10,5 +13,9 @@ public class HvitResept extends Resept {
      */
     public double beregnPris() {
 	return legemiddel.hentPris();
+    }
+
+    public String hentInfo() {
+	return info;
     }
 }

@@ -7,4 +7,6 @@ public abstract class TypeA extends Legemiddel {
     }
 
     public abstract double virkestoffInnholdTot();
+
+    public abstract String hentInfo();
 }
