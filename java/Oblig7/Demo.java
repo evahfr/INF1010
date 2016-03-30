@@ -49,9 +49,6 @@ public class Demo {
 	System.out.println("----------------------------------\n");
     }
 
-    /*
-     * Maa behandle exceptions i lagNy* metodene.
-     */
     private static Pasient lagNyPasient(String[] data) {
 	Pasient nyPasient;
 	String navn = data[1];
@@ -93,6 +90,7 @@ public class Demo {
 		return nyttLegemiddel;
 
 	    } else {
+		System.out.println("Feil ved oppretting av legemiddel av typen mikstur, maa ha en type (a, b eller c).");
 		return null;
 	    }
 
@@ -118,17 +116,28 @@ public class Demo {
 		return nyttLegemiddel;
 
 	    } else {
+		System.out.println("Feil ved oppretting av legemiddel av typen pille: maa ha en type (a, b eller c).");
 		return null;
 	    }
 
-	}	
+	}
+	System.out.println("Feil ved oppretting av legemiddel: maa ha en form (mikstur eller pille).");	
 	return null;
     }
 
     private static Lege lagNyLege(String[] data) {
 	Lege nyLege;
-	String navn = data[0];
-	int avtaleNr = Integer.parseInt(data[1]);
+	String navn;
+	int avtaleNr;
+	
+
+	try {
+	    navn = data[0];
+	    avtaleNr = Integer.parseInt(data[1]);
+	} catch (NumberFormatException e) {
+	    System.out.println("Feil ved oppretting av lege: ugyldig avtalenummer.");
+	    return null;
+	}
 
 	if (avtaleNr != 0) {
 	    nyLege = new LegeMedAvtale(navn, avtaleNr);
@@ -143,16 +152,48 @@ public class Demo {
 
     private static Resept lagNyttResept(String[] data) {
 	Resept nyttResept;
-	String navnPasient = data[0];
-	String type = data[1];
-	int pasientID = Integer.parseInt(data[2]);
-	String navnLege = data[3];
-	int legemiddelID = Integer.parseInt(data[4]);
-	int reit = Integer.parseInt(data[5]); 
+	String navnPasient;
+	String type;
+	int pasientID;
+	String navnLege;
+	int legemiddelID;
+	int reit;
+	Pasient pasienten;
+	Lege legen;
+	Legemiddel legemiddelet;
 
-	Pasient pasienten = pasientListe.hent(pasientID); // Maa ha noe try catch her, hvis vi ikke finner det vi leter etter.
-	Lege legen = legeListe.finn(navnLege);
-	Legemiddel legemiddelet = legemiddelListe.hent(legemiddelID);
+	try {
+	    navnPasient = data[0];
+	    type = data[1];
+	    pasientID = Integer.parseInt(data[2]);
+	    navnLege = data[3];
+	    legemiddelID = Integer.parseInt(data[4]);
+	    reit = Integer.parseInt(data[5]);
+	} catch (NumberFormatException e) {
+	    System.out.println("Feil ved oppretting av resept: pasientID, legemiddelID og reit skal vaere heltall.");
+	    return null;
+	}
+ 
+	try {
+	    pasienten = pasientListe.hent(pasientID); 
+	} catch (Exception e) {
+	    System.out.println("Feil ved oppretting av resept: pasienten eksisterer ikke.");
+	    return null;
+	}
+
+	try {
+	    legen = legeListe.finn(navnLege);
+	} catch (Exception e) {
+	    System.out.println("Feil ved oppretting av resept: legen eksisterer ikke.");
+	    return null;
+	}
+
+	try {
+	    legemiddelet = legemiddelListe.hent(legemiddelID);
+	} catch (Exception e) {
+	    System.out.println("Feil ved oppretting av resept: legemiddelet eksisterer ikke.");
+	    return null;
+	}
 
 	YngsteForstReseptListe pasientReseptListe = pasienten.hentReseptListe();
 	EldsteForstReseptListe legeReseptListe = legen.hentReseptListe();
@@ -169,6 +210,7 @@ public class Demo {
 	    legeReseptListe.settInn(nyttResept);
 	    return nyttResept;
 	}
+	System.out.println("Noe gikk galt ved oppretting av legemiddelet.");
 	return null;
     }
 
@@ -177,7 +219,7 @@ public class Demo {
 	try {
 	    innFil = new Scanner(new File(filnavn));
 	} catch (FileNotFoundException e) {
-	    System.out.printf("Kunne ikke finne filen '%s'\n", filnavn);
+	    System.out.printf("Kunne ikke finne filen '%s'.\n", filnavn);
 	    return false;
 	}
 
@@ -234,7 +276,7 @@ public class Demo {
 	try {
 	    utFil = new PrintWriter(new File(filnavn));
 	} catch (FileNotFoundException e) {
-	    System.out.printf("Kunne ikke finne filen '%s'\n", filnavn);
+	    System.out.printf("Kunne ikke finne filen '%s'.\n", filnavn);
 	}
 
 	utFil.print(hentInfoPasienter());
@@ -396,7 +438,7 @@ public class Demo {
 			try {
 			    Integer.parseInt(kommando);
 			} catch (NumberFormatException e) {
-			    System.out.println("Ugyldig avtalenummer");
+			    System.out.println("Ugyldig avtalenummer, skal vare et heltall.");
 			    printKommandoer();
 			    break;
 			}
@@ -445,7 +487,7 @@ public class Demo {
 			try {
 			    Double.parseDouble(kommando);
 			} catch (NumberFormatException e) {
-			    System.out.println("Ugyldig pris, skal vaere et flyttall");
+			    System.out.println("Ugyldig pris, skal vaere et flyttall.");
 			    printKommandoer();
 			    break;
 			}
@@ -456,7 +498,7 @@ public class Demo {
 			try {
 			    Integer.parseInt(kommando);
 			} catch (NumberFormatException e) {
-			    System.out.println("Ugyldig antall/mengde, skal vaere et heltall");
+			    System.out.println("Ugyldig antall/mengde, skal vaere et heltall.");
 			    printKommandoer();
 			    break;
 			}
@@ -467,7 +509,7 @@ public class Demo {
 			try {
 			    Double.parseDouble(kommando);
 			} catch (NumberFormatException e) {
-			    System.out.println("Ugyldig virkestoff, skal vaere et flyttall");
+			    System.out.println("Ugyldig virkestoff, skal vaere et flyttall.");
 			    printKommandoer();
 			    break;
 			}
@@ -479,7 +521,7 @@ public class Demo {
 			    try {
 				Integer.parseInt(kommando);
 			    } catch (NumberFormatException e) {
-				System.out.println("Ugyldig styrke, skal vaere et heltall");
+				System.out.println("Ugyldig styrke, skal vaere et heltall.");
 				printKommandoer();
 				break;
 			    }
@@ -491,7 +533,7 @@ public class Demo {
 			System.out.printf("Legemiddel opprettet (%s)\n", lm.hentInfo());
 
 		    } else if (kommando.equals("4")) {
-			System.out.println("Beklager, oppretting av resepter er ikke implementert.")
+			System.out.println("Beklager, denne funksjonen er ikke implementert.");
 
 		    } else if (kommando.equals("h")) {
 			printKommandoerForOppretting();
@@ -506,8 +548,10 @@ public class Demo {
 		    }
 		}				
 	    } else if (kommando.equals("5")) {
-		
+		System.out.println("Beklager, denne funksjonen er ikke implementert.");	
+	
 	    } else if (kommando.equals("6")) {
+		System.out.println("Beklager, denne funksjonen er ikke implementert.");
 
 	    } else if (kommando.equals("h")) {
 		printKommandoer();
