@@ -267,6 +267,7 @@ public class Demo {
 	}
 
 	innFil.close();
+	System.out.printf("Filen %s: lest\n", filnavn);
 	return true;
     }
 
@@ -285,6 +286,7 @@ public class Demo {
 	utFil.print(hentInfoResepter());
 	utFil.print("# Slutt");
 	utFil.close();
+	System.out.printf("Data skrevet til fil: %s\n", filnavn);
     }
 
     private static String hentInfoPasienter() {
