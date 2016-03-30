@@ -2,7 +2,6 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class Demo {
     private static Tabell<Legemiddel> legemiddelListe = new Tabell<Legemiddel>(100);
@@ -280,43 +279,26 @@ public class Demo {
 	String info = "# Resepter (nr, hvit/blaa, persNummer, legeNavn, legemiddelNummer, reit)\n";
 	EnkelReseptListe reseptListe;
 	String[] tmp;
-	String[] tmp1;
 	String usortertInfo = "";
-	String sortertInfo = "";
 
-	// Gaar igjennom hver lege for aa faa tak i alle reseptene som finnes.
-	// Deretter blir reseptene sortert etter det unike nummeret de har.
+	// Gaar igjennom hver pasient for aa faa tak i alle reseptene som finnes.
+	// Legger saa inn pasient ID istedenfor pasientnavnet som kommer fra pasient.hentInfo().
 	for (Pasient p : pasientListe) {
 	    reseptListe = p.hentReseptListe();
 
 	    for (Resept r : reseptListe) {
 		tmp = r.hentInfo().split(", ");
-		usortertInfo += String.format("%04d, %s, %d, %s, %s, %s\n", Integer.parseInt(tmp[0]), tmp[1], p.hentID(), tmp[3], tmp[4], tmp[5]); 
+		usortertInfo += String.format("%s, %s, %d, %s, %s, %s", tmp[0], tmp[1], p.hentID(), tmp[3], tmp[4], tmp[5]); 
 	    }
 	}
-
-	tmp = usortertInfo.split("\n");
-	Arrays.sort(tmp);
-
-	for (String s : tmp) {
-	    System.out.println(CharMatcher.is('0').trimLeadingFrom(s));
-	    //System.out.println(String.format("%s\n", s.replaceFirst("^0+(?!$)","")));
-	    /*
-	    System.out.println(s);
-	    tmp1 = s.split(", ");
-	    System.out.println(Integer.parseInt(tmp1[0]));
-	    //sortertInfo += String.format("%s, %s, %s, %s, %s, %s\n", tmp1[0], tmp1[1], tmp1[2], tmp1[3], tmp1[4], tmp1[5]); 
-	    */
-	}
 	
-	//info += sortertInfo;
+	// Ville egentlig sortere etter det unike nummeret de har, men har ikke faat gjort det.
+	info += usortertInfo;
 	info += "\n";
 	return info;
     }
 
-    public static void main(String[] args) {
-
-	System.out.println("Velkommen!\n");
+    public static void kommandoloekke() {
 	Scanner terminal = new Scanner(System.in);
 	printKommandoer();
 
@@ -366,15 +348,150 @@ public class Demo {
 		printKommandoerForOppretting();
 
 		while (terminal.hasNext()) {
+		    String[] data = new String[10];
 		    kommando = terminal.next();
 		    
 		    if (kommando.equals("1")) {
+			System.out.printf("Oppretter ny pasient\n");
+			data[0] = "-1"; // Vet ikke hvilken ID den faar, men lagNyPasient() krever at vi har noe der.
+			System.out.printf("Navn: ");
+			kommando = terminal.next();
+			data[1] = kommando;
+
+			System.out.printf("Foedselsnummer: ");
+			kommando = terminal.next();
+			try {
+			    Integer.parseInt(kommando);
+			} catch (NumberFormatException e) {
+			    System.out.println("Ugyldig foedselsnummer");
+			    printKommandoer();
+			    break;
+			}
+			data[2] = kommando;
+
+			System.out.printf("Veinavn og veinummer: ");
+			kommando = terminal.next();
+			data[3] = kommando;
+
+			System.out.printf("Postnummer: ");
+			kommando = terminal.next();
+			if (!(kommando.length() == 4)) {
+			    System.out.println("Ugyldig postnummer");
+			    printKommandoer();
+			    break;	    
+			}
+			data[4] = kommando;
+			Pasient p = lagNyPasient(data);
+
+			System.out.printf("Pasient opprettet (%s)\n", p.hentInfo());
 
 		    } else if (kommando.equals("2")) {
+			System.out.printf("Oppretter ny lege\n");
+			System.out.printf("Navn: ");
+			kommando = terminal.next();
+			data[0] = kommando;
+
+			System.out.printf("Avtalenummer (0 hvis ingen avtale): ");
+			kommando = terminal.next();
+			try {
+			    Integer.parseInt(kommando);
+			} catch (NumberFormatException e) {
+			    System.out.println("Ugyldig avtalenummer");
+			    printKommandoer();
+			    break;
+			}
+
+			data[1] = kommando;
+			Lege l = lagNyLege(data);
+
+			System.out.printf("Lege opprettet (%s)\n", l.hentInfo());
 
 		    } else if (kommando.equals("3")) {
+			boolean typeC = false;
+
+			System.out.printf("Oppretter nytt Legemiddel\n");
+			data[0] = "-1"; // Vet ikke hvilken ID den faar, men lagNyttLegemiddel() krever at vi har noe der.
+			System.out.printf("Navn: ");
+			kommando = terminal.next();
+			data[1] = kommando;
+
+			System.out.printf("(1) mikstur eller (2) piller:  ");
+			kommando = terminal.next();
+			if (kommando.equals("1")) {
+			    data[2] = "mikstur";
+			} else if (kommando.equals("2")) {
+			    data[2] = "pille";
+			} else {
+			    System.out.println("Ugyldig valg: Velg enten 1 eller 2.");
+			    break;
+			}
+
+			System.out.printf("(1) Type A, (2) Type B eller (3) Type C:  ");
+			kommando = terminal.next();
+			if (kommando.equals("1")) {
+			    data[3] = "a";
+			} else if (kommando.equals("2")) {
+			    data[3] = "b";
+			} else if (kommando.equals("3")) {
+			    data[3] = "c";
+			    typeC = true;
+			} else {
+			    System.out.println("Ugyldig valg: Velg enten 1, 2 eller 3.");
+			    break;
+			}
+
+			System.out.printf("Pris: ");
+			kommando = terminal.next();
+			try {
+			    Double.parseDouble(kommando);
+			} catch (NumberFormatException e) {
+			    System.out.println("Ugyldig pris, skal vaere et flyttall");
+			    printKommandoer();
+			    break;
+			}
+			data[4] = kommando;
+
+			System.out.printf("Antall/Mengde: ");
+			kommando = terminal.next();
+			try {
+			    Integer.parseInt(kommando);
+			} catch (NumberFormatException e) {
+			    System.out.println("Ugyldig antall/mengde, skal vaere et heltall");
+			    printKommandoer();
+			    break;
+			}
+			data[5] = kommando;
+
+			System.out.printf("Virkestoff: ");
+			kommando = terminal.next();
+			try {
+			    Double.parseDouble(kommando);
+			} catch (NumberFormatException e) {
+			    System.out.println("Ugyldig virkestoff, skal vaere et flyttall");
+			    printKommandoer();
+			    break;
+			}
+			data[6] = kommando;
+
+			if (!typeC) {
+			    System.out.printf("Styrke: ");
+			    kommando = terminal.next();
+			    try {
+				Integer.parseInt(kommando);
+			    } catch (NumberFormatException e) {
+				System.out.println("Ugyldig styrke, skal vaere et heltall");
+				printKommandoer();
+				break;
+			    }
+			    data[7] = kommando;
+			}
+
+			Legemiddel lm = lagNyttLegemiddel(data);
+
+			System.out.printf("Legemiddel opprettet (%s)\n", lm.hentInfo());
 
 		    } else if (kommando.equals("4")) {
+			System.out.println("Beklager, oppretting av resepter er ikke implementert.")
 
 		    } else if (kommando.equals("h")) {
 			printKommandoerForOppretting();
@@ -400,5 +517,10 @@ public class Demo {
 		return;
 	    }
 	}
+    }
+
+    public static void main(String[] args) {
+	System.out.println("Velkommen!\n");
+	kommandoloekke();
     }
 }
