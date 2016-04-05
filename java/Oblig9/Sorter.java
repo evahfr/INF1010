@@ -4,10 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 public class Sorter {
-    private int antTraader;
-    private int antOrd;
-    private Scanner innFil;
-    
+    private static int antTraader;
+    private static int antOrd;
+    private static Scanner innFil;
    
 
     public static void main(String[] args) {
@@ -15,10 +14,8 @@ public class Sorter {
 	    antTraader = Integer.parseInt(args[0]);
 	} catch (NumberFormatException e) {
 
-	}
-
-	
-	} catch (IndexOutOfBounds e) {
+	}	
+	catch (IndexOutOfBoundsException e) {
 	    System.out.println("");
 	}
 	
