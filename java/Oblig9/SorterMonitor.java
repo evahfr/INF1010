@@ -31,5 +31,4 @@ public class SorterMonitor {
 	
 	return tilFletting;
     } 
-
 }

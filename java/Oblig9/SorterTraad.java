@@ -9,7 +9,11 @@ public class SorterTraad extends Thread {
 	return null;
     }
 
-    public void run() {
+    private String[] flettSammen(String[] ordTabell1, String[] ordTabell2) {
+	return null;
+    }
 
+    public void run() {
+	
     }
 }
