@@ -1,34 +1,28 @@
-import java.util.LinkedList;
-
 public class SorterMonitor {
-    private LinkedList<String[]> sorterteLister = new LinkedList<String[]>();
+    private String[] sortertOrdListe;
 
-    synchronized public void giOrdListe(String[] ord) {
-	sorterteLister.add(ord);
-	notifyAll();
+    synchronized public String[] giOgHentOrdListe(String[] nySortertOrdListe) {
+	if ( sortertOrdListe == null ) {
+	    sortertOrdListe = nySortertOrdListe;
+	    return null;
+	} 
+	
+	String[] tmp = sortertOrdListe;
+	sortertOrdListe = null;
+	return tmp;
     }
 
-    synchronized public LinkedList<String[]> hentOrdListe() {
-	String[] forsteListe;
-	String[] andreListe;
-	LinkedList<String[]> tilFletting = new LinkedList<String[]>();
+    public String[] hentSortertListe() {
+	return sortertOrdListe;
+    }
 
-	if (sorterteLister.size() < 2) {
-	    try {
-		wait();
-	    } catch (InterruptedException e) {
-		System.exit(1);
-	    }
+    synchronized public void printDelTabell()
+    {
+	String[] delTabell = sortertOrdListe;
+	System.out.println("*********************************************");
+	System.out.printf("Lengde: %d\n", delTabell.length);
+	for(String s : delTabell){
+	    System.out.println(s);
 	}
-
-	forsteListe = sorterteLister.getFirst();
-	sorterteLister.removeFirst();
-	tilFletting.add(forsteListe);
-
-	andreListe = sorterteLister.getFirst();
-	sorterteLister.removeFirst();
-	tilFletting.add(andreListe);
-	
-	return tilFletting;
     } 
 }

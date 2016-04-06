@@ -25,10 +25,38 @@ public class Sorter {
 	    System.out.println("For faa argumenter. Prøv igjen!");
 	    System.exit(1);
 	}
-	SorterTraad[] traader = new SorterTraad[antTraader]();
+	SorterTraad[] traader = new SorterTraad[antTraader];
+	SorterMonitor monitor = new SorterMonitor();
+
+	int antOrdPerTraad = antOrd/antTraader;
+	int rest = antOrd % antTraader;
+	int startIndeks = 0;
+	int sluttIndeks;
+	/*********************************** SE PAA DENNE *********************************/
+	for (int i = 0; i < antTraader; i++ ) {
+ 
+	    if ( rest > 0 || i == antTraader-1) { 
+		sluttIndeks = antOrdPerTraad*(i+1)+1;
+		rest--;
+	    } else {
+		sluttIndeks = antOrdPerTraad*(i+1);
+	    }
+
+	    traader[i] = new SorterTraad(startIndeks , sluttIndeks, ordTabell, monitor);
+	    startIndeks = sluttIndeks;
+	    traader[i].start();
+	} 
 	
+	for (SorterTraad t : traader) {
+	    try {
+		t.join();
+	    } catch (InterruptedException e) {}
+	}
+
+	monitor.printDelTabell();
     }
-    
+    /*************************************************************************************/
+
     public static String[] lesFil(String filnavn) throws FileNotFoundException {
 	Scanner innFil = new Scanner(new File(filnavn));
 	try{
