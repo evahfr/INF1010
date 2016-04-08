@@ -25,6 +25,7 @@ public class Sorter {
 	    System.out.println("For faa argumenter. Prøv igjen!");
 	    System.exit(1);
 	}
+
 	SorterTraad[] traader = new SorterTraad[antTraader];
 	SorterMonitor monitor = new SorterMonitor();
 
@@ -32,14 +33,14 @@ public class Sorter {
 	int rest = antOrd % antTraader;
 	int startIndeks = 0;
 	int sluttIndeks;
-	/*********************************** SE PAA DENNE *********************************/
-	for (int i = 0; i < antTraader; i++ ) {
+
+	for (int i = 0; i < antTraader; i++) {
  
-	    if ( rest > 0 || i == antTraader-1) { 
-		sluttIndeks = antOrdPerTraad*(i+1)+1;
+	    if ( rest > 0 ) { 
+		sluttIndeks = startIndeks + antOrdPerTraad + 1;
 		rest--;
 	    } else {
-		sluttIndeks = antOrdPerTraad*(i+1);
+		sluttIndeks = startIndeks + antOrdPerTraad;
 	    }
 
 	    traader[i] = new SorterTraad(startIndeks , sluttIndeks, ordTabell, monitor);
@@ -55,7 +56,7 @@ public class Sorter {
 
 	monitor.printDelTabell();
     }
-    /*************************************************************************************/
+
 
     public static String[] lesFil(String filnavn) throws FileNotFoundException {
 	Scanner innFil = new Scanner(new File(filnavn));
