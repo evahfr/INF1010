@@ -6,14 +6,15 @@ import java.io.PrintWriter;
 public class Sorter {
     private static int antTraader;
     private static int antOrd;
-    private static PrintWriter utFil;
-   
+
+    
 
     public static void main(String[] args) {
 	String[] ordTabell = null;
+	String utFilnavn = "";
 	try {
 	    antTraader = Integer.parseInt(args[0]);
-	    utFil = new PrintWriter(new File(args[2]));
+	    utFilnavn = args[2];
 	    ordTabell = lesFil(args[1]);
 	} catch (NumberFormatException e) {
 	    System.out.printf("Antall traader maa oppgis som et heltall.\n");
@@ -54,7 +55,7 @@ public class Sorter {
 	    } catch (InterruptedException e) {}
 	}
 
-	monitor.printDelTabell();
+	skrivTilFil(utFilnavn, monitor.hentSortertListe());
     }
 
 
@@ -84,4 +85,42 @@ public class Sorter {
 	return ordTabell;
     }
 
+    public static void skrivTilFil(String utFilnavn, String[] sortertListe)
+    {
+	if (!testSortertListe(sortertListe)) {
+	    return;
+	}
+
+	try{		
+	    PrintWriter pw = new PrintWriter(new File(utFilnavn));
+	    for(String ord : sortertListe)
+		{
+		    pw.write(ord+"\n");
+		}
+	    pw.close();
+	}
+	catch(FileNotFoundException e){
+	    System.out.printf("Fant ikke fil.\n");
+	    System.exit(1);
+	}
+    }
+    public static boolean testSortertListe(String[] sortertListe)
+    {
+	if(sortertListe.length != antOrd){
+	    System.out.println("Lengden paa den sorterte listen stemmer ikke med andtall ord; skriver ikke til fil.");
+	    return false;
+	}
+	if(sortertListe[antOrd - 1] == null){
+	    System.out.println("Det er en nullpeker som siste element i den sorterte listen; skriver ikke til fil.");
+	    return false;
+	}
+	
+	for(int i = 1; i<sortertListe.length; i++){
+	    if(sortertListe[i-1].compareTo(sortertListe[i])>0)
+		{
+		    return false;
+		}
+	}
+	return true;
+    }
 }
