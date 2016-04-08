@@ -16,6 +16,7 @@ public class SorterTraad extends Thread {
 	int forran;
 	String tmp;
 
+	// Innstikksortering
 	for (int i = 1; i < delTabell.length; i++) {
 	    forran = i;
 	    bak = forran-1;
