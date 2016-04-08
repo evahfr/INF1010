@@ -24,5 +24,15 @@ public class SorterMonitor {
 	for(String s : delTabell){
 	    System.out.println(s);
 	}
-    } 
+    }
+
+
+    synchronized public void printDelTabell(String[] delTabell)
+    {
+	System.out.println("*********************************************");
+	System.out.printf("Lengde: %d\n", delTabell.length);
+	for(String s : delTabell){
+	    System.out.println(s);
+	}
+    }  
 }

@@ -30,41 +30,44 @@ public class SorterTraad extends Thread {
 	}
     }
 
+ 
     private String[] flettSammen(String[] ordTabell1, String[] ordTabell2) {
 	String[] flettetTabell = new String[ordTabell1.length + ordTabell2.length];
-
 	int i1 = 0;
 	int i2 = 0;
 	int flettetIndeks = 0;
-	while (i1 < ordTabell1.length || i2 < ordTabell2.length) {
-	    System.out.printf("Lengde 1: %d", ordTabell1.length);
-	    System.out.printf("Lengde 1: %d", ordTabell2.length);
-	    if ( ordTabell1[i1].compareTo(ordTabell2[i2]) < 0) {
+	
+	// Gaar igjennom tabellene helt til bunnen av en tabellene er naadd.
+	// Siden begge tabellene er sortert kan resten av den andre tabellen klistres,
+	// inn i den flettede tabellen.
+	while (i1 < ordTabell1.length && i2 < ordTabell2.length) {
+	    if ( ordTabell1[i1].compareTo(ordTabell2[i2]) <= 0) {
 		flettetTabell[flettetIndeks++] = ordTabell1[i1++];
 
 	    } else if ( ordTabell1[i1].compareTo(ordTabell2[i2]) > 0) {
 		flettetTabell[flettetIndeks++] = ordTabell2[i2++];
-
-	    } else {
-		flettetTabell[flettetIndeks++] = ordTabell1[i1++];
-		flettetTabell[flettetIndeks++] = ordTabell2[i2++];		
-	    }
-	}
-	/*
-	if (i1 == i2) {
-	    return flettetTabell;
+	    } 
 	}
 	
+	/* Trengs vel ikke lenger?
+	if (i1 == i2) {
+	    monitor.printDelTabell(flettetTabell);
+	    return flettetTabell;
+	}
+	*/
+	
+	// Finner hvilken tabell som vi har naadd bunnen paa, og setter inn resten
+	// av den andre tabellen.
 	if (i1 == ordTabell1.length) {
 	    for (int i = i2; i < ordTabell2.length; i++) {
 		flettetTabell[flettetIndeks++] = ordTabell2[i];
 	    }
 	} else if (i2 == ordTabell2.length) {
 	    for (int i = i1; i < ordTabell1.length; i++) {
-		flettetTabell[flettetIndeks++] = ordTabell2[i];
+		flettetTabell[flettetIndeks++] = ordTabell1[i];
 	    }	    
 	}
-	*/
+
 	return flettetTabell;
     }
 
