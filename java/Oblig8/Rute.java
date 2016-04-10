@@ -11,4 +11,8 @@ public class Rute {
 	this.verdi = verdi;
 	ruteID = ruteTeller++;
     }
+
+    public int hentVerdi() {
+	return verdi;
+    }
 }
