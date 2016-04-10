@@ -1,15 +1,19 @@
 public class Brett {
-    private Ruter[] alleRuter;
+    private Rute[] alleRuter;
     private Rad[] alleRader;
-    private Kolonne[] alleKolonneer;
+    private Kolonne[] alleKolonner;
+    private int ruteIndeks = 0;
 
     public Brett(int antRader, int antKolonner) {
-	alleRuter = new Ruter[antRader*antKolonner];
-	alleRader = new Rad[antRader];
-        alleKolonner = new Kolonne[antKolonner];
+	int antRuterPerEnhet = antRader*antKolonner;
+
+	alleRuter = new Rute[antRuterPerEnhet*antRuterPerEnhet];
+	alleRader = new Rad[antRuterPerEnhet];
+        alleKolonner = new Kolonne[antRuterPerEnhet];
     }
 
-    
-
+    public void settInnRute(Rute denneRuten) throws IndexOutOfBoundsException {
+	alleRuter[ruteIndeks++] = denneRuten;
+    }
     
 }

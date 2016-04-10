@@ -3,4 +3,8 @@ public class Boks {
     private static int boksTeller = 0;
 
     private Rute[] alleRutene;
+
+    public Boks() {
+	boksID = boksTeller++;
+    }
 }

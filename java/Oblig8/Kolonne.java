@@ -4,4 +4,7 @@ public class Kolonne {
 
     private Rute[] alleRutene;
 
+    public Kolonne() {
+	kolonneID = kolonneTeller++;
+    }
 }

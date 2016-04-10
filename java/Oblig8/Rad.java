@@ -4,4 +4,7 @@ public class Rad {
 
     private Rute[] alleRutene;
 
+    public Rad() {
+	radID = radTeller++;
+    }
 }
