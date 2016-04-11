@@ -9,7 +9,7 @@ public class Boks {
 	boksID = boksTeller++;
     }
 
-    private int hentID() {
+    public int hentID() {
 	return boksID;
     }
 
