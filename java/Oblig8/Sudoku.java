@@ -202,7 +202,14 @@ public class Sudoku {
     }
 
     public static void opprettDatastruktur() {
-
+	Rute[] alleRuter = brettet.hentAlleRuter();
+	
+	
+	for (Rute ruten : alleRuter) {
+	    if (ruten.hentID() == 0) {
+		
+	    }
+	}
     }
 
     public static void main(String[] args) {
@@ -212,6 +219,7 @@ public class Sudoku {
 	lesFil(innFilnavn);
 	skrivTilFil(utFilnavn);
         skrivTilSkjerm();
+	brettet.opprettDatastruktur();
     } 
 
 }

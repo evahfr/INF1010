@@ -15,4 +15,20 @@ public class Rute {
     public int hentVerdi() {
 	return verdi;
     }
+
+    public int hentID() {
+	return ruteID;
+    }
+
+    public void settBoks(Boks boksen) {
+	this.boksen = boksen;
+    }
+
+    public void settRad(Rad raden) {
+	this.raden = raden;
+    }
+
+    public void settKolonne(Kolonne kolonnen) {
+	this.kolonnen = kolonnen;
+    }
 }
