@@ -41,17 +41,33 @@ public class Rute {
 	return verdi == 0;
     }
 
-    private int[] finnEksisterendeTall(Rute[] ruter, int[] eksisterendeTall) {
+    /**
+     * Finner alle tall som er fylt inn fra en Rute array.
+     * Tallene legges inn paa plasser tilsvarende deres verdi.
+     *
+     * @param ruter        array med pekere til rutene som skal sjekkes
+     * @param utfylteTall  et array hvor tallene skal legges inn
+     * @return             et array med tallene 
+     */
+    private int[] finnUtfylteTall(Rute[] ruter, int[] utfylteTall) {
 	int hentetVerdi;
+
 	for (Rute r : ruter) {
 	    if (!r.erTom()) {
 		hentetVerdi = r.hentVerdi();
-		eksisterendeTall[hentetVerdi-1] = hentetVerdi;
+		utfylteTall[hentetVerdi-1] = hentetVerdi;
 	    } 
 	}
-	return eksisterendeTall;
+	return utfylteTall;
     }
 
+    /**
+     * Finner antall mulige mulige tall som skal settes inn.
+     *
+     * @param tallene   et array som inneholder null paa
+     *                  plasser med verdier som mangler
+     * @return          antall tall som mangler
+     */
     private int finnAntallMuligeTall(int[] tallene) {
 	int antMulige = 0;
 	for (int i = 0; i < tallene.length; i++) {
@@ -62,32 +78,36 @@ public class Rute {
 	return antMulige;
     }
 
+    /**
+     * Finner alle mulige tallene som skal kan settes inn i en ruten.
+     *
+     * @return   en array med alle de mulige tallene til ruten,
+     *           eller 'null' dersom ruten ikke er tom.
+     */
     public int[] finnAlleMuligeTall() {
+
 	if (erTom()) {
 	    Rute[] ruter = raden.hentRutene();  
 	    int[] eksisterendeTall = new int[ruter.length];
 	    Arrays.fill(eksisterendeTall, 0);
+	    eksisterendeTall = finnUtfylteTall(ruter, eksisterendeTall);
 
-	    eksisterendeTall = finnEksisterendeTall(ruter, eksisterendeTall);
 	    ruter = kolonnen.hentRutene();
-	    eksisterendeTall = finnEksisterendeTall(ruter, eksisterendeTall);
+	    eksisterendeTall = finnUtfylteTall(ruter, eksisterendeTall);
+
 	    ruter = boksen.hentRutene();
-	    eksisterendeTall = finnEksisterendeTall(ruter, eksisterendeTall);
+	    eksisterendeTall = finnUtfylteTall(ruter, eksisterendeTall);
 
 	    int[] alleMuligeTall = new int[finnAntallMuligeTall(eksisterendeTall)];
-	    int antMulige = 0;
+	    int indeks = 0;
+
 	    for (int i = 0; i < eksisterendeTall.length; i++) {
 		if (eksisterendeTall[i] == 0) {
-		    alleMuligeTall[antMulige++] = i+1;
+		    alleMuligeTall[indeks++] = i+1;
 		}
 	    }
-	    for (int i : alleMuligeTall) {
-		System.out.printf("%d ", i);
-	    }
-	    System.out.print("\n");
 	    return alleMuligeTall;
 	}
-	System.out.print("\n");
 	return null;
     }
 }

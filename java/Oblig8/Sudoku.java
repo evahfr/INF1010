@@ -233,17 +233,16 @@ public class Sudoku {
 	Rute[] alleRuter = brettet.hentAlleRuter();
 	String hSkille = hentHorisontaltSkille(antRader, antKolonner);
 	String brettUtskrift = "";
-	int brettLengde = antKolonner*antRader;
 
 	for (int i = 0; i < alleRuter.length; i++) {
-	    if (i % (brettLengde) == 0 && i != 0) {
+	    if (erPaaStartenAvEnRad(i)) {
 		brettUtskrift += "\n";
 
-		if (i % ((brettLengde)*antRader) == 0) {
+		if (erPaaStartenAvEnBoksRad(i)) {
 		    brettUtskrift += hSkille;
 		}
 
-	    } else if (i % antKolonner == 0 && i != 0) {
+	    } else if (erPaaStartenAvEnBoks(i)) {
 		brettUtskrift += "|";
 	    }
 	    brettUtskrift += Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), ' '));
@@ -251,6 +250,22 @@ public class Sudoku {
 	brettUtskrift += "\n";
 	return brettUtskrift;	
     }
+
+    /******************** HJELPEMETODER TIL UTSKRIFT ***************************/
+
+    private static boolean erPaaStartenAvEnRad(int i) {
+	return i % (antKolonner*antRader) == 0 && i != 0;
+    }
+
+    private static boolean erPaaStartenAvEnBoksRad(int i) {
+	return i % (antRader*antKolonner*antRader) == 0;
+    }
+
+    private static boolean erPaaStartenAvEnBoks(int i) {
+	return i % antKolonner == 0 && i != 0;
+    }
+
+    /**************************************************************************/
 
     /**
      * Skriver sudokubrettet til en fil gitt ved en streng med filnavnet.
@@ -280,12 +295,6 @@ public class Sudoku {
 	skrivTilFil(utFilnavn);
         skrivTilSkjerm();
 	brettet.opprettDatastruktur();
-
-	Rute[] alleRuter = brettet.hentAlleRuter();
-	for (int i = 0; i < alleRuter.length; i++) {
-	    System.out.printf("Rute %d:   ", i);
-	    alleRuter[i].finnAlleMuligeTall();
-	}
     } 
 
 }

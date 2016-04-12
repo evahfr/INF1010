@@ -24,6 +24,12 @@ public class Brett {
 	alleBokser = new Boks[antRuterPerEnhet];
     }
 
+     /**
+     * Setter inn en peker til en Rute i et array.
+     * Forutsetter at ruter blir lest inn fra venstre til hoyere.
+     *
+     * @param denneRuten   ruten som skal settes inn
+     */
     public void settInnRute(Rute denneRuten) throws IndexOutOfBoundsException {
 	alleRuter[ruteIndeks++] = denneRuten;
 	if (ruteIndeks == antRuter) {
@@ -39,42 +45,62 @@ public class Brett {
 	return alleRuter;
     }
 
+    /**
+     * Oppretter datastrukturen ved aa tilordne alle rutene sin boks, kolonne og rad.
+     */
     public void opprettDatastruktur() {
 	if (!erFyltUt()) {
 	    System.out.println("Kunne ikke opprette datastruktur, brettet maa vaere fylt ut.");
 	    return;
 	}
 	
+	// Oppretter array som skal holde paa riktig antall pekere til kolonner,
+	// rader og bokser.
 	for (int i = 0; i < antRuterPerEnhet; i++) {
 	    alleRader[i] = new Rad(antRuterPerEnhet);
 	    alleKolonner[i] = new Kolonne(antRuterPerEnhet);
 	    alleBokser[i] = new Boks(antRuterPerEnhet);
 	}
 
-	// Tilordne rutene sin kolonne, rad og boks.
+	// Tilordner rutene sin kolonne, rad og boks.
 	int radNr = -1;
 	int kolonneNr = 0;
 	int boksNr = 0;
-	int forsteBoksIRadNr = boksNr;
+	int NrPaaForsteBoksIRad = boksNr;
 
 	for (int i = 0; i < alleRuter.length; i++) {
-	    if (i % antRuterPerEnhet == 0) {
-		if (i % (antRader*antRuterPerEnhet) == 0 && i != 0) {
-		    forsteBoksIRadNr = ++boksNr;
+	    if (erPaaStartenAvEnRad(i)) {
+		if (erPaaStartenAvEnBoksRad(i)) {
+		    NrPaaForsteBoksIRad = ++boksNr;
 		}
 
 		radNr++;
 		kolonneNr = 0;
-		boksNr = forsteBoksIRadNr;
+		boksNr = NrPaaForsteBoksIRad;
 
-	    } else if (i % antKolonner == 0 && i != 0) {
+	    } else if (erPaaStartenAvEnBoks(i)) {
 		boksNr++;
 	    }
 
-	    //System.out.printf("%d: Rute: %d, Rad[%d]: %d, Kolonne[%d]: %d, Boks[%d]: %d\n",i,alleRuter[i].hentID(),radNr,alleRader[radNr].hentID(),kolonneNr,alleKolonner[kolonneNr].hentID(),boksNr,alleBokser[boksNr].hentID());
 	    alleRuter[i].settBoks(alleBokser[boksNr]);
 	    alleRuter[i].settRad(alleRader[radNr], kolonneNr);
 	    alleRuter[i].settKolonne(alleKolonner[kolonneNr++], radNr);
 	}
     }
+  
+    /*********** HJELPEMETODER TIL OPPRETTING AV DATASTRUKTUR *****************/  
+
+    private boolean erPaaStartenAvEnRad(int i) {
+	return i % antRuterPerEnhet == 0;
+    }
+
+    private boolean erPaaStartenAvEnBoksRad(int i) {
+	return i % (antRader*antRuterPerEnhet) == 0 && i != 0;
+    }
+
+    private boolean erPaaStartenAvEnBoks(int i) {
+	return i % antKolonner == 0 && i != 0;
+    }
+
+    /**************************************************************************/
 }
