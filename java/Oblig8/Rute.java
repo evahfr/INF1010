@@ -20,10 +20,9 @@ public class Rute {
 	return ruteID;
     }
 
-    public void settBoks(Boks boksen, int indeks) {
+    public void settBoks(Boks boksen) {
 	this.boksen = boksen;
-	boksen.settInnRute(this, indeks);
-	System.out.printf("Setter inn rute %d i boks %d paa plass %d\n", ruteID, boksen.hentID(), indeks);
+	boksen.settInnRute(this);
     }
 
     public void settRad(Rad raden, int indeks) {
