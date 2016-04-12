@@ -15,4 +15,8 @@ public class Rad {
     public void settInnRute(Rute denneRuten, int indeks) throws IndexOutOfBoundsException {
 	alleRutene[indeks] = denneRuten;
     }
+
+    public Rute[] hentRutene() {
+	return alleRutene;
+    }
 }

@@ -46,23 +46,23 @@ public class Brett {
 	}
 	
 	for (int i = 0; i < antRuterPerEnhet; i++) {
-	    alleRader[i] = new Rad(antRuter);
-	    alleKolonner[i] = new Kolonne(antRuter);
-	    alleBokser[i] = new Boks(antRuter);
+	    alleRader[i] = new Rad(antRuterPerEnhet);
+	    alleKolonner[i] = new Kolonne(antRuterPerEnhet);
+	    alleBokser[i] = new Boks(antRuterPerEnhet);
 	}
 
 	// Tilordne rutene sin kolonne og rad.
-	int kolonneIndeks = -1;
-	int radIndeks = 0;
+	int radNr = -1;
+	int kolonneNr = 0;
 	for (int i = 0; i < alleRuter.length; i++) {
 	    if (i % antRuterPerEnhet == 0) {
-		kolonneIndeks++;
-		radIndeks = 0;
+		radNr++;
+		kolonneNr = 0;
 	    }
-	    System.out.printf("%d: Rute: %d, Rad: %d, Kolonne: %d\n",i,alleRuter[i].hentID(),alleRader[radIndeks].hentID(),alleKolonner[kolonneIndeks].hentID());
+	    System.out.printf("%d: Rute: %d, Rad[%d]: %d, Kolonne[%d]: %d\n",i,alleRuter[i].hentID(),radNr,alleRader[radNr].hentID(),kolonneNr,alleKolonner[kolonneNr].hentID());
 
-	    alleRuter[i].settRad(alleRader[radIndeks]);
-	    alleRuter[i].settKolonne(alleKolonner[kolonneIndeks]);
+	    alleRuter[i].settRad(alleRader[radNr], kolonneNr);
+	    alleRuter[i].settKolonne(alleKolonner[kolonneNr++], radNr);
 	}
 
 	// Tilordne rutene sin boks.
@@ -70,17 +70,14 @@ public class Brett {
 	int forsteBoksIRadNr = boksNr;
 	for (int i = 0; i < alleRuter.length; i++) {
 	    if (i % antRuterPerEnhet == 0 && i != 0) {
-		System.out.println("If 1");
 		if (i % (antRader*antRuterPerEnhet) == 0) {
 		    forsteBoksIRadNr = ++boksNr;
-		    System.out.println("If 2");
 		}
 		boksNr = forsteBoksIRadNr;
 	    } else if (i % antKolonner == 0 && i != 0) {
-		System.out.println("If 3");
 		boksNr++;
 	    }
-	    alleRuter[i].settBoks(alleBokser[boksNr]);
+	    alleRuter[i].settBoks(alleBokser[boksNr], boksNr);
 	    //System.out.printf("Rute: %d, Boks: %d\n",alleRuter[i].hentID(),alleBokser[boksNr].hentID());
 	}
     }

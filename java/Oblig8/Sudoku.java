@@ -209,6 +209,9 @@ public class Sudoku {
 	skrivTilFil(utFilnavn);
         skrivTilSkjerm();
 	brettet.opprettDatastruktur();
+
+	Rute[] alleRuter = brettet.hentAlleRuter();
+	alleRuter[0].finnAlleMuligeTall();
     } 
 
 }
