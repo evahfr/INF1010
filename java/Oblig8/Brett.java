@@ -46,11 +46,12 @@ public class Brett {
 	}
 	
 	for (int i = 0; i < antRuterPerEnhet; i++) {
-	    alleRader[i] = new Rad();
-	    alleKolonner[i] = new Kolonne();
-	    alleBokser[i] = new Boks();
+	    alleRader[i] = new Rad(antRuter);
+	    alleKolonner[i] = new Kolonne(antRuter);
+	    alleBokser[i] = new Boks(antRuter);
 	}
 
+	// Tilordne rutene sin kolonne og rad.
 	int kolonneIndeks = -1;
 	int radIndeks = 0;
 	for (int i = 0; i < alleRuter.length; i++) {
@@ -60,11 +61,11 @@ public class Brett {
 	    }
 	    System.out.printf("%d: Rute: %d, Rad: %d, Kolonne: %d\n",i,alleRuter[i].hentID(),alleRader[radIndeks].hentID(),alleKolonner[kolonneIndeks].hentID());
 
-	    //alleRuter[i].settBoks(finnBoks(radIndeks, kolonneIndeks));
-	    alleRuter[i].settRad(alleRader[radIndeks++]);
+	    alleRuter[i].settRad(alleRader[radIndeks]);
 	    alleRuter[i].settKolonne(alleKolonner[kolonneIndeks]);
 	}
 
+	// Tilordne rutene sin boks.
 	int boksNr = 0;
 	int forsteBoksIRadNr = boksNr;
 	for (int i = 0; i < alleRuter.length; i++) {

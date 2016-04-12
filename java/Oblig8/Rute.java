@@ -22,13 +22,24 @@ public class Rute {
 
     public void settBoks(Boks boksen) {
 	this.boksen = boksen;
+	boksen.settInnRute(this, ruteID);
     }
 
     public void settRad(Rad raden) {
 	this.raden = raden;
+	raden.settInnRute(this, ruteID);
     }
 
     public void settKolonne(Kolonne kolonnen) {
 	this.kolonnen = kolonnen;
+	kolonnen.settInnRute(this, ruteID);
+    }
+
+    public boolean erTom() {
+	return verdi == 0;
+    }
+
+    public int[] finnAlleMuligeTall() {
+	return null;
     }
 }
