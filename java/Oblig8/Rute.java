@@ -20,20 +20,20 @@ public class Rute {
 	return ruteID;
     }
 
-    public void settBoks(Boks boksen, int boksID) {
+    public void settBoks(Boks boksen, int indeks) {
 	this.boksen = boksen;
-	boksen.settInnRute(this, boksID);
+	boksen.settInnRute(this, indeks);
     }
 
-    public void settRad(Rad raden, int radID) {
-	System.out.printf("Setter inn rute %d i rad %d paa plass %d\n", ruteID, raden.hentID(), radID);
+    public void settRad(Rad raden, int indeks) {
 	this.raden = raden;
-	raden.settInnRute(this, radID);
+	raden.settInnRute(this, indeks);
     }
 
-    public void settKolonne(Kolonne kolonnen, int kolonneID) {
+    public void settKolonne(Kolonne kolonnen, int indeks) {
 	this.kolonnen = kolonnen;
-	kolonnen.settInnRute(this, kolonneID);
+	kolonnen.settInnRute(this, indeks);
+	System.out.printf("Setter inn rute %d i boks %d paa plass %d\n", ruteID, boksen.hentID(), indeks);
     }
 
     public boolean erTom() {
