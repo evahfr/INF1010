@@ -211,7 +211,10 @@ public class Sudoku {
 	brettet.opprettDatastruktur();
 
 	Rute[] alleRuter = brettet.hentAlleRuter();
-	alleRuter[0].finnAlleMuligeTall();
+	for (int i = 0; i < alleRuter.length; i++) {
+	    System.out.printf("Rute %d:   ", i);
+	    alleRuter[i].finnAlleMuligeTall();
+	}
     } 
 
 }
