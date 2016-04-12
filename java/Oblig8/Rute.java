@@ -23,6 +23,7 @@ public class Rute {
     public void settBoks(Boks boksen, int indeks) {
 	this.boksen = boksen;
 	boksen.settInnRute(this, indeks);
+	System.out.printf("Setter inn rute %d i boks %d paa plass %d\n", ruteID, boksen.hentID(), indeks);
     }
 
     public void settRad(Rad raden, int indeks) {
@@ -33,7 +34,6 @@ public class Rute {
     public void settKolonne(Kolonne kolonnen, int indeks) {
 	this.kolonnen = kolonnen;
 	kolonnen.settInnRute(this, indeks);
-	System.out.printf("Setter inn rute %d i boks %d paa plass %d\n", ruteID, boksen.hentID(), indeks);
     }
 
     public boolean erTom() {
