@@ -69,17 +69,18 @@ public class Brett {
 	int forsteBoksIRadNr = boksNr;
 	for (int i = 0; i < alleRuter.length; i++) {
 	    if (i % antRuterPerEnhet == 0 && i != 0) {
-		if (i % antRader == 0) {
-		    boksNr++;
-		    forsteBoksIRadNr = boksNr;
-		} else {
-		    boksNr = forsteBoksIRadNr;
+		System.out.println("If 1");
+		if (i % (antRader*antRuterPerEnhet) == 0) {
+		    forsteBoksIRadNr = ++boksNr;
+		    System.out.println("If 2");
 		}
+		boksNr = forsteBoksIRadNr;
 	    } else if (i % antKolonner == 0 && i != 0) {
+		System.out.println("If 3");
 		boksNr++;
 	    }
 	    alleRuter[i].settBoks(alleBokser[boksNr]);
-	    System.out.printf("Rute: %d, Boks: %d\n",alleRuter[i].hentID(),alleBokser[boksNr].hentID());
+	    //System.out.printf("Rute: %d, Boks: %d\n",alleRuter[i].hentID(),alleBokser[boksNr].hentID());
 	}
     }
 }

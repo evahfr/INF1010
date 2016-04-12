@@ -201,17 +201,6 @@ public class Sudoku {
 	System.out.print(hentBrettutskrift());
     }
 
-    public static void opprettDatastruktur() {
-	Rute[] alleRuter = brettet.hentAlleRuter();
-	
-	
-	for (Rute ruten : alleRuter) {
-	    if (ruten.hentID() == 0) {
-		
-	    }
-	}
-    }
-
     public static void main(String[] args) {
 	String innFilnavn = args[0];
 	String utFilnavn = args[1];
