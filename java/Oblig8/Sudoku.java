@@ -147,7 +147,7 @@ public class Sudoku {
 
 	while (antStreker > 0) {
 	    skille += "-";
-	    skrivUtHorisontaltSkille(--antStreker);
+	    --antStreker;
 	}
 	return skille;
     }
