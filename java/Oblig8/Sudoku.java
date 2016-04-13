@@ -162,10 +162,11 @@ public class Sudoku {
      */
     private static String hentHorisontaltSkille(int antRader, int antKolonner) {
 	String skille = skrivUtHorisontaltSkille(antKolonner);
+	String horisontaltBoksSkille = skrivUtHorisontaltSkille(antKolonner);
 
 	for (int i = antKolonner; i < antRader*antKolonner; i++) {
 	    if (i % antKolonner == 0) {
-		skille += "+" + skrivUtHorisontaltSkille(antKolonner);
+		skille += "+" + horisontaltBoksSkille;
 	    }
 	}
 	skille += "\n";
