@@ -120,7 +120,6 @@ public class Rute {
     }
 
     public void fyllUtDenneRuteOgResten() {
-
 	if (!erTom()) {
 	    neste.fyllUtDenneRuteOgResten();
 	    return;
@@ -128,15 +127,39 @@ public class Rute {
 
 	int[] muligeTall = finnAlleMuligeTall();
 	
-	if (neste == null) {
-	    System.out.println("Vi har kommet til slutten");
-	    return;
+	System.out.printf("Mulige tall i rute %d: \n", ruteID);
+	if (finnAlleMuligeTall() != null) {
+	    for (int i : muligeTall) {
+		System.out.printf("%d ", i);
+	    }
+	    System.out.println("");
+	} else {
+	    System.out.println("Ingen");
 	}
 	
+
+	if (neste == null && finnAlleMuligeTall() != null) {
+	    this.verdi = muligeTall[0];
+	    System.out.println("Vi har kommet til slutten");
+	    System.out.println(brettet.hentBrettutskrift());
+	    System.out.println("");
+	    this.verdi = 0;
+	    return;
+	} else if (neste == null) {
+	    System.out.println("Vi har kommet til slutten, men fant ikke en losning.");
+	    return;
+	} else if (finnAlleMuligeTall() == null) {
+	    System.out.println("Det er ingen flere mulige losninger, returnerer.");
+	    this.verdi = 0;
+	    return;
+	}
+
 	for (int tall : muligeTall) {
 	    System.out.printf("Setter inn verdien %d i rute %d.\n", tall, ruteID);
 	    this.verdi = tall;
 	    neste.fyllUtDenneRuteOgResten();
 	}
+	this.verdi = 0;
+	System.out.printf("Er paa slutten av metode til rute: %d, og verdien til denne ruten er naa: %d\n", ruteID, verdi);
     }
 }

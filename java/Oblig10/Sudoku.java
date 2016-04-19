@@ -64,7 +64,7 @@ public class Sudoku {
      *
      * @param antRader     antall rader i en boks
      * @param antKolonner  antall kolonner i en boks
-     * @return             antall ryter per enhet
+     * @return             antall ruter per enhet
      */
     private static int finnRuterPerEnhet(int antRader, int antKolonner) {
 	int maksBrettStorrelse = 64*64;
