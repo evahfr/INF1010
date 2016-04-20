@@ -52,9 +52,16 @@ public class Bilutsalg {
     }
     
     public static void main(String[] args) throws FileNotFoundException {
-	Scanner terminal = new Scanner(System.in);
-	System.out.println("Input fil: ");
-	String filnavn = terminal.next();
+	if (args.length==0) {
+	    System.out.println("En fil maa oppgis.");
+	    System.exit(0);
+	} 
+	
+	String filnavn = args[0];
+
+	//Scanner terminal = new Scanner(System.in);
+	//System.out.println("Input fil: ");
+	//String filnavn = terminal.next();
 
 	Scanner innFil = new Scanner(new File(filnavn));
 	ArrayList<Bil> biler = new ArrayList<Bil>(); 
