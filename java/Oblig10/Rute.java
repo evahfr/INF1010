@@ -9,6 +9,8 @@ public class Rute {
     private Boks boksen;
     private Rad raden;
     private Kolonne kolonnen;
+
+    public static final int TOM_RUTE_VERDI = 0;
     
     private Rute neste;
 
@@ -46,7 +48,7 @@ public class Rute {
     }
 
     public boolean erTom() {
-	return verdi == 0;
+	return verdi == TOM_RUTE_VERDI;
     }
 
     /**
@@ -119,7 +121,7 @@ public class Rute {
 	return null;
     }
 
-    public void fyllUtDenneRuteOgResten() { // NB! Funker ikke hvis det er et tall i siste rute!
+    public void fyllUtDenneRuteOgResten() { 
 	if (!erTom() && neste != null) {
 	    neste.fyllUtDenneRuteOgResten();
 	    return;
@@ -150,14 +152,14 @@ public class Rute {
 	    System.out.println(brettet.hentBrettutskrift());
 	    System.out.println("");
 	    brettet.enLosningFunnet();
-	    this.verdi = 0;
+	    this.verdi = TOM_RUTE_VERDI;
 	    return;
 	} else if (neste == null) {
 	    //System.out.println("Vi har kommet til slutten, men fant ikke en losning.");
 	    return;
 	} else if (finnAlleMuligeTall() == null) {
 	    //System.out.println("Det er ingen flere mulige losninger, returnerer.");
-	    this.verdi = 0;
+	    this.verdi = TOM_RUTE_VERDI;
 	    return;
 	}
 
