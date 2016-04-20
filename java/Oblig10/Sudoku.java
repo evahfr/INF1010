@@ -170,6 +170,7 @@ public class Sudoku {
 	skrivTilFil(utFilnavn);
         skrivTilSkjerm();
 	brettet.finnAlleLosninger();
+	System.out.println("Antall losninger: " + brettet.hentAntLosninger());
 
     } 
 

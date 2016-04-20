@@ -119,14 +119,20 @@ public class Rute {
 	return null;
     }
 
-    public void fyllUtDenneRuteOgResten() {
-	if (!erTom()) {
+    public void fyllUtDenneRuteOgResten() { // NB! Funker ikke hvis det er et tall i siste rute!
+	if (!erTom() && neste != null) {
 	    neste.fyllUtDenneRuteOgResten();
+	    return;
+	} else if (!erTom()) {
+	    //System.out.println("Vi har kommet til slutten");
+	    System.out.println(brettet.hentBrettutskrift());
+	    System.out.println("");
+	    brettet.enLosningFunnet();
 	    return;
 	}
 
 	int[] muligeTall = finnAlleMuligeTall();
-	
+	/*
 	System.out.printf("Mulige tall i rute %d: \n", ruteID);
 	if (finnAlleMuligeTall() != null) {
 	    for (int i : muligeTall) {
@@ -136,30 +142,31 @@ public class Rute {
 	} else {
 	    System.out.println("Ingen");
 	}
-	
+	*/
 
 	if (neste == null && finnAlleMuligeTall() != null) {
 	    this.verdi = muligeTall[0];
-	    System.out.println("Vi har kommet til slutten");
+	    //System.out.println("Vi har kommet til slutten");
 	    System.out.println(brettet.hentBrettutskrift());
 	    System.out.println("");
+	    brettet.enLosningFunnet();
 	    this.verdi = 0;
 	    return;
 	} else if (neste == null) {
-	    System.out.println("Vi har kommet til slutten, men fant ikke en losning.");
+	    //System.out.println("Vi har kommet til slutten, men fant ikke en losning.");
 	    return;
 	} else if (finnAlleMuligeTall() == null) {
-	    System.out.println("Det er ingen flere mulige losninger, returnerer.");
+	    //System.out.println("Det er ingen flere mulige losninger, returnerer.");
 	    this.verdi = 0;
 	    return;
 	}
 
 	for (int tall : muligeTall) {
-	    System.out.printf("Setter inn verdien %d i rute %d.\n", tall, ruteID);
+	    //System.out.printf("Setter inn verdien %d i rute %d.\n", tall, ruteID);
 	    this.verdi = tall;
 	    neste.fyllUtDenneRuteOgResten();
 	}
 	this.verdi = 0;
-	System.out.printf("Er paa slutten av metode til rute: %d, og verdien til denne ruten er naa: %d\n", ruteID, verdi);
+	//System.out.printf("Er paa slutten av metode til rute: %d, og verdien til denne ruten er naa: %d\n", ruteID, verdi);
     }
 }
