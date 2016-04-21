@@ -98,49 +98,46 @@ public class Brett {
      * @return               streng med horisontaleskillet til en boks
      */
     private String hentHorisontaltSkille() {
-	int antStreker = boksLengde;
-	String delSkille = "";
+	StringBuilder hskille = new StringBuilder();
 
-	while (antStreker > 0) {
-	    delSkille += "-";
-	    --antStreker;
-	}
+	for (int kolonne = 0; kolonne < brettLengde; kolonne++) {
 
-	String skille = delSkille;
-
-	for (int i = boksLengde; i < brettLengde; i++) {
-	    if (i % boksLengde == 0) {
-		skille += "+" + delSkille;
+	    if(erKommetTilNesteBoks(kolonne)) {
+		hskille.append("+");
 	    }
+
+	    hskille.append("-");
 	}
-	skille += "\n";
-	return skille;
+
+	hskille.append("\n");
+	return hskille.toString();
     }
+    
 
     /**
      * Setter sammen utskriften til hele sudokubrettet.
      *
      * @return   en streng med hele utskriften
      */    
-    public String hentBrettutskrift() {                    // Se paa stringBuilder.
+    public String hentBrettutskrift() {
 	String hSkille = hentHorisontaltSkille();
-	String brettUtskrift = "";
+	StringBuilder brettUtskrift = new StringBuilder();
 
 	for (int i = 0; i < alleRuter.length; i++) {
 	    if (erPaaStartenAvEnRad(i)) {
-		brettUtskrift += "\n";
+		brettUtskrift.append("\n");
 
 		if (erPaaStartenAvEnNyBoksIForsteKolonne(i)) {
-		    brettUtskrift += hSkille;
+		    brettUtskrift.append(hSkille);
 		}
 
 	    } else if (erKommetTilNesteBoks(i)) {
-		brettUtskrift += "|";
+		brettUtskrift.append("|");
 	    }
-	    brettUtskrift += Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), ' '));
+	    brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), ' ')));
 	}
-	brettUtskrift += "\n";
-	return brettUtskrift;	
+	brettUtskrift.append("\n");
+	return brettUtskrift.toString();	
     }
 
     /**
