@@ -154,9 +154,11 @@ public class Rute {
 	    brettet.enLosningFunnet();
 	    this.verdi = TOM_RUTE_VERDI;
 	    return;
+
 	} else if (neste == null) {
 	    //System.out.println("Vi har kommet til slutten, men fant ikke en losning.");
 	    return;
+
 	} else if (finnAlleMuligeTall() == null) {
 	    //System.out.println("Det er ingen flere mulige losninger, returnerer.");
 	    this.verdi = TOM_RUTE_VERDI;

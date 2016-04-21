@@ -168,7 +168,11 @@ public class Sudoku {
 	lesFil(innFilnavn);
 	brettet.opprettDatastruktur();
 	skrivTilFil(utFilnavn);
+	System.out.println("BRETTET:");
         skrivTilSkjerm();
+	System.out.println();
+	System.out.println("LOSNINGER:");
+
 	brettet.finnAlleLosninger();
 	System.out.println("Antall losninger: " + brettet.hentAntLosninger());
 
