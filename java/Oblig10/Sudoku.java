@@ -144,7 +144,7 @@ public class Sudoku {
 	try {
 	    PrintWriter utFil = new PrintWriter(new File(filnavn));
 
-	    utFil.print(brettet.hentBrettutskrift());
+	    utFil.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.FIL));
 	    utFil.close();
 	} catch (FileNotFoundException e) {
 	    System.out.printf("Kunne ikke finne filen '%s'.\n", filnavn); 
@@ -152,7 +152,7 @@ public class Sudoku {
     }
 
     public static void skrivTilSkjerm() {
-	System.out.print(brettet.hentBrettutskrift());
+	System.out.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.SKJERM));
     }
 
     public static void main(String[] args) {

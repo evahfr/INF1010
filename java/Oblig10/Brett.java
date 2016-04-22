@@ -114,16 +114,54 @@ public class Brett {
 	return hskille.toString();
     }
     
+    public enum Utskriftsformat {
+	SKJERM, FIL, KOMPAKT
+    }
 
     /**
      * Setter sammen utskriften til hele sudokubrettet.
      *
      * @return   en streng med hele utskriften
      */    
-    public String hentBrettutskrift() {
-	String hSkille = hentHorisontaltSkille();
+    public String hentBrettutskrift(Utskriftsformat format) {
 	StringBuilder brettUtskrift = new StringBuilder();
 
+	switch(format) {
+
+	case SKJERM:
+	    String hSkille = hentHorisontaltSkille();
+
+	    for (int i = 0; i < alleRuter.length; i++) {
+		if (erPaaStartenAvEnRad(i)) {
+		    brettUtskrift.append("\n");
+		    
+		    if (erPaaStartenAvEnNyBoksIForsteKolonne(i)) {
+			brettUtskrift.append(hSkille);
+		    }
+		    
+		} else if (erKommetTilNesteBoks(i)) {
+		    brettUtskrift.append("|");
+		}
+		brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), ' ')));
+	    }
+	    brettUtskrift.append("\n");
+	    return brettUtskrift.toString();
+
+	case FIL:
+	    for (int i = 0; i < alleRuter.length; i++) {
+		if (erPaaStartenAvEnRad(i)) {
+		    brettUtskrift.append("\n");
+		}
+		brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), '.')));
+	    }
+	    return brettUtskrift.toString();	
+
+	case KOMPAKT:
+	    return null;
+
+	}
+
+	/* GAMMEL METODE
 	for (int i = 0; i < alleRuter.length; i++) {
 	    if (erPaaStartenAvEnRad(i)) {
 		brettUtskrift.append("\n");
@@ -138,8 +176,11 @@ public class Brett {
 	    brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), ' ')));
 	}
 	brettUtskrift.append("\n");
-	return brettUtskrift.toString();	
+	return brettUtskrift.toString();
+	*/
+	return null;
     }
+
 
     /**
      * Oversetter et tegn (char) til en tallverdi (int).
