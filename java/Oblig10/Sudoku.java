@@ -171,7 +171,6 @@ public class Sudoku {
 	System.out.println();
 	System.out.println("LOSNINGER:");
 	brettet.finnAlleLosninger();
-	System.out.println("Antall losninger: " + brettet.hentAntLosninger());
 
     } 
 

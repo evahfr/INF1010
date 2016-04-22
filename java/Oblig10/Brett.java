@@ -11,7 +11,6 @@ public class Brett {
     private int antRuter;
     private int brettLengde;
     private boolean fyltUt = false;
-    private int antLosninger = 0;
 
     public Brett(int boksHoyde, int boksLengde) {
 	this.boksHoyde = boksHoyde;
@@ -84,15 +83,6 @@ public class Brett {
 
     public void finnAlleLosninger() {
 	alleRuter[0].fyllUtDenneRuteOgResten();
-    }
-
-    
-    public void enLosningFunnet() { //overfodig?
-	antLosninger++;
-    }
-    
-    public int hentAntLosninger() { //overfodig?
-	return antLosninger;
     }
     
     public SudokuBeholder hentBeholder() {

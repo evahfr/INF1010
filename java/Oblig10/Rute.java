@@ -132,8 +132,6 @@ public class Rute {
 	    System.out.println(brettet.hentBrettutskrift());
 	    System.out.println("");
 	    beholder.settInn(brettet.hentAlleRutene());
-	    //brettet.enLosningFunnet();
-	    System.out.println("Antall losninger hittil: " + beholder.hentAntallLosninger());
 	    return;
 	}
 
@@ -155,9 +153,7 @@ public class Rute {
 	    //System.out.println("Vi har kommet til slutten");
 	    System.out.println(brettet.hentBrettutskrift());
 	    System.out.println("");
-	    brettet.enLosningFunnet();
 	    beholder.settInn(brettet.hentAlleRutene());
-	    System.out.println("Antall losninger hittil: " + beholder.hentAntallLosninger());
 	    this.verdi = TOM_RUTE_VERDI;
 	    return;
 
@@ -176,7 +172,7 @@ public class Rute {
 	    this.verdi = tall;
 	    neste.fyllUtDenneRuteOgResten();
 	}
-	this.verdi = 0;
+	this.verdi = TOM_RUTE_VERDI;
 	//System.out.printf("Er paa slutten av metode til rute: %d, og verdien til denne ruten er naa: %d\n", ruteID, verdi);
     }
 }

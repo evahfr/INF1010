@@ -30,7 +30,7 @@ public class SudokuBeholder {
 
 	Node ny = new Node(losning);
 	
-	if (listeHode.neste == null) {
+	if (erTom()) {
 	    listeHode.neste = ny;
 	    return;
 	} 
