@@ -3,6 +3,7 @@ public class Brett {
     private Rad[] alleRader;
     private Kolonne[] alleKolonner;
     private Boks[] alleBokser;
+    private SudokuBeholder losningsbeholder;
 
     private int ruteIndeks = 0;
     private int boksHoyde;
@@ -23,6 +24,7 @@ public class Brett {
 	alleRader = new Rad[brettLengde];
         alleKolonner = new Kolonne[brettLengde];
 	alleBokser = new Boks[brettLengde];
+	losningsbeholder = new SudokuBeholder(this);
     }
 
      /**
@@ -84,12 +86,21 @@ public class Brett {
 	alleRuter[0].fyllUtDenneRuteOgResten();
     }
 
-    public void enLosningFunnet() {
+    
+    public void enLosningFunnet() { //overfodig?
 	antLosninger++;
     }
     
-    public int hentAntLosninger() {
+    public int hentAntLosninger() { //overfodig?
 	return antLosninger;
+    }
+    
+    public SudokuBeholder hentBeholder() {
+	return losningsbeholder;
+    }
+
+    public Rute[] hentAlleRutene() {
+	return alleRuter;
     }
 
     /**

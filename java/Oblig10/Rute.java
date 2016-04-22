@@ -122,6 +122,8 @@ public class Rute {
     }
 
     public void fyllUtDenneRuteOgResten() { 
+	SudokuBeholder beholder = brettet.hentBeholder(); 
+	
 	if (!erTom() && neste != null) {
 	    neste.fyllUtDenneRuteOgResten();
 	    return;
@@ -129,7 +131,9 @@ public class Rute {
 	    //System.out.println("Vi har kommet til slutten");
 	    System.out.println(brettet.hentBrettutskrift());
 	    System.out.println("");
-	    brettet.enLosningFunnet();
+	    beholder.settInn(brettet.hentAlleRutene());
+	    //brettet.enLosningFunnet();
+	    System.out.println("Antall losninger hittil: " + beholder.hentAntallLosninger());
 	    return;
 	}
 
@@ -152,6 +156,8 @@ public class Rute {
 	    System.out.println(brettet.hentBrettutskrift());
 	    System.out.println("");
 	    brettet.enLosningFunnet();
+	    beholder.settInn(brettet.hentAlleRutene());
+	    System.out.println("Antall losninger hittil: " + beholder.hentAntallLosninger());
 	    this.verdi = TOM_RUTE_VERDI;
 	    return;
 

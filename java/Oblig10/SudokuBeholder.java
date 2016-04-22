@@ -19,6 +19,10 @@ public class SudokuBeholder {
 	}
     }
 
+    public boolean erTom() {
+	return listeHode.neste == null;
+    }
+
     public void settInn(Rute[] losning) {
 	if (++antallLosninger >= maksAntallLagredeLosninger) {
 	    return;
@@ -36,7 +40,7 @@ public class SudokuBeholder {
     }
 
     public Rute[] taUt() {
-	if (listeHode.neste == null) {
+	if (erTom()) {
 	    return null;
 	}
 	

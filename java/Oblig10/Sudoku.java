@@ -59,28 +59,21 @@ public class Sudoku {
     }
 
     /**
-     * Finner antall ruter per enhet (Rad, Kolonne, Boks).
      * Metoden avslutter programmet om brettet er for stort.
-     *
-     * @param antRader     antall rader i en boks
-     * @param antKolonner  antall kolonner i en boks
-     * @return             antall ruter per enhet
      */
-    private static int finnRuterPerEnhet(int antRader, int antKolonner) {
+    private static void sjekkBrettStorrelse() {
 	int maksBrettStorrelse = 64*64;
-	int antRuterPerEnhet = (antRader*antKolonner);
-	int brettStorrelse = antRuterPerEnhet*antRuterPerEnhet;
+	int brettStorrelse = antRader*antKolonner*antRader*antKolonner;
 
 	try {
 	    if (brettStorrelse > maksBrettStorrelse) {
-		throw new IllegalArgumentException(String.format("Storrelsen paa brettet er for stort: %dx%d. Maksimum brettstorrelse er 64x64.\n", antRuterPerEnhet, antRuterPerEnhet));
+		throw new IllegalArgumentException(String.format("Storrelsen paa brettet er for stort: %dx%d. Maksimum brettstorrelse er 64x64.\n", antRader*antKolonner, antRader*antKolonner));
 	    }
 	} catch (IllegalArgumentException e) {
 	    System.out.println(e.getMessage());
 	    innFil.close();
 	    System.exit(1);
 	}
-	return antRuterPerEnhet;
     }
 
     /**************************************************************************/
@@ -98,7 +91,8 @@ public class Sudoku {
 	    innFil = new Scanner(new File(filnavn));	
 	    antRader = parseInt(innFil.nextLine());
 	    antKolonner = parseInt(innFil.nextLine());
-	    int maksVerdi = finnRuterPerEnhet(antRader, antKolonner);
+	    sjekkBrettStorrelse();
+	    int maksVerdi = antRader*antKolonner;
 
 	    brettet = new Brett(antRader, antKolonner);
 	    char[] linje = new char[maksVerdi];
@@ -162,17 +156,20 @@ public class Sudoku {
     }
 
     public static void main(String[] args) {
-	String innFilnavn = args[0];
-	String utFilnavn = args[1];
 
-	lesFil(innFilnavn);
-	brettet.opprettDatastruktur();
-	skrivTilFil(utFilnavn);
+	if (args.length == 1) {
+	    String innFilnavn = args[0];
+	    lesFil(innFilnavn);
+	    brettet.opprettDatastruktur();
+	} else if (args.length > 1) {
+	    String utFilnavn = args[1];
+	    skrivTilFil(utFilnavn);
+	}
+
 	System.out.println("BRETTET:");
         skrivTilSkjerm();
 	System.out.println();
 	System.out.println("LOSNINGER:");
-
 	brettet.finnAlleLosninger();
 	System.out.println("Antall losninger: " + brettet.hentAntLosninger());
 
