@@ -148,12 +148,14 @@ public class Brett {
 	    return brettUtskrift.toString();
 
 	case FIL:
+	    brettUtskrift.append(String.format("%d\n%d\n", boksHoyde, boksLengde));
 	    for (int i = 0; i < alleRuter.length; i++) {
 		if (erPaaStartenAvEnRad(i)) {
 		    brettUtskrift.append("\n");
 		}
 		brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), '.')));
 	    }
+	    brettUtskrift.append("\n");
 	    return brettUtskrift.toString();   
 	}
 	return null;
@@ -162,11 +164,12 @@ public class Brett {
     /**
      * Setter sammen utskriften til en losning i losningsbeholderen paa en bestemt plass.
      *
-     * @param formatet til utskriften
-     * @param losningsNr plassen i losningsbeholderen
+     * @param format - avgjoer hvordan utskriften skal se ut (SKJEM, FIl, KOMPAKT)
+     * @param ruteVerdiene - inneholder verdiene til hver rute
+     * @param losningsNr - spesielt for KOMPAKT utskrift
      * @return   en streng med hele utskriften
      */    
-    public String hentBrettutskrift(Utskriftsformat format, Rute[] rutene, int losningNr) {
+    public String hentBrettutskrift(Utskriftsformat format, int[] ruteVerdiene, int losningNr) {
 	StringBuilder brettUtskrift = new StringBuilder();
 
 	switch(format) {
@@ -174,7 +177,7 @@ public class Brett {
 	case SKJERM:
 	    String hSkille = hentHorisontaltSkille();
 
-	    for (int i = 0; i < rutene.length; i++) {
+	    for (int i = 0; i < ruteVerdiene.length; i++) {
 		if (erPaaStartenAvEnRad(i)) {
 		    brettUtskrift.append("\n");
 		    
@@ -185,29 +188,32 @@ public class Brett {
 		} else if (erKommetTilNesteBoks(i)) {
 		    brettUtskrift.append("|");
 		}
-		brettUtskrift.append(Character.toString(verdiTilTegn(rutene[i].hentVerdi(), ' ')));
+		brettUtskrift.append(Character.toString(verdiTilTegn(ruteVerdiene[i], ' ')));
 	    }
 	    brettUtskrift.append("\n");
 	    return brettUtskrift.toString();
 
 	case FIL:
-	    for (int i = 0; i < rutene.length; i++) {
+	    brettUtskrift.append(String.format("%d\n%d\n", boksHoyde, boksLengde));
+	    for (int i = 0; i < ruteVerdiene.length; i++) {
 		if (erPaaStartenAvEnRad(i)) {
 		    brettUtskrift.append("\n");
 		}
-		brettUtskrift.append(Character.toString(verdiTilTegn(rutene[i].hentVerdi(), '.')));
+		brettUtskrift.append(Character.toString(verdiTilTegn(ruteVerdiene[i], '.')));
 	    }
+	    brettUtskrift.append("\n");
 	    return brettUtskrift.toString();
 
 	case KOMPAKT:
 	    brettUtskrift.append(String.format("%d: ", losningNr+1));
 
-	    for (int i = 0; i < rutene.length; i++) {
+	    for (int i = 0; i < ruteVerdiene.length; i++) {
 		if (erPaaStartenAvEnRad(i)) {
 		    brettUtskrift.append("//");
 		}
-		brettUtskrift.append(Character.toString(verdiTilTegn(rutene[i].hentVerdi(), '.')));
+		brettUtskrift.append(Character.toString(verdiTilTegn(ruteVerdiene[i], '.')));
 	    } 
+	    brettUtskrift.append("\n");
 	    return brettUtskrift.toString();
 	}
 	return null;

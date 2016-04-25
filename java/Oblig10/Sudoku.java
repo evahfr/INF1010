@@ -140,7 +140,7 @@ public class Sudoku {
      *
      * @param filnavn   navnet paa fila som skal skrives til
      */
-    public static void skrivTilFil(String filnavn) {
+    public static void skrivBrettTilFil(String filnavn) {
 	try {
 	    PrintWriter utFil = new PrintWriter(new File(filnavn));
 
@@ -151,8 +151,45 @@ public class Sudoku {
 	}
     }
 
-    public static void skrivTilSkjerm() {
+    public static void skrivLosningerTilFil(String filnavn) {
+	try {
+	    PrintWriter utFil = new PrintWriter(new File(filnavn));
+	    SudokuBeholder beholder = brettet.hentBeholder();
+	    
+	    if (beholder.hentAntallLosninger() == 1) {
+		utFil.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.FIL, beholder.taUt(), 0));
+
+	    } else if (beholder.hentAntallLosninger() > 1) {
+		int losningNr = 0;
+
+		while (!beholder.erTom()) {
+		    utFil.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.KOMPAKT, beholder.taUt(), losningNr++));
+		}		
+	    }
+	    utFil.close();
+
+	} catch (FileNotFoundException e) {
+	    System.out.printf("Kunne ikke finne filen '%s'.\n", filnavn); 
+	}
+    }
+
+    public static void skrivBrettTilSkjerm() {
 	System.out.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.SKJERM));
+    }
+
+    public static void skrivLosningerTilSkjerm() {
+	SudokuBeholder beholder = brettet.hentBeholder();
+	    
+	if (beholder.hentAntallLosninger() == 1) {
+	    System.out.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.SKJERM, beholder.taUt(), 0));
+	    
+	} else if (beholder.hentAntallLosninger() > 1) {
+	    int losningNr = 0;
+
+	    while (!beholder.erTom()) {
+		System.out.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.KOMPAKT, beholder.taUt(), losningNr++));
+	    }		
+	}
     }
 
     public static void main(String[] args) {
@@ -167,12 +204,8 @@ public class Sudoku {
 	    utFilnavn = args[1];
 	}
 
-	System.out.println("BRETTET:");
-        skrivTilSkjerm();
-	System.out.println();
-	System.out.println("LOSNINGER:");
 	brettet.finnAlleLosninger();
-	skrivTilFil(utFilnavn);
+	skrivLosningerTilSkjerm();
 
     } 
 

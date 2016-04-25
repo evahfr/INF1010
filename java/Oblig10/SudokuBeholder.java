@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class SudokuBeholder {
     private Brett brettet;
     private int antallLosninger = 0;
@@ -12,10 +14,19 @@ public class SudokuBeholder {
 
     private class Node {
 	public Node neste;
-	public Rute[] losning;
+	public int[] losning;
 
-	public Node(Rute[] losning) {
-	    this.losning = losning;
+	public Node(Rute[] rutene) {
+	    if (rutene == null) {
+		losning = null;
+		return;
+	    }
+
+	    losning = new int[rutene.length];
+
+	    for (int i = 0; i < rutene.length; i++) {
+		losning[i] = rutene[i].hentVerdi();
+	    }
 	}
     }
 
@@ -29,7 +40,7 @@ public class SudokuBeholder {
 	}
 
 	Node ny = new Node(losning);
-	
+        
 	if (erTom()) {
 	    listeHode.neste = ny;
 	    return;
@@ -39,7 +50,7 @@ public class SudokuBeholder {
 	listeHode.neste = ny;
     }
 
-    public Rute[] taUt() {
+    public int[] taUt() {
 	if (erTom()) {
 	    return null;
 	}

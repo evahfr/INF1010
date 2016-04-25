@@ -129,8 +129,6 @@ public class Rute {
 	    return;
 	} else if (!erTom()) {
 	    //System.out.println("Vi har kommet til slutten");
-	    System.out.println(brettet.hentBrettutskrift(Brett.Utskriftsformat.SKJERM));
-	    System.out.println("");
 	    beholder.settInn(brettet.hentAlleRutene());
 	    return;
 	}
@@ -151,8 +149,6 @@ public class Rute {
 	if (neste == null && finnAlleMuligeTall() != null) {
 	    this.verdi = muligeTall[0];
 	    //System.out.println("Vi har kommet til slutten");
-	    System.out.println(brettet.hentBrettutskrift(Brett.Utskriftsformat.SKJERM));
-	    System.out.println("");
 	    beholder.settInn(brettet.hentAlleRutene());
 	    this.verdi = TOM_RUTE_VERDI;
 	    return;
