@@ -179,6 +179,7 @@ public class Sudoku {
 
     public static void skrivLosningerTilSkjerm() {
 	SudokuBeholder beholder = brettet.hentBeholder();
+	System.out.printf("Antall losninger: %d\n\n", beholder.hentAntallLosninger());
 	    
 	if (beholder.hentAntallLosninger() == 1) {
 	    System.out.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.SKJERM, beholder.taUt(), 0));
