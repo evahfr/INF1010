@@ -156,14 +156,15 @@ public class Sudoku {
     }
 
     public static void main(String[] args) {
-
+	String utFilnavn = "";
 	if (args.length == 1) {
 	    String innFilnavn = args[0];
 	    lesFil(innFilnavn);
 	    brettet.opprettDatastruktur();
 	} else if (args.length > 1) {
-	    String utFilnavn = args[1];
-	    skrivTilFil(utFilnavn);
+	    lesFil(args[0]);
+	    brettet.opprettDatastruktur();
+	    utFilnavn = args[1];
 	}
 
 	System.out.println("BRETTET:");
@@ -171,6 +172,7 @@ public class Sudoku {
 	System.out.println();
 	System.out.println("LOSNINGER:");
 	brettet.finnAlleLosninger();
+	skrivTilFil(utFilnavn);
 
     } 
 

@@ -154,30 +154,62 @@ public class Brett {
 		}
 		brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), '.')));
 	    }
-	    return brettUtskrift.toString();	
+	    return brettUtskrift.toString();   
+	}
+	return null;
+    }
+
+    /**
+     * Setter sammen utskriften til en losning i losningsbeholderen paa en bestemt plass.
+     *
+     * @param formatet til utskriften
+     * @param losningsNr plassen i losningsbeholderen
+     * @return   en streng med hele utskriften
+     */    
+    public String hentBrettutskrift(Utskriftsformat format, Rute[] rutene, int losningNr) {
+	StringBuilder brettUtskrift = new StringBuilder();
+
+	switch(format) {
+
+	case SKJERM:
+	    String hSkille = hentHorisontaltSkille();
+
+	    for (int i = 0; i < rutene.length; i++) {
+		if (erPaaStartenAvEnRad(i)) {
+		    brettUtskrift.append("\n");
+		    
+		    if (erPaaStartenAvEnNyBoksIForsteKolonne(i)) {
+			brettUtskrift.append(hSkille);
+		    }
+		    
+		} else if (erKommetTilNesteBoks(i)) {
+		    brettUtskrift.append("|");
+		}
+		brettUtskrift.append(Character.toString(verdiTilTegn(rutene[i].hentVerdi(), ' ')));
+	    }
+	    brettUtskrift.append("\n");
+	    return brettUtskrift.toString();
+
+	case FIL:
+	    for (int i = 0; i < rutene.length; i++) {
+		if (erPaaStartenAvEnRad(i)) {
+		    brettUtskrift.append("\n");
+		}
+		brettUtskrift.append(Character.toString(verdiTilTegn(rutene[i].hentVerdi(), '.')));
+	    }
+	    return brettUtskrift.toString();
 
 	case KOMPAKT:
-	    return null;
+	    brettUtskrift.append(String.format("%d: ", losningNr+1));
 
-	}
-
-	/* GAMMEL METODE
-	for (int i = 0; i < alleRuter.length; i++) {
-	    if (erPaaStartenAvEnRad(i)) {
-		brettUtskrift.append("\n");
-
-		if (erPaaStartenAvEnNyBoksIForsteKolonne(i)) {
-		    brettUtskrift.append(hSkille);
+	    for (int i = 0; i < rutene.length; i++) {
+		if (erPaaStartenAvEnRad(i)) {
+		    brettUtskrift.append("//");
 		}
-
-	    } else if (erKommetTilNesteBoks(i)) {
-		brettUtskrift.append("|");
-	    }
-	    brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), ' ')));
+		brettUtskrift.append(Character.toString(verdiTilTegn(rutene[i].hentVerdi(), '.')));
+	    } 
+	    return brettUtskrift.toString();
 	}
-	brettUtskrift.append("\n");
-	return brettUtskrift.toString();
-	*/
 	return null;
     }
 
