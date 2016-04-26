@@ -34,6 +34,17 @@ public class SudokuBeholder {
 	return listeHode.neste == null;
     }
 
+    public int hentAntallLosninger() {
+	return antallLosninger;
+    }
+
+    /**
+     * Kopierer verdiene til alle rutene i Rute[] til ett int[] i en ny node.
+     * Noden settes inn forran. Etter at 3500 losninger er satt inn blir det 
+     * ikke tatt vare paa flere, men antallLosninger oekes med en.
+     * 
+     * @param losning - alle rutene til losningen 
+     */
     public void settInn(Rute[] losning) {
 	if (++antallLosninger >= maksAntallLagredeLosninger) {
 	    return;
@@ -50,6 +61,10 @@ public class SudokuBeholder {
 	listeHode.neste = ny;
     }
 
+    /**
+     * Saa lenge det er noe i beholderen tas den forste noden ut, og returneres.
+     * @return alle verdiene til losningen
+     */
     public int[] taUt() {
 	if (erTom()) {
 	    return null;
@@ -59,9 +74,5 @@ public class SudokuBeholder {
 	listeHode.neste = denne.neste;
 
 	return denne.losning;
-    }
-
-    public int hentAntallLosninger() {
-	return antallLosninger;
     }
 }
