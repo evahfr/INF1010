@@ -38,6 +38,18 @@ public class Brett {
 	    fyltUt = true;
 	}
     }
+
+    public void finnAlleLosninger() {
+	alleRuter[0].fyllUtDenneRuteOgResten();
+    }
+    
+    public SudokuBeholder hentBeholder() {
+	return losningsbeholder;
+    }
+
+    public Rute[] hentAlleRutene() {
+	return alleRuter;
+    }
     
     public boolean erFyltUt() {
 	return fyltUt;
@@ -80,145 +92,22 @@ public class Brett {
 	    alleRuter[i].settKolonne(alleKolonner[kolonneNr++], radNr);
 	}
     }
+  
+    /******** HJELPEMETODER TIL OPPRETTING AV DATASTRUKTUR/UTSKRIFT ***********/  
 
-    public void finnAlleLosninger() {
-	alleRuter[0].fyllUtDenneRuteOgResten();
-    }
-    
-    public SudokuBeholder hentBeholder() {
-	return losningsbeholder;
+    private boolean erPaaStartenAvEnRad(int i) {
+	return i % brettLengde == 0  && i != 0;
     }
 
-    public Rute[] hentAlleRutene() {
-	return alleRuter;
+    private boolean erPaaStartenAvEnNyBoksIForsteKolonne(int i) {
+	return i % (boksHoyde*brettLengde) == 0 && i != 0;
     }
 
-    /**
-     * Hjelpemetode for aa lage horisontalt skille til utskrift av brett.
-     *
-     * @return               streng med horisontaleskillet til en boks
-     */
-    private String hentHorisontaltSkille() {
-	StringBuilder hskille = new StringBuilder();
-
-	for (int kolonne = 0; kolonne < brettLengde; kolonne++) {
-
-	    if(erKommetTilNesteBoks(kolonne)) {
-		hskille.append("+");
-	    }
-
-	    hskille.append("-");
-	}
-
-	hskille.append("\n");
-	return hskille.toString();
-    }
-    
-    public enum Utskriftsformat {
-	SKJERM, FIL, KOMPAKT
+    private boolean erKommetTilNesteBoks(int i) {
+	return i % boksLengde == 0 && i != 0;
     }
 
-    /**
-     * Setter sammen utskriften til hele sudokubrettet.
-     *
-     * @return   en streng med hele utskriften
-     */    
-    public String hentBrettutskrift(Utskriftsformat format) {
-	StringBuilder brettUtskrift = new StringBuilder();
-
-	switch(format) {
-
-	case SKJERM:
-	    String hSkille = hentHorisontaltSkille();
-
-	    for (int i = 0; i < alleRuter.length; i++) {
-		if (erPaaStartenAvEnRad(i)) {
-		    brettUtskrift.append("\n");
-		    
-		    if (erPaaStartenAvEnNyBoksIForsteKolonne(i)) {
-			brettUtskrift.append(hSkille);
-		    }
-		    
-		} else if (erKommetTilNesteBoks(i)) {
-		    brettUtskrift.append("|");
-		}
-		brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), ' ')));
-	    }
-	    brettUtskrift.append("\n");
-	    return brettUtskrift.toString();
-
-	case FIL:
-	    brettUtskrift.append(String.format("%d\n%d\n", boksHoyde, boksLengde));
-	    for (int i = 0; i < alleRuter.length; i++) {
-		if (erPaaStartenAvEnRad(i)) {
-		    brettUtskrift.append("\n");
-		}
-		brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), '.')));
-	    }
-	    brettUtskrift.append("\n");
-	    return brettUtskrift.toString();   
-	}
-	return null;
-    }
-
-    /**
-     * Setter sammen utskriften til en losning i losningsbeholderen paa en bestemt plass.
-     *
-     * @param format - avgjoer hvordan utskriften skal se ut (SKJEM, FIl, KOMPAKT)
-     * @param ruteVerdiene - inneholder verdiene til hver rute
-     * @param losningsNr - spesielt for KOMPAKT utskrift
-     * @return   en streng med hele utskriften
-     */    
-    public String hentBrettutskrift(Utskriftsformat format, int[] ruteVerdiene, int losningNr) {
-	StringBuilder brettUtskrift = new StringBuilder();
-
-	switch(format) {
-
-	case SKJERM:
-	    String hSkille = hentHorisontaltSkille();
-
-	    for (int i = 0; i < ruteVerdiene.length; i++) {
-		if (erPaaStartenAvEnRad(i)) {
-		    brettUtskrift.append("\n");
-		    
-		    if (erPaaStartenAvEnNyBoksIForsteKolonne(i)) {
-			brettUtskrift.append(hSkille);
-		    }
-		    
-		} else if (erKommetTilNesteBoks(i)) {
-		    brettUtskrift.append("|");
-		}
-		brettUtskrift.append(Character.toString(verdiTilTegn(ruteVerdiene[i], ' ')));
-	    }
-	    brettUtskrift.append("\n");
-	    return brettUtskrift.toString();
-
-	case FIL:
-	    brettUtskrift.append(String.format("%d\n%d\n", boksHoyde, boksLengde));
-	    for (int i = 0; i < ruteVerdiene.length; i++) {
-		if (erPaaStartenAvEnRad(i)) {
-		    brettUtskrift.append("\n");
-		}
-		brettUtskrift.append(Character.toString(verdiTilTegn(ruteVerdiene[i], '.')));
-	    }
-	    brettUtskrift.append("\n");
-	    return brettUtskrift.toString();
-
-	case KOMPAKT:
-	    brettUtskrift.append(String.format("%d: ", losningNr+1));
-
-	    for (int i = 0; i < ruteVerdiene.length; i++) {
-		if (erPaaStartenAvEnRad(i)) {
-		    brettUtskrift.append("//");
-		}
-		brettUtskrift.append(Character.toString(verdiTilTegn(ruteVerdiene[i], '.')));
-	    } 
-	    brettUtskrift.append("\n");
-	    return brettUtskrift.toString();
-	}
-	return null;
-    }
-
+    /*********** HJELPEMETODER FOR OVERSETTELSE AV TEGN OG VERDI **************/
 
     /**
      * Oversetter et tegn (char) til en tallverdi (int).
@@ -273,20 +162,131 @@ public class Brett {
         }
     }
 
-  
-    /******** HJELPEMETODER TIL OPPRETTING AV DATASTRUKTUR/UTSKRIFT ***********/  
-
-    private boolean erPaaStartenAvEnRad(int i) {
-	return i % brettLengde == 0  && i != 0;
+    /************************ METODER FOR UTSKRIFT ****************************/
+    
+    public enum Utskriftsformat {
+	SKJERM, FIL, KOMPAKT
     }
 
-    private boolean erPaaStartenAvEnNyBoksIForsteKolonne(int i) {
-	return i % (boksHoyde*brettLengde) == 0 && i != 0;
+    /**
+     * Setter sammen utskriften til hele sudokubrettet.
+     *
+     * @return   en streng med hele utskriften
+     */    
+    public String hentBrettutskrift(Utskriftsformat format) {
+	StringBuilder brettUtskrift = new StringBuilder();
+
+	switch(format) {
+
+	case SKJERM:
+	    String hSkille = hentHorisontaltSkille();
+
+	    for (int i = 0; i < alleRuter.length; i++) {
+		if (erPaaStartenAvEnRad(i)) {
+		    brettUtskrift.append("\n");
+		    
+		    if (erPaaStartenAvEnNyBoksIForsteKolonne(i)) {
+			brettUtskrift.append(hSkille);
+		    }
+		    
+		} else if (erKommetTilNesteBoks(i)) {
+		    brettUtskrift.append("|");
+		}
+		brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), ' ')));
+	    }
+	    brettUtskrift.append("\n");
+	    return brettUtskrift.toString();
+
+	case FIL:
+	    brettUtskrift.append(String.format("%d\n%d\n", boksHoyde, boksLengde));
+	    for (int i = 0; i < alleRuter.length; i++) {
+		if (erPaaStartenAvEnRad(i)) {
+		    brettUtskrift.append("\n");
+		}
+		brettUtskrift.append(Character.toString(verdiTilTegn(alleRuter[i].hentVerdi(), '.')));
+	    }
+	    brettUtskrift.append("\n");
+	    return brettUtskrift.toString();   
+	}
+	return null;
     }
 
-    private boolean erKommetTilNesteBoks(int i) {
-	return i % boksLengde == 0 && i != 0;
+    /**
+     * Setter sammen utskriften til en losning i losningsbeholderen.
+     *
+     * @param format - utskriftsformatet (SKJEM, FIl, KOMPAKT)
+     * @param ruteVerdiene - inneholder verdiene til hver rute
+     * @param losningsNr - spesielt for KOMPAKT utskrift
+     * @return   en streng med hele utskriften
+     */    
+    public String hentBrettutskrift(Utskriftsformat format, int[] ruteVerdiene, int losningNr) {
+	StringBuilder brettUtskrift = new StringBuilder();
+
+	switch(format) {
+
+	case SKJERM:
+	    String hSkille = hentHorisontaltSkille();
+
+	    for (int i = 0; i < ruteVerdiene.length; i++) {
+		if (erPaaStartenAvEnRad(i)) {
+		    brettUtskrift.append("\n");
+		    
+		    if (erPaaStartenAvEnNyBoksIForsteKolonne(i)) {
+			brettUtskrift.append(hSkille);
+		    }
+		    
+		} else if (erKommetTilNesteBoks(i)) {
+		    brettUtskrift.append("|");
+		}
+		brettUtskrift.append(Character.toString(verdiTilTegn(ruteVerdiene[i], ' ')));
+	    }
+	    brettUtskrift.append("\n");
+	    return brettUtskrift.toString();
+
+	case FIL:
+	    brettUtskrift.append(String.format("%d\n%d\n", boksHoyde, boksLengde));
+	    for (int i = 0; i < ruteVerdiene.length; i++) {
+		if (erPaaStartenAvEnRad(i)) {
+		    brettUtskrift.append("\n");
+		}
+		brettUtskrift.append(Character.toString(verdiTilTegn(ruteVerdiene[i], '.')));
+	    }
+	    brettUtskrift.append("\n");
+	    return brettUtskrift.toString();
+
+	case KOMPAKT:
+	    brettUtskrift.append(String.format("%d: ", losningNr+1));
+
+	    for (int i = 0; i < ruteVerdiene.length; i++) {
+		if (erPaaStartenAvEnRad(i)) {
+		    brettUtskrift.append("//");
+		}
+		brettUtskrift.append(Character.toString(verdiTilTegn(ruteVerdiene[i], '.')));
+	    } 
+	    brettUtskrift.append("\n");
+	    return brettUtskrift.toString();
+	}
+	return null;
     }
 
-    /**************************************************************************/
+    /**
+     * Lager horisontalt skille til utskrift av brett.
+     *
+     * @return  streng med horisontaleskillet til en boks
+     */
+    private String hentHorisontaltSkille() {
+	StringBuilder hskille = new StringBuilder();
+
+	for (int kolonne = 0; kolonne < brettLengde; kolonne++) {
+
+	    if(erKommetTilNesteBoks(kolonne)) {
+		hskille.append("+");
+	    }
+
+	    hskille.append("-");
+	}
+
+	hskille.append("\n");
+	return hskille.toString();
+    }
 }
