@@ -15,8 +15,6 @@ public class SudokuGUI extends Application {
 	Pane lerret = new BorderPane();
 	Scene scene = new Scene(lerret, 1230, 800);
 
-
-
 	stage.setScene(scene);
 	stage.setTitle("Sudoku");
 	stage.show();
