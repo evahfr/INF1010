@@ -206,8 +206,7 @@ public class Sudoku {
 	}
 
 	brettet.finnAlleLosninger();
-	skrivLosningerTilSkjerm();
+	skrivLosningerTilFil(utFilnavn);
 
     } 
-
 }

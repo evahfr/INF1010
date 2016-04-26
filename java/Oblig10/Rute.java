@@ -20,6 +20,8 @@ public class Rute {
 	ruteID = ruteTeller++;
     }
 
+    /************************* HENT OG SETT METODER ***************************/
+
     public int hentVerdi() {
 	return verdi;
     }
@@ -47,9 +49,17 @@ public class Rute {
 	this.neste = nesteRute;
     }
 
+    /************************** HJELPEMETODER**********************************/
+
     public boolean erTom() {
 	return verdi == TOM_RUTE_VERDI;
     }
+
+    private boolean erSisteRute() {
+	return neste == null;
+    }
+
+    /**************************************************************************/
 
     /**
      * Finner alle tall som er fylt inn fra en Rute array.
@@ -99,6 +109,7 @@ public class Rute {
 	if (erTom()) {
 	    Rute[] ruter = raden.hentRutene();  
 	    int[] eksisterendeTall = new int[ruter.length];
+
 	    Arrays.fill(eksisterendeTall, 0);
 	    eksisterendeTall = finnUtfylteTall(ruter, eksisterendeTall);
 
@@ -121,54 +132,45 @@ public class Rute {
 	return null;
     }
 
+    /**
+     * Rekursivmetode som fyller inn rutene paa brettet, og lagrer losningene
+     * i brettets SudokuBeholder.
+     */
     public void fyllUtDenneRuteOgResten() { 
 	SudokuBeholder beholder = brettet.hentBeholder(); 
 	
-	if (!erTom() && neste != null) {
+	if (!erTom() && !erSisteRute()) {
 	    neste.fyllUtDenneRuteOgResten();
 	    return;
-	} else if (!erTom()) {
-	    //System.out.println("Vi har kommet til slutten");
+
+	}
+	
+	if (!erTom() && erSisteRute()) {
 	    beholder.settInn(brettet.hentAlleRutene());
 	    return;
 	}
 
 	int[] muligeTall = finnAlleMuligeTall();
-	/*
-	System.out.printf("Mulige tall i rute %d: \n", ruteID);
-	if (finnAlleMuligeTall() != null) {
-	    for (int i : muligeTall) {
-		System.out.printf("%d ", i);
-	    }
-	    System.out.println("");
-	} else {
-	    System.out.println("Ingen");
-	}
-	*/
 
-	if (neste == null && finnAlleMuligeTall() != null) {
+	// Hvis vi har kommet til siste rute finnes det enten en eller ingen mulige tall.
+	if (erSisteRute() && finnAlleMuligeTall() != null) {
 	    this.verdi = muligeTall[0];
-	    //System.out.println("Vi har kommet til slutten");
 	    beholder.settInn(brettet.hentAlleRutene());
 	    this.verdi = TOM_RUTE_VERDI;
 	    return;
+	}
 
-	} else if (neste == null) {
-	    //System.out.println("Vi har kommet til slutten, men fant ikke en losning.");
-	    return;
-
-	} else if (finnAlleMuligeTall() == null) {
-	    //System.out.println("Det er ingen flere mulige losninger, returnerer.");
+	if (erSisteRute() || finnAlleMuligeTall() == null) {
 	    this.verdi = TOM_RUTE_VERDI;
 	    return;
 	}
 
 	for (int tall : muligeTall) {
-	    //System.out.printf("Setter inn verdien %d i rute %d.\n", tall, ruteID);
 	    this.verdi = tall;
 	    neste.fyllUtDenneRuteOgResten();
 	}
+	
+	// Har gatt igjennom alle mulige tall, ruta settes til tom.
 	this.verdi = TOM_RUTE_VERDI;
-	//System.out.printf("Er paa slutten av metode til rute: %d, og verdien til denne ruten er naa: %d\n", ruteID, verdi);
     }
 }
