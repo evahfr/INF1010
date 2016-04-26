@@ -11,24 +11,31 @@ public class SudokuGUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-	
-	
+		
 	Pane lerret = new BorderPane();
 	Scene scene = new Scene(lerret, 1230, 800);
 
-	 FileChooser filVelger = new FileChooser();
-	 filVelger.setTitle("Open Resource File");
-	 filVelger.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
-	 File selectedFile = fileChooser.showOpenDialog(stage);
-	 /*
-	 if (selectedFile != null) {
-	     stage.display(selectedFile);
-	 }
-	 */
+
 
 	stage.setScene(scene);
 	stage.setTitle("Sudoku");
 	stage.show();
+    }
+
+    public File hentFil(Stage stage) {
+
+	FileChooser filVelger = new FileChooser();
+
+	filVelger.setTitle("Open Resource File");
+	filVelger.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
+
+	File valgtFil = filVelger.showOpenDialog(stage);
+	/*
+	if (selectedFile != null) {
+	stage.display(selectedFile);
+	}
+	*/
+	return valgtFil;
     }
 
     public static void main(String[] args) {
