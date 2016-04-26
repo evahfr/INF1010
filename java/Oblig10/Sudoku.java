@@ -76,7 +76,7 @@ public class Sudoku {
 	}
     }
 
-    /**************************************************************************/
+    /*************************** LES OG SKRIV TIL FIL *************************/
 
     /**
      * Leser inn sudokubrettet fra en fil gitt ved en streng med filnavnet.
@@ -135,6 +135,8 @@ public class Sudoku {
 	}
     }
 
+
+
     /**
      * Skriver sudokubrettet til en fil gitt ved en streng med filnavnet.
      *
@@ -151,6 +153,12 @@ public class Sudoku {
 	}
     }
 
+    /**
+     * Skriver losninger fra SudokuBeholder til en fil gitt ved en streng med 
+     * filnavnet.
+     *
+     * @param filnavn   navnet paa fila som skal skrives til
+     */
     public static void skrivLosningerTilFil(String filnavn) {
 	try {
 	    PrintWriter utFil = new PrintWriter(new File(filnavn));
@@ -173,10 +181,18 @@ public class Sudoku {
 	}
     }
 
+    /*************************** SKRIV TIL SKJERM *****************************/
+
+    /**
+     * Skriver sudokubrettet til skjerm.
+     */
     public static void skrivBrettTilSkjerm() {
 	System.out.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.SKJERM));
     }
 
+    /**
+     * Skriver losninger fra SudokuBeholder til en fil til skjerm.
+     */
     public static void skrivLosningerTilSkjerm() {
 	SudokuBeholder beholder = brettet.hentBeholder();
 	System.out.printf("Antall losninger: %d\n\n", beholder.hentAntallLosninger());
@@ -192,6 +208,8 @@ public class Sudoku {
 	    }		
 	}
     }
+
+    /**************************************************************************/
 
     public static void main(String[] args) {
 	String utFilnavn = "";
