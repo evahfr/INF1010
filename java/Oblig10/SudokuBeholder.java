@@ -62,7 +62,7 @@ public class SudokuBeholder {
     }
 
     /**
-     * Saa lenge det er noe i beholderen tas den siste noden ut, og returneres.
+     * Saa lenge det er noe i beholderen fjernes den siste noden, og returneres.
      * @return alle verdiene til losningen
      */
     public int[] taUt() {

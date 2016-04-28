@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 public class Sudoku {
     private static Scanner innFil;
     private static Brett brettet; 
-    private static int antRader;
-    private static int antKolonner;
+    private static int antBoksRader;
+    private static int antBoksKolonner;
 
     /***************************** HJELPEMETODER ******************************/
 
@@ -63,11 +63,11 @@ public class Sudoku {
      */
     private static void sjekkBrettStorrelse() {
 	int maksBrettStorrelse = 64*64;
-	int brettStorrelse = antRader*antKolonner*antRader*antKolonner;
+	int brettStorrelse = antBoksRader*antBoksKolonner*antBoksRader*antBoksKolonner;
 
 	try {
 	    if (brettStorrelse > maksBrettStorrelse) {
-		throw new IllegalArgumentException(String.format("Storrelsen paa brettet er for stort: %dx%d. Maksimum brettstorrelse er 64x64.\n", antRader*antKolonner, antRader*antKolonner));
+		throw new IllegalArgumentException(String.format("Storrelsen paa brettet er for stort: %dx%d. Maksimum brettstorrelse er 64x64.\n", antBoksRader*antBoksKolonner, antBoksRader*antBoksKolonner));
 	    }
 	} catch (IllegalArgumentException e) {
 	    System.out.println(e.getMessage());
@@ -89,12 +89,13 @@ public class Sudoku {
 	try {
 
 	    innFil = new Scanner(new File(filnavn));	
-	    antRader = parseInt(innFil.nextLine());
-	    antKolonner = parseInt(innFil.nextLine());
+	    antBoksRader = parseInt(innFil.nextLine());
+	    antBoksKolonner = parseInt(innFil.nextLine());
 	    sjekkBrettStorrelse();
-	    int maksVerdi = antRader*antKolonner;
 
-	    brettet = new Brett(antRader, antKolonner);
+	    int maksVerdi = antBoksRader*antBoksKolonner;
+
+	    brettet = new Brett(antBoksRader, antBoksKolonner);
 	    char[] linje = new char[maksVerdi];
 	    Rute nyRute;
 	    Rute forrigeRute = null;
@@ -148,6 +149,7 @@ public class Sudoku {
 
 	    utFil.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.FIL));
 	    utFil.close();
+
 	} catch (FileNotFoundException e) {
 	    System.out.printf("Kunne ikke finne filen '%s'.\n", filnavn); 
 	}
@@ -212,19 +214,22 @@ public class Sudoku {
     /**************************************************************************/
 
     public static void main(String[] args) {
-	String utFilnavn = "";
 	if (args.length == 1) {
-	    String innFilnavn = args[0];
-	    lesFil(innFilnavn);
-	    brettet.opprettDatastruktur();
-	} else if (args.length > 1) {
+
 	    lesFil(args[0]);
 	    brettet.opprettDatastruktur();
-	    utFilnavn = args[1];
+	    brettet.finnAlleLosninger();
+	    skrivLosningerTilSkjerm();
+
+	} else if (args.length > 1) {
+	    
+	    lesFil(args[0]);
+	    brettet.opprettDatastruktur();
+	    brettet.finnAlleLosninger();
+	    skrivLosningerTilFil(args[1]);
+	} else {
+
+	    System.out.println("Fil med brett maa oppgis.");
 	}
-
-	brettet.finnAlleLosninger();
-	skrivLosningerTilFil(utFilnavn);
-
     } 
 }
