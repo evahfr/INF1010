@@ -1,30 +1,35 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.control.Label;
+import javafx.event.*;
+import javafx.geometry.*;
 
 import java.io.File;
 
 public class SudokuGUI extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
 		
 	BorderPane lerret = new BorderPane();
 	Scene scene = new Scene(lerret, 1230, 800);
 
-	lerret.setLeft(hentVBoks());
-	lerret.setCenter(hentStortSudokubrett(3,3));
+	lerret.setLeft(hentVBoks(stage));
+	
+	GridPane stortBrett = hentStortSudokubrett(3,3);
+	lerret.setCenter(stortBrett);
+	lerret.setMargin(stortBrett, new Insets(10,10,10,10));
 
 	stage.setScene(scene);
 	stage.setTitle("Sudoku");
 	stage.show();
-
-	hentFil(stage);
     }
 
     public File hentFil(Stage stage) {
@@ -39,30 +44,60 @@ public class SudokuGUI extends Application {
 	return valgtFil;
     }
 
-    public VBox hentVBoks() {
+    public VBox hentVBoks(Stage stage) {
 	VBox vboks = new VBox();
+        
+	vboks.setSpacing(20);
+	vboks.setAlignment(Pos.BASELINE_CENTER);
 	
 	GridPane liteBrett = hentLiteSudokubrett(3,3);
+	vboks.setMargin(liteBrett, new Insets(10,10,10,10));
 	
-	Button knapp1 = new Button("Last inn brett");
-	Button knapp2 = new Button("Lag eget brett");
-	Button knapp3 = new Button("Avslutt");
+	Button lastInnKnapp = new Button("Last inn brett");
+	Button lagBrettKnapp = new Button("Lag eget brett");
+	Button avsluttKnapp = new Button("Avslutt");
 
-	vboks.getChildren().addAll(liteBrett, knapp1, knapp2, knapp3);
+	lastInnKnapp.setPrefSize(200, 40);
+	lagBrettKnapp.setPrefSize(200, 40);
+	avsluttKnapp.setPrefSize(200, 40);
+
+	lastInnKnapp.setOnAction( new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent e) {
+		    hentFil(stage);
+		}
+	    });
+
+	lagBrettKnapp.setOnAction( new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent e) {
+		    System.out.println("Ikke implementert enda");
+		}
+	    });
+
+	avsluttKnapp.setOnAction( new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent e) {
+		    Platform.exit();
+		}
+	    });
+
+	vboks.getChildren().addAll(liteBrett, lastInnKnapp, lagBrettKnapp, avsluttKnapp);
 	
 	return vboks;
     }
 
     public GridPane hentStortSudokubrett(int antallBoksRader, int antallBoksKolonner) {
 	GridPane stortBrett = new GridPane();
-	//stortBrett.setHgap(80);
-	//stortBrett.setVgap(80);
-	stortBrett.setGridLinesVisible(true);
+	
+	stortBrett.setMinSize(800,800);
+	//stortBrett.setGridLinesVisible(true);
 	
 	int brettStorrelse = antallBoksRader*antallBoksKolonner;
 	for (int j = 0; j < brettStorrelse; j++) {
 	    for (int i = 0; i < brettStorrelse; i++) {
 		StackPane rute = new StackPane();
+		rute.setStyle("-fx-border-width: 2px; -fx-border-style: solid; -fx-border-color: grey");
 		rute.getChildren().add(new Label(String.format("%d,%d", i, j)));
 		stortBrett.add(rute, i, j);
 	    }
@@ -72,8 +107,11 @@ public class SudokuGUI extends Application {
 
     public GridPane hentLiteSudokubrett(int antallBoksRader, int antallBoksKolonner) {
 	GridPane liteBrett = new GridPane();
-        liteBrett.setHgap(40);
-	liteBrett.setVgap(40);
+	liteBrett.setPrefSize(350,350);
+	liteBrett.setMinWidth(350);
+	liteBrett.setMinHeight(350);
+        //liteBrett.setHgap(40);
+	//liteBrett.setVgap(40);
 	liteBrett.setGridLinesVisible(true);
 
 	
