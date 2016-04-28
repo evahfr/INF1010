@@ -153,14 +153,14 @@ public class Rute {
 	int[] muligeTall = finnAlleMuligeTall();
 
 	// Hvis vi har kommet til siste rute finnes det enten en eller ingen mulige tall.
-	if (erSisteRute() && finnAlleMuligeTall() != null) {
+	if (erSisteRute() && muligeTall != null) {
 	    this.verdi = muligeTall[0];
 	    beholder.settInn(brettet.hentAlleRutene());
 	    this.verdi = TOM_RUTE_VERDI;
 	    return;
 	}
 
-	if (erSisteRute() || finnAlleMuligeTall() == null) {
+	if (muligeTall == null) {
 	    this.verdi = TOM_RUTE_VERDI;
 	    return;
 	}

@@ -62,7 +62,7 @@ public class SudokuBeholder {
     }
 
     /**
-     * Saa lenge det er noe i beholderen tas den forste noden ut, og returneres.
+     * Saa lenge det er noe i beholderen fjernes den siste noden, og returneres.
      * @return alle verdiene til losningen
      */
     public int[] taUt() {
@@ -70,9 +70,15 @@ public class SudokuBeholder {
 	    return null;
 	}
 	
-	Node denne = listeHode.neste;
-	listeHode.neste = denne.neste;
-
-	return denne.losning;
+	Node denne = listeHode;
+	
+	while (denne.neste.neste != null) {
+	    denne = denne.neste;
+	}
+        
+	int[] ret = denne.neste.losning;
+	denne.neste = null;
+	
+	return ret;
     }
 }
