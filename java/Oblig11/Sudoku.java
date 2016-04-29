@@ -214,6 +214,8 @@ public class Sudoku {
     /**************************************************************************/
 
     public static void main(String[] args) {
+
+	/*
 	if (args.length == 1) {
 
 	    lesFil(args[0]);
@@ -231,5 +233,8 @@ public class Sudoku {
 
 	    System.out.println("Fil med brett maa oppgis.");
 	}
+	*/
+
+	javafx.application.Application.launch(SudokuGUI.class);
     } 
 }

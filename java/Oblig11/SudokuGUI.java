@@ -15,19 +15,19 @@ import java.io.File;
 
 public class SudokuGUI extends Application {
 
-    
-
     @Override
     public void start(Stage stage) {
 		
 	BorderPane lerret = new BorderPane();
 	Scene scene = new Scene(lerret, 1230, 800);
 
+	File forsteFil = hentFil(stage);
+
 	lerret.setLeft(hentVBoks(stage));
 	lerret.setBottom(hentHBoks());
 	
-	GridPane stortBrett = hentStortSudokubrett(5,5);
-	lerret.setRight(stortBrett);
+	GridPane stortBrett = hentStortSudokubrett(4,4);
+	lerret.setCenter(stortBrett);
 	lerret.setMargin(stortBrett, new Insets(10,10,10,10));
 
 	stage.setScene(scene);
@@ -40,7 +40,7 @@ public class SudokuGUI extends Application {
 	FileChooser filVelger = new FileChooser();
 
 	filVelger.setTitle("Open Resource File");
-	filVelger.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
+	filVelger.getExtensionFilters().add(new ExtensionFilter("Text Files", "*.txt"));
 
 	File valgtFil = filVelger.showOpenDialog(stage);
 
@@ -53,7 +53,7 @@ public class SudokuGUI extends Application {
 	vboks.setSpacing(20);
 	vboks.setAlignment(Pos.BASELINE_CENTER);
 	
-	GridPane liteBrett = hentLiteSudokubrett(5,5);
+	GridPane liteBrett = hentLiteSudokubrett(4,4);
 	vboks.setMargin(liteBrett, new Insets(10,10,10,10));
 	
 	Button lastInnKnapp = new Button("Last inn brett");
@@ -64,12 +64,9 @@ public class SudokuGUI extends Application {
 	lagBrettKnapp.setPrefSize(200, 40);
 	avsluttKnapp.setPrefSize(200, 40);
 
-	lastInnKnapp.setOnAction( new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent e) {
-		    hentFil(stage);
-		}
-	    });
+	lastInnKnapp.setOnAction( knappTrykka ->
+				  hentFil(stage)
+				  );
 
 	lagBrettKnapp.setOnAction( new EventHandler<ActionEvent>() {
 		@Override
@@ -78,12 +75,9 @@ public class SudokuGUI extends Application {
 		}
 	    });
 
-	avsluttKnapp.setOnAction( new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent e) {
-		    Platform.exit();
-		}
-	    });
+	avsluttKnapp.setOnAction( knappTrykka ->
+				  Platform.exit()
+				  );
 
 	vboks.getChildren().addAll(liteBrett, lastInnKnapp, lagBrettKnapp, avsluttKnapp);
 	
@@ -102,7 +96,7 @@ public class SudokuGUI extends Application {
 	forrigeKnapp.setPrefSize(100,20);
 	nesteKnapp.setPrefSize(100,20);
 
-	hboks.setMargin(forrigeKnapp, new Insets(0,0,10,700));
+	hboks.setMargin(forrigeKnapp, new Insets(0,0,10,600));
 
 	forrigeKnapp.setOnAction( knappTrykka -> 
 				  System.out.println("Ikke implementert.")
@@ -158,7 +152,9 @@ public class SudokuGUI extends Application {
 	return liteBrett;
     }
 
+    /*
     public static void main(String[] args) {
 	launch(args);
     }
+    */
 }
