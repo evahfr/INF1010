@@ -23,6 +23,8 @@ public class SudokuGUI extends Application {
 
 	File forsteFil = hentFil(stage);
 
+	System.out.println(forsteFil.getPath());
+		
 	lerret.setLeft(hentVBoks(stage));
 	lerret.setBottom(hentHBoks());
 	
@@ -152,9 +154,10 @@ public class SudokuGUI extends Application {
 	return liteBrett;
     }
 
-    /*
+    
     public static void main(String[] args) {
 	launch(args);
+	
     }
-    */
+    
 }
