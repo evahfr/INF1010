@@ -233,15 +233,17 @@ public class SudokuMain extends Application {
 	Scene scene = new Scene(lerret, 1230, 800);
 
 	File forsteFil = hentFil(stage);
+
 	lesFil(forsteFil.getPath());
 	brettet.opprettDatastruktur();
-	brettet.finnAlleLosninger();
-	skrivLosningerTilSkjerm();
-		
+
 	lerret.setLeft(hentVBoks(stage));
 	lerret.setBottom(hentHBoks());
+
+	brettet.finnAlleLosninger();
+	skrivLosningerTilSkjerm();
 	
-	GridPane stortBrett = hentStortSudokubrett(4,4);
+	GridPane stortBrett = hentStortSudokubrett(antBoksRader,antBoksKolonner);
 	lerret.setCenter(stortBrett);
 	lerret.setMargin(stortBrett, new Insets(10,10,10,10));
 
@@ -249,6 +251,7 @@ public class SudokuMain extends Application {
 	stage.setTitle("Sudoku");
 	stage.show();
     }
+
 
     public File hentFil(Stage stage) {
 
@@ -268,7 +271,7 @@ public class SudokuMain extends Application {
 	vboks.setSpacing(20);
 	vboks.setAlignment(Pos.BASELINE_CENTER);
 	
-	GridPane liteBrett = hentLiteSudokubrett(4,4);
+	GridPane liteBrett = hentLiteSudokubrett(antBoksRader,antBoksKolonner);
 	vboks.setMargin(liteBrett, new Insets(10,10,10,10));
 	
 	Button lastInnKnapp = new Button("Last inn brett");
