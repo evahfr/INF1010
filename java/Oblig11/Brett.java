@@ -142,7 +142,7 @@ public class Brett {
      * @param tom       tegnet som brukes for aa representere 0 (tom rute)
      * @return          tegnet som verdien tilsvarer
      */
-    private char verdiTilTegn(int verdi, char tom) {
+    public char verdiTilTegn(int verdi, char tom) {
         if (verdi == 0) {                           // tom
             return tom;
         } else if (1 <= verdi && verdi <= 9) {      // tegn er i [1, 9]

@@ -13,13 +13,15 @@ import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.scene.control.Label;
+import javafx.scene.text.Text;
 import javafx.event.*;
 import javafx.geometry.*;
 
 public class SudokuMain extends Application {
     private static Scanner innFil;
+    private static BorderPane lerret;
     private static Brett brettet; 
+    private static SudokuBeholder beholder;
     private static int antBoksRader;
     private static int antBoksKolonner;
 
@@ -236,12 +238,13 @@ public class SudokuMain extends Application {
 
 	lesFil(forsteFil.getPath());
 	brettet.opprettDatastruktur();
+	beholder = brettet.hentBeholder();
 
 	lerret.setLeft(hentVBoks(stage));
 	lerret.setBottom(hentHBoks());
 
 	brettet.finnAlleLosninger();
-	skrivLosningerTilSkjerm();
+	//skrivLosningerTilSkjerm();
 	
 	GridPane stortBrett = hentStortSudokubrett(antBoksRader,antBoksKolonner);
 	lerret.setCenter(stortBrett);
@@ -269,7 +272,7 @@ public class SudokuMain extends Application {
 	VBox vboks = new VBox();
         
 	vboks.setSpacing(20);
-	vboks.setAlignment(Pos.BASELINE_CENTER);
+	vboks.setAlignment(Pos.TOP_CENTER);
 	
 	GridPane liteBrett = hentLiteSudokubrett(antBoksRader,antBoksKolonner);
 	vboks.setMargin(liteBrett, new Insets(10,10,10,10));
@@ -289,7 +292,9 @@ public class SudokuMain extends Application {
 		    lesFil(nyttBrett.getPath());
 		    brettet.opprettDatastruktur();
 		    brettet.finnAlleLosninger();
-		    skrivLosningerTilSkjerm();
+		    beholder = brettet.hentBeholder();
+		    lerret.setCenter(hentStortSudokubrett(antBoksRader, antBoksKolonner));
+		    //skrivLosningerTilSkjerm();
 		}
 	    });
 
@@ -327,9 +332,17 @@ public class SudokuMain extends Application {
 				  System.out.println("Ikke implementert.")
 				  );
 
-	nesteKnapp.setOnAction( knappTrykka ->
-				System.out.println("Ikke implementert.")
-				);
+	nesteKnapp.setOnAction( new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent e) {
+		    GridPane stortBrett = hentStortSudokubrett(antBoksRader, antBoksKolonner);
+		    if (stortBrett == null) {
+			System.out.println("ER her");
+			return;
+		    }
+		    lerret.setCenter(stortBrett);
+		}
+	    });
 
 	hboks.getChildren().addAll(forrigeKnapp, nesteKnapp);
 	
@@ -340,18 +353,35 @@ public class SudokuMain extends Application {
 
     public GridPane hentStortSudokubrett(int antallBoksRader, int antallBoksKolonner) {
 	GridPane stortBrett = new GridPane();
-	
-	int brettStorrelse = antallBoksRader*antallBoksKolonner;
-        double brettPikselLengde = 800.0;
-	double rutePikselLengde = brettPikselLengde/brettStorrelse;
+	int[] ruteVerdiene = beholder.taUt();
 
+	int brettStorrelse = antallBoksRader*antallBoksKolonner;
+        double brettPixelLengde = 800.0;
+	double rutePixelLengde = brettPixelLengde/brettStorrelse;
+
+	if (ruteVerdiene == null) {
+	    System.out.println("problemer med losning");
+	}
+
+	int ruteNr = 0;
 	for (int j = 0; j < brettStorrelse; j++) {
 	    for (int i = 0; i < brettStorrelse; i++) {
 
+		char tegn = brettet.verdiTilTegn(ruteVerdiene[ruteNr++], ' ');
 		StackPane rute = new StackPane();
-		rute.setStyle("-fx-border-width: 2px; -fx-border-style: solid; -fx-border-color: grey");
-		rute.setPrefSize(rutePikselLengde,rutePikselLengde);
-		rute.getChildren().add(new Label(String.format("%d,%d", i, j)));
+
+		if (erPaaNyBoks(i,j)) {
+		    rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey; -fx-background-color: lightgrey");
+		} else {
+		    rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey");
+		}
+
+		Text tekst = new Text(Character.toString(tegn));
+		double fontStr = 0.5*rutePixelLengde;
+		tekst.setStyle("-fx-font-size: " + fontStr + "px");
+
+		rute.setPrefSize(rutePixelLengde,rutePixelLengde);
+		rute.getChildren().add(tekst);
 		stortBrett.add(rute, i, j);
 	    }
 	}	
@@ -360,21 +390,39 @@ public class SudokuMain extends Application {
 
     public GridPane hentLiteSudokubrett(int antallBoksRader, int antallBoksKolonner) {
 	GridPane liteBrett = new GridPane();
+	Rute[] rutene = brettet.hentAlleRutene();
 	
 	int brettStorrelse = antallBoksRader*antallBoksKolonner;
-        double brettPikselLengde = 300.0;
-	double rutePikselLengde = brettPikselLengde/brettStorrelse;
+        double brettPixelLengde = 300.0;
+	double rutePixelLengde = brettPixelLengde/brettStorrelse;
 
+	int ruteNr = 0;
 	for (int j = 0; j < brettStorrelse; j++) {
 	    for (int i = 0; i < brettStorrelse; i++) {
 
+		char tegn = brettet.verdiTilTegn(rutene[ruteNr++].hentVerdi(), ' ');
 		StackPane rute = new StackPane();
-		rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey");
-		rute.setPrefSize(rutePikselLengde,rutePikselLengde);
+
+		if (erPaaNyBoks(i,j)) {
+		    rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey; -fx-background-color: lightgrey");
+		} else {
+		    rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey");
+		}
+
+		Text tekst = new Text(Character.toString(tegn));
+		double fontStr = 0.5*rutePixelLengde;
+		tekst.setStyle("-fx-font-size: " + fontStr + "px");
+
+		rute.setPrefSize(rutePixelLengde,rutePixelLengde);
+		rute.getChildren().add(tekst);
 		liteBrett.add(rute, i, j);
 	    }
 	}
 	return liteBrett;
+    }
+
+    private boolean erPaaNyBoks(int i, int j) {
+	return (i+j) % antBoksKolonner == 0; 
     }
 
     /**************************************************************************/
