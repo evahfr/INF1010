@@ -19,7 +19,7 @@ import javafx.geometry.*;
 
 public class SudokuMain extends Application {
     private static Scanner innFil;
-    private static BorderPane lerret;
+    private static BorderPane root;
     private static Brett brettet; 
     private static SudokuBeholder beholder;
     private static int antBoksRader;
@@ -231,30 +231,51 @@ public class SudokuMain extends Application {
     @Override
     public void start(Stage stage) {
 		
-	BorderPane lerret = new BorderPane();
-	Scene scene = new Scene(lerret, 1230, 800);
+	root = new BorderPane();
+	Scene scene = new Scene(root, 1230, 800);
+	
+	File forsteFil = hentFil(new Stage());
 
-	File forsteFil = hentFil(stage);
+	//lastInnBrett(forsteFil.getPath());
 
+	
 	lesFil(forsteFil.getPath());
 	brettet.opprettDatastruktur();
 	beholder = brettet.hentBeholder();
 
-	lerret.setLeft(hentVBoks(stage));
-	lerret.setBottom(hentHBoks());
+	root.setLeft(hentVBoks());
+	root.setBottom(hentHBoks());
 
 	brettet.finnAlleLosninger();
 	//skrivLosningerTilSkjerm();
 	
 	GridPane stortBrett = hentStortSudokubrett(antBoksRader,antBoksKolonner);
-	lerret.setCenter(stortBrett);
-	lerret.setMargin(stortBrett, new Insets(10,10,10,10));
+	root.setCenter(stortBrett);
+	root.setMargin(stortBrett, new Insets(10,10,10,10));
+	
 
 	stage.setScene(scene);
 	stage.setTitle("Sudoku");
 	stage.show();
     }
 
+    /*
+    public void lastInnBrett(String filnavn) {
+
+	lesFil(filnavn);
+	brettet.opprettDatastruktur();
+	beholder = brettet.hentBeholder();
+
+	root.setLeft(hentVBoks(stage));
+	root.setBottom(hentHBoks());
+
+	brettet.finnAlleLosninger();
+	
+	GridPane stortBrett = hentStortSudokubrett(antBoksRader,antBoksKolonner);
+	root.setCenter(stortBrett);
+	root.setMargin(stortBrett, new Insets(10,10,10,10));
+    }
+    */
 
     public File hentFil(Stage stage) {
 
@@ -268,7 +289,7 @@ public class SudokuMain extends Application {
 	return valgtFil;
     }
 
-    public VBox hentVBoks(Stage stage) {
+    public VBox hentVBoks() {
 	VBox vboks = new VBox();
         
 	vboks.setSpacing(20);
@@ -288,13 +309,13 @@ public class SudokuMain extends Application {
 	lastInnKnapp.setOnAction( new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent e) {
-		    File nyttBrett = hentFil(stage);
+		    File nyttBrett = hentFil(new Stage());
 		    lesFil(nyttBrett.getPath());
 		    brettet.opprettDatastruktur();
 		    brettet.finnAlleLosninger();
-		    beholder = brettet.hentBeholder();
-		    lerret.setCenter(hentStortSudokubrett(antBoksRader, antBoksKolonner));
-		    //skrivLosningerTilSkjerm();
+		    //beholder = brettet.hentBeholder();
+		    //root.setCenter(hentStortSudokubrett(antBoksRader, antBoksKolonner));
+		    skrivLosningerTilSkjerm();
 		}
 	    });
 
@@ -340,7 +361,7 @@ public class SudokuMain extends Application {
 			System.out.println("ER her");
 			return;
 		    }
-		    lerret.setCenter(stortBrett);
+		    root.setCenter(stortBrett);
 		}
 	    });
 
