@@ -278,7 +278,7 @@ public class SudokuMain extends Application {
 	vboks.setSpacing(20);
 	vboks.setAlignment(Pos.TOP_CENTER);
 	
-	GridPane liteBrett = hentLiteSudokubrett(antBoksRader,antBoksKolonner);
+	GridPane liteBrett = hentLiteSudokubrett();
 	vboks.setMargin(liteBrett, new Insets(10,10,10,10));
 	
 	Button lastInnKnapp = new Button("Last inn brett");
@@ -399,11 +399,11 @@ public class SudokuMain extends Application {
 	return stortBrett;
     }
 
-    public GridPane hentLiteSudokubrett(int antallBoksRader, int antallBoksKolonner) {
+    public GridPane hentLiteSudokubrett() {
 	GridPane liteBrett = new GridPane();
 	Rute[] rutene = brettet.hentAlleRutene();
 	
-	int brettStorrelse = antallBoksRader*antallBoksKolonner;
+	int brettStorrelse = antBoksRader*antBoksKolonner;
         double brettPixelLengde = 300.0;
 	double rutePixelLengde = brettPixelLengde/brettStorrelse;
 
