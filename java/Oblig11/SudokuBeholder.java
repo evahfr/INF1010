@@ -89,16 +89,6 @@ public class SudokuBeholder {
 
 	tattUt = tattUt.neste;
 
-	/*	
-	Node denne = listeHode;
-
-	while (denne.neste.neste != null) {
-	    denne = denne.neste;
-	}
-        
-	int[] ret = denne.neste.losning;
-	denne.neste = null;
-	*/
 	return tattUt.losning;
     }
 
