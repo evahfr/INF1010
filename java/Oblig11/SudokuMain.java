@@ -235,24 +235,7 @@ public class SudokuMain extends Application {
 	Scene scene = new Scene(root, 1230, 800);
 	
 	File forsteFil = hentFil(new Stage());
-
 	lastInnBrett(forsteFil.getPath());
-
-	/*
-	lesFil(forsteFil.getPath());
-	brettet.opprettDatastruktur();
-	beholder = brettet.hentBeholder();
-
-	root.setLeft(hentVBoks());
-	root.setBottom(hentHBoks());
-
-	brettet.finnAlleLosninger();
-	//skrivLosningerTilSkjerm();
-	
-	GridPane stortBrett = hentStortSudokubrett(antBoksRader,antBoksKolonner);
-	root.setCenter(stortBrett);
-	root.setMargin(stortBrett, new Insets(10,10,10,10));
-	*/
 
 	stage.setScene(scene);
 	stage.setTitle("Sudoku");
@@ -310,12 +293,7 @@ public class SudokuMain extends Application {
 		@Override
 		public void handle(ActionEvent e) {
 		    File nyttBrett = hentFil(new Stage());
-		    lesFil(nyttBrett.getPath());
-		    brettet.opprettDatastruktur();
-		    brettet.finnAlleLosninger();
-		    beholder = brettet.hentBeholder();
-		    root.setLeft(hentVBoks());
-		    root.setCenter(hentStortSudokubrett(antBoksRader, antBoksKolonner));
+		    lastInnBrett(nyttBrett.getPath());
 		}
 	    });
 
