@@ -390,13 +390,14 @@ public class SudokuMain extends Application {
 
 		char tegn = brettet.verdiTilTegn(ruteVerdiene[ruteNr++], ' ');
 		StackPane rute = new StackPane();
+		String ruteFarge = "white";
+		
+		if ((j/antBoksRader + i/antBoksKolonner) % 2 == 0) {
+		    ruteFarge = "lightgrey";
+		} 
 
-		if (erPaaNyBoks(i,j)) {
-		    rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey; -fx-background-color: lightgrey");
-		} else {
-		    rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey");
-		}
-
+		rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey; -fx-background-color: " + ruteFarge);
+		    
 		Text tekst = new Text(Character.toString(tegn));
 		double fontStr = 0.5*rutePixelLengde;
 		tekst.setStyle("-fx-font-size: " + fontStr + "px");
@@ -423,12 +424,13 @@ public class SudokuMain extends Application {
 
 		char tegn = brettet.verdiTilTegn(rutene[ruteNr++].hentVerdi(), ' ');
 		StackPane rute = new StackPane();
+		String ruteFarge = "white";
+		
+		if ((j/antBoksRader + i/antBoksKolonner) % 2 == 0) {
+		    ruteFarge = "lightgrey";
+		} 
 
-		if (erPaaNyBoks(i,j)) {
-		    rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey; -fx-background-color: lightgrey");
-		} else {
-		    rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey");
-		}
+		rute.setStyle("-fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: grey; -fx-background-color: " + ruteFarge);
 
 		Text tekst = new Text(Character.toString(tegn));
 		double fontStr = 0.5*rutePixelLengde;
