@@ -235,6 +235,11 @@ public class SudokuMain extends Application {
 	Scene scene = new Scene(root, 1230, 800);
 	
 	File forsteFil = hentFil(new Stage());
+
+	if (forsteFil == null) {
+	    System.exit(1);
+	}
+
 	lastInnBrett(forsteFil.getPath());
 
 	stage.setScene(scene);
@@ -264,7 +269,7 @@ public class SudokuMain extends Application {
 
 	FileChooser filVelger = new FileChooser();
 
-	filVelger.setTitle("Open Resource File");
+	filVelger.setTitle("Velg fil");
 	filVelger.getExtensionFilters().add(new ExtensionFilter("Text Files", "*.txt"));
 
 	File valgtFil = filVelger.showOpenDialog(stage);
@@ -283,16 +288,24 @@ public class SudokuMain extends Application {
 	
 	Button lastInnKnapp = new Button("Last inn brett");
 	Button lagBrettKnapp = new Button("Lag eget brett");
+	Button skrivBrettTilFilKnapp = new Button("Skriv brett til fil");
+	Button skrivLosningerTilFilKnapp = new Button("Skriv losninger til fil");
 	Button avsluttKnapp = new Button("Avslutt");
 
 	lastInnKnapp.setPrefSize(200, 40);
 	lagBrettKnapp.setPrefSize(200, 40);
+	skrivBrettTilFilKnapp.setPrefSize(200, 40);
+	skrivLosningerTilFilKnapp.setPrefSize(200, 40);
 	avsluttKnapp.setPrefSize(200, 40);
 
 	lastInnKnapp.setOnAction( new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent e) {
 		    File nyttBrett = hentFil(new Stage());
+		    
+		    if (nyttBrett == null) {
+			return;
+		    }
 		    lastInnBrett(nyttBrett.getPath());
 		}
 	    });
@@ -304,11 +317,25 @@ public class SudokuMain extends Application {
 		}
 	    });
 
+        skrivBrettTilFilKnapp.setOnAction( new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent e) {
+		    System.out.println("Ikke implementert enda");
+		}
+	    });
+
+        skrivLosningerTilFilKnapp.setOnAction( new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent e) {
+		    System.out.println("Ikke implementert enda");
+		}
+	    });
+
 	avsluttKnapp.setOnAction( knappTrykka ->
 				  Platform.exit()
 				  );
 
-	vboks.getChildren().addAll(liteBrett, lastInnKnapp, lagBrettKnapp, avsluttKnapp);
+	vboks.getChildren().addAll(liteBrett, lastInnKnapp, lagBrettKnapp, skrivBrettTilFilKnapp, skrivLosningerTilFilKnapp, avsluttKnapp);
 	
 	return vboks;
     }
