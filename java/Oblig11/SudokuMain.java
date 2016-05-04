@@ -236,9 +236,9 @@ public class SudokuMain extends Application {
 	
 	File forsteFil = hentFil(new Stage());
 
-	//lastInnBrett(forsteFil.getPath());
+	lastInnBrett(forsteFil.getPath());
 
-	
+	/*
 	lesFil(forsteFil.getPath());
 	brettet.opprettDatastruktur();
 	beholder = brettet.hentBeholder();
@@ -252,21 +252,21 @@ public class SudokuMain extends Application {
 	GridPane stortBrett = hentStortSudokubrett(antBoksRader,antBoksKolonner);
 	root.setCenter(stortBrett);
 	root.setMargin(stortBrett, new Insets(10,10,10,10));
-	
+	*/
 
 	stage.setScene(scene);
 	stage.setTitle("Sudoku");
 	stage.show();
     }
 
-    /*
+    
     public void lastInnBrett(String filnavn) {
 
 	lesFil(filnavn);
 	brettet.opprettDatastruktur();
 	beholder = brettet.hentBeholder();
 
-	root.setLeft(hentVBoks(stage));
+	root.setLeft(hentVBoks());
 	root.setBottom(hentHBoks());
 
 	brettet.finnAlleLosninger();
@@ -275,7 +275,7 @@ public class SudokuMain extends Application {
 	root.setCenter(stortBrett);
 	root.setMargin(stortBrett, new Insets(10,10,10,10));
     }
-    */
+    
 
     public File hentFil(Stage stage) {
 
@@ -313,9 +313,9 @@ public class SudokuMain extends Application {
 		    lesFil(nyttBrett.getPath());
 		    brettet.opprettDatastruktur();
 		    brettet.finnAlleLosninger();
-		    //beholder = brettet.hentBeholder();
-		    //root.setCenter(hentStortSudokubrett(antBoksRader, antBoksKolonner));
-		    skrivLosningerTilSkjerm();
+		    beholder = brettet.hentBeholder();
+		    root.setLeft(hentVBoks());
+		    root.setCenter(hentStortSudokubrett(antBoksRader, antBoksKolonner));
 		}
 	    });
 
