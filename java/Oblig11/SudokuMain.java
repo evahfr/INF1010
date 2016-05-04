@@ -336,9 +336,9 @@ public class SudokuMain extends Application {
 		public void handle(ActionEvent e) {
 		    GridPane stortBrett = hentStortSudokubrett(antBoksRader, antBoksKolonner);
 		    if (stortBrett == null) {
-			System.out.println("ER her");
 			return;
 		    }
+
 		    root.setCenter(stortBrett);
 		}
 	    });
@@ -354,13 +354,13 @@ public class SudokuMain extends Application {
 	GridPane stortBrett = new GridPane();
 	int[] ruteVerdiene = beholder.taUt();
 
+	if (ruteVerdiene == null) {
+	    return null;
+	}
+
 	int brettStorrelse = antallBoksRader*antallBoksKolonner;
         double brettPixelLengde = 800.0;
 	double rutePixelLengde = brettPixelLengde/brettStorrelse;
-
-	if (ruteVerdiene == null) {
-	    System.out.println("problemer med losning");
-	}
 
 	int ruteNr = 0;
 	for (int j = 0; j < brettStorrelse; j++) {
