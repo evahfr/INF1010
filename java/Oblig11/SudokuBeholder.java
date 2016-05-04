@@ -5,7 +5,7 @@ public class SudokuBeholder {
     private int antallLosninger = 0;
     private Node listeHode = null;
     private Node listeHale = null;
-    private Node tattUt = listeHode;
+    private Node tattUt = null;
 
     public static final int maksAntallLagredeLosninger = 3500;
 
@@ -15,6 +15,7 @@ public class SudokuBeholder {
 	listeHale = new Node(null);
 	listeHode.neste = listeHale;
 	listeHale.forrige = listeHode;
+	tattUt = listeHode;
     }
 
     private class Node {
@@ -81,9 +82,8 @@ public class SudokuBeholder {
 	if (erTom()) {
 	    return null;
 	}
-	System.out.println(listeHode.neste);
-	if (tattUt.neste == listeHale) {
 
+	if (tattUt.neste == listeHale) {
 	    return null;
 	}
 

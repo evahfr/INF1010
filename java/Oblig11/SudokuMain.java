@@ -254,7 +254,7 @@ public class SudokuMain extends Application {
 
 	brettet.finnAlleLosninger();
 	
-	GridPane stortBrett = hentStortSudokubrett(antBoksRader,antBoksKolonner);
+	GridPane stortBrett = hentStortSudokubrett(beholder.taUt());
 	root.setCenter(stortBrett);
 	root.setMargin(stortBrett, new Insets(10,10,10,10));
     }
@@ -327,19 +327,31 @@ public class SudokuMain extends Application {
 
 	hboks.setMargin(forrigeKnapp, new Insets(0,0,10,600));
 
-	forrigeKnapp.setOnAction( knappTrykka -> 
-				  System.out.println("Ikke implementert.")
-				  );
-
-	nesteKnapp.setOnAction( new EventHandler<ActionEvent>() {
+	forrigeKnapp.setOnAction( new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent e) {
-		    GridPane stortBrett = hentStortSudokubrett(antBoksRader, antBoksKolonner);
+		    GridPane stortBrett = hentStortSudokubrett(beholder.taUtForrige());
+
 		    if (stortBrett == null) {
 			return;
 		    }
 
 		    root.setCenter(stortBrett);
+		    root.setMargin(stortBrett, new Insets(10,10,10,10));
+		}
+	    });
+
+	nesteKnapp.setOnAction( new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent e) {
+		    GridPane stortBrett = hentStortSudokubrett(beholder.taUtNeste());
+
+		    if (stortBrett == null) {
+			return;
+		    }
+
+		    root.setCenter(stortBrett);
+		    root.setMargin(stortBrett, new Insets(10,10,10,10));
 		}
 	    });
 
@@ -350,15 +362,14 @@ public class SudokuMain extends Application {
 
     }
 
-    public GridPane hentStortSudokubrett(int antallBoksRader, int antallBoksKolonner) {
+    public GridPane hentStortSudokubrett(int[] ruteVerdiene) {
 	GridPane stortBrett = new GridPane();
-	int[] ruteVerdiene = beholder.taUt();
 
 	if (ruteVerdiene == null) {
 	    return null;
 	}
 
-	int brettStorrelse = antallBoksRader*antallBoksKolonner;
+	int brettStorrelse = antBoksRader*antBoksKolonner;
         double brettPixelLengde = 800.0;
 	double rutePixelLengde = brettPixelLengde/brettStorrelse;
 
