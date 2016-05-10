@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 import javafx.event.*;
 import javafx.geometry.*;
 
-public class SudokuMain extends Application {
+public class Sudoku extends Application {
     private static Scanner innFil;
     private static BorderPane root;
     private static Brett brettet; 
@@ -254,7 +254,7 @@ public class SudokuMain extends Application {
 	stage.show();
     }
 
-    public static void hentNyttBrett() {
+    private static void hentNyttBrett() {
 
 	File nyttBrett = hentFil(new Stage());
 	
@@ -263,7 +263,7 @@ public class SudokuMain extends Application {
 	} 
     }
     
-    public static void lastInnBrett(String filnavn) {
+    private static void lastInnBrett(String filnavn) {
 	if (lesFil(filnavn)) {
 	    brettet.opprettDatastruktur();
 	    beholder = brettet.hentBeholder();
@@ -282,7 +282,7 @@ public class SudokuMain extends Application {
     }
     
 
-    public static File hentFil(Stage stage) {
+    private static File hentFil(Stage stage) {
 
 	FileChooser filVelger = new FileChooser();
 
@@ -294,7 +294,7 @@ public class SudokuMain extends Application {
 	return valgtFil;
     }
 
-    public static File hentLagreFil(Stage stage) {
+    private static File hentLagreFil(Stage stage) {
 	
 	FileChooser filVelger = new FileChooser();
 
@@ -305,7 +305,7 @@ public class SudokuMain extends Application {
 	return lagreFil;
     }
 
-    public static VBox hentVBoks() {
+    private static VBox hentVBoks() {
 	VBox vboks = new VBox();
         
 	vboks.setSpacing(20);
@@ -360,7 +360,7 @@ public class SudokuMain extends Application {
 	return vboks;
     }
 
-    public static HBox hentHBoks() {
+    private static HBox hentHBoks() {
 
 	HBox hboks = new HBox();
 
@@ -409,7 +409,7 @@ public class SudokuMain extends Application {
 
     }
 
-    public static GridPane hentStortSudokubrett(int[] ruteVerdiene) {
+    private static GridPane hentStortSudokubrett(int[] ruteVerdiene) {
 	GridPane stortBrett = new GridPane();
 
 	if (ruteVerdiene == null) {
@@ -446,7 +446,7 @@ public class SudokuMain extends Application {
 	return stortBrett;
     }
 
-    public static GridPane hentLiteSudokubrett() {
+    private static GridPane hentLiteSudokubrett() {
 	GridPane liteBrett = new GridPane();
 	Rute[] rutene = brettet.hentAlleRutene();
 	
