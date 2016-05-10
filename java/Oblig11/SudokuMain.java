@@ -9,6 +9,8 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
@@ -40,9 +42,12 @@ public class SudokuMain extends Application {
 	    return Integer.parseInt(data);
 
 	} catch (NumberFormatException e) { 
-	    System.out.printf("Kunne ikke konvertere '%s' til int.\n", data);
+	    Alert varsel = new Alert(AlertType.ERROR);
+	    varsel.setTitle("Fil error");
+	    varsel.setHeaderText("Feil format");
+	    varsel.setContentText(String.format("Kunne ikke konvertere '%s' til int.\n", data));
+	    varsel.showAndWait();
 	    innFil.close();
-	    System.exit(1);
 	}
 	return Integer.MIN_VALUE;
     }
@@ -56,38 +61,24 @@ public class SudokuMain extends Application {
      * @param maksVerdi   tallet maa vaere mindre enn denne
      * @return            tallverdien 
      */
-    private static int parseInt(char tegn, int maksVerdi) {
-	try {
-	    int verdi = brettet.tegnTilVerdi(tegn);
+    private static int parseInt(char tegn, int maksVerdi) throws IllegalArgumentException {
+	int verdi = brettet.tegnTilVerdi(tegn);
 
-	    if (verdi < 0 || verdi > maksVerdi) {
-		throw new IllegalArgumentException(String.format("Tall '%c' utenfor lovlig intervall.\n", tegn));
-	    }
-	    return verdi;
-
-	} catch (IllegalArgumentException e) {
-	    System.out.println(e.getMessage());
-	    innFil.close();
-	    System.exit(1);	    
+	if (verdi < 0 || verdi > maksVerdi) {
+	    throw new IllegalArgumentException(String.format("Tall '%c' utenfor lovlig intervall.\n", tegn));
 	}
-	return Integer.MIN_VALUE;	
+	return verdi;	
     }
 
     /**
      * Metoden avslutter programmet om brettet er for stort.
      */
-    private static void sjekkBrettStorrelse() {
+    private static void sjekkBrettStorrelse() throws IllegalArgumentException {
 	int maksBrettStorrelse = 64*64;
 	int brettStorrelse = antBoksRader*antBoksKolonner*antBoksRader*antBoksKolonner;
 
-	try {
-	    if (brettStorrelse > maksBrettStorrelse) {
-		throw new IllegalArgumentException(String.format("Storrelsen paa brettet er for stort: %dx%d. Maksimum brettstorrelse er 64x64.\n", antBoksRader*antBoksKolonner, antBoksRader*antBoksKolonner));
-	    }
-	} catch (IllegalArgumentException e) {
-	    System.out.println(e.getMessage());
-	    innFil.close();
-	    System.exit(1);
+	if (brettStorrelse > maksBrettStorrelse) {
+	    throw new IllegalArgumentException(String.format("Storrelsen paa brettet er for stort: %dx%d. Maksimum brettstorrelse er 64x64.\n", antBoksRader*antBoksKolonner, antBoksRader*antBoksKolonner));
 	}
     }
 
@@ -100,7 +91,8 @@ public class SudokuMain extends Application {
      *
      * @param filnavn   navnet paa fila som skal leses inn
      */
-    public static void lesFil(String filnavn) {
+    public static boolean lesFil(String filnavn) {
+	System.out.println("STARTEN AV LES FIL METODE");
 	try {
 
 	    innFil = new Scanner(new File(filnavn));	
@@ -135,20 +127,39 @@ public class SudokuMain extends Application {
 	    }
 
 	} catch (FileNotFoundException e) {
-	    System.out.printf("Kunne ikke finne filen '%s'.\n", filnavn);
-	    System.exit(1);
-	} catch (NoSuchElementException e) {
-	    System.out.printf("Filen '%s' inneholder ikke nok informasjon.\n", filnavn);
-	    System.exit(1);
-	} catch (IndexOutOfBoundsException e) {
-	    System.out.printf("Antall tegn stemmer ikke: Filen '%s' inneholder for mange tegn.\n", filnavn);
-	    System.exit(1);
-	} catch (IllegalArgumentException e) {
-	    System.out.println(e.getMessage());
-	    System.exit(1);
-	} finally {
+	    Alert varsel = new Alert(AlertType.ERROR);
+	    varsel.setTitle("Fil error");
+	    varsel.setHeaderText("Fil ikke funnet");
+	    varsel.setContentText(String.format("Kunne ikke finne filen '%s'.\n", filnavn));
+	    varsel.showAndWait();
 	    innFil.close();
-	}
+	    return false;
+	} catch (NoSuchElementException e) {
+	    Alert varsel = new Alert(AlertType.ERROR);
+	    varsel.setTitle("Fil error");
+	    varsel.setHeaderText("Feil filformat");
+	    varsel.setContentText(String.format("Filen '%s' inneholder ikke nok informasjon.\n", filnavn));
+	    varsel.showAndWait();
+	    innFil.close();
+	    return false;
+	} catch (IndexOutOfBoundsException e) {
+	    Alert varsel = new Alert(AlertType.ERROR);
+	    varsel.setTitle("Fil error");
+	    varsel.setHeaderText("Feil filformat");
+	    varsel.setContentText(String.format("Antall tegn stemmer ikke: Filen '%s' inneholder for mange tegn.\n", filnavn));
+	    varsel.showAndWait();
+	    innFil.close();
+	    return false;
+	} catch (IllegalArgumentException e) {
+	    Alert varsel = new Alert(AlertType.ERROR);
+	    varsel.setTitle("Fil error");
+	    varsel.setHeaderText("Feil filformat");
+	    varsel.setContentText(e.getMessage());
+	    varsel.showAndWait();
+	    innFil.close();
+	    return false;
+	} 
+	return true;
     }
 
 
@@ -234,38 +245,51 @@ public class SudokuMain extends Application {
 	root = new BorderPane();
 	Scene scene = new Scene(root, 1230, 800);
 	
+	hentNyttBrett();
+
+	/*
 	File forsteFil = hentFil(new Stage());
 
 	if (forsteFil == null) {
 	    System.exit(1);
 	}
+	*/
 
-	lastInnBrett(forsteFil.getPath());
+	//lastInnBrett(forsteFil.getPath());
 
 	stage.setScene(scene);
 	stage.setTitle("Sudoku");
 	stage.show();
     }
 
-    
-    public void lastInnBrett(String filnavn) {
-
-	lesFil(filnavn);
-	brettet.opprettDatastruktur();
-	beholder = brettet.hentBeholder();
-
-	root.setLeft(hentVBoks());
-	root.setBottom(hentHBoks());
-
-	brettet.finnAlleLosninger();
+    public static void hentNyttBrett() {
+	System.out.println("STARTEN AV HENT BRETT METODE");
+	File nyttBrett = hentFil(new Stage());
 	
-	GridPane stortBrett = hentStortSudokubrett(beholder.taUt());
-	root.setCenter(stortBrett);
-	root.setMargin(stortBrett, new Insets(10,10,10,10));
+	if (nyttBrett != null) {
+	    lastInnBrett(nyttBrett.getPath());
+	} 
+	System.out.println("SLUTTEN AV HENT BRETT METODE");
+    }
+    
+    public static void lastInnBrett(String filnavn) {
+	if (lesFil(filnavn)) {
+	    brettet.opprettDatastruktur();
+	    beholder = brettet.hentBeholder();
+
+	    root.setLeft(hentVBoks());
+	    root.setBottom(hentHBoks());
+
+	    brettet.finnAlleLosninger();
+	
+	    GridPane stortBrett = hentStortSudokubrett(beholder.taUt());
+	    root.setCenter(stortBrett);
+	    root.setMargin(stortBrett, new Insets(10,10,10,10));
+	}
     }
     
 
-    public File hentFil(Stage stage) {
+    public static File hentFil(Stage stage) {
 
 	FileChooser filVelger = new FileChooser();
 
@@ -277,7 +301,7 @@ public class SudokuMain extends Application {
 	return valgtFil;
     }
 
-    public VBox hentVBoks() {
+    public static VBox hentVBoks() {
 	VBox vboks = new VBox();
         
 	vboks.setSpacing(20);
@@ -298,17 +322,9 @@ public class SudokuMain extends Application {
 	skrivLosningerTilFilKnapp.setPrefSize(200, 40);
 	avsluttKnapp.setPrefSize(200, 40);
 
-	lastInnKnapp.setOnAction( new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent e) {
-		    File nyttBrett = hentFil(new Stage());
-		    
-		    if (nyttBrett == null) {
-			return;
-		    }
-		    lastInnBrett(nyttBrett.getPath());
-		}
-	    });
+	lastInnKnapp.setOnAction( knappTrykka ->
+				  hentNyttBrett()
+				  );
 
 	lagBrettKnapp.setOnAction( new EventHandler<ActionEvent>() {
 		@Override
@@ -340,7 +356,7 @@ public class SudokuMain extends Application {
 	return vboks;
     }
 
-    public HBox hentHBoks() {
+    public static HBox hentHBoks() {
 
 	HBox hboks = new HBox();
 
@@ -389,7 +405,7 @@ public class SudokuMain extends Application {
 
     }
 
-    public GridPane hentStortSudokubrett(int[] ruteVerdiene) {
+    public static GridPane hentStortSudokubrett(int[] ruteVerdiene) {
 	GridPane stortBrett = new GridPane();
 
 	if (ruteVerdiene == null) {
@@ -426,7 +442,7 @@ public class SudokuMain extends Application {
 	return stortBrett;
     }
 
-    public GridPane hentLiteSudokubrett() {
+    public static GridPane hentLiteSudokubrett() {
 	GridPane liteBrett = new GridPane();
 	Rute[] rutene = brettet.hentAlleRutene();
 	
