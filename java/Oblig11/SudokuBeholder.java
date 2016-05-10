@@ -74,7 +74,14 @@ public class SudokuBeholder {
     }
 
     /**
-     * Returnerer verdien til den noden etter noen som siste ble returnert.
+     * tattUt settes til aa peke paa listeHode.
+     */
+    public void resetBeholder() {
+	tattUt = listeHode;
+    }
+
+    /**
+     * Returnerer verdien til noden etter noden som siste ble returnert.
      * @return alle verdiene til losningen
      */
     public int[] taUt() {

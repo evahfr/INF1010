@@ -92,7 +92,7 @@ public class SudokuMain extends Application {
      * @param filnavn   navnet paa fila som skal leses inn
      */
     public static boolean lesFil(String filnavn) {
-	System.out.println("STARTEN AV LES FIL METODE");
+
 	try {
 
 	    innFil = new Scanner(new File(filnavn));	
@@ -191,6 +191,7 @@ public class SudokuMain extends Application {
 	try {
 	    PrintWriter utFil = new PrintWriter(new File(filnavn));
 	    SudokuBeholder beholder = brettet.hentBeholder();
+	    beholder.resetBeholder();
 	    
 	    if (beholder.hentAntallLosninger() == 1) {
 		utFil.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.FIL, beholder.taUt(), 0));
@@ -198,7 +199,7 @@ public class SudokuMain extends Application {
 	    } else if (beholder.hentAntallLosninger() > 1) {
 		int losningNr = 0;
 
-		while (!beholder.erTom()) {
+		while (beholder.finnesNeste()) {
 		    utFil.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.KOMPAKT, beholder.taUt(), losningNr++));
 		}		
 	    }
@@ -224,14 +225,15 @@ public class SudokuMain extends Application {
     public static void skrivLosningerTilSkjerm() {
 	SudokuBeholder beholder = brettet.hentBeholder();
 	System.out.printf("Antall losninger: %d\n\n", beholder.hentAntallLosninger());
+	beholder.resetBeholder();
 	    
 	if (beholder.hentAntallLosninger() == 1) {
 	    System.out.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.SKJERM, beholder.taUt(), 0));
 	    
 	} else if (beholder.hentAntallLosninger() > 1) {
 	    int losningNr = 0;
-
-	    while (!beholder.erTom()) {
+	    
+	    while (beholder.finnesNeste()) {
 		System.out.print(brettet.hentBrettutskrift(Brett.Utskriftsformat.KOMPAKT, beholder.taUt(), losningNr++));
 	    }		
 	}
@@ -247,29 +249,18 @@ public class SudokuMain extends Application {
 	
 	hentNyttBrett();
 
-	/*
-	File forsteFil = hentFil(new Stage());
-
-	if (forsteFil == null) {
-	    System.exit(1);
-	}
-	*/
-
-	//lastInnBrett(forsteFil.getPath());
-
 	stage.setScene(scene);
 	stage.setTitle("Sudoku");
 	stage.show();
     }
 
     public static void hentNyttBrett() {
-	System.out.println("STARTEN AV HENT BRETT METODE");
+
 	File nyttBrett = hentFil(new Stage());
 	
 	if (nyttBrett != null) {
 	    lastInnBrett(nyttBrett.getPath());
 	} 
-	System.out.println("SLUTTEN AV HENT BRETT METODE");
     }
     
     public static void lastInnBrett(String filnavn) {
@@ -285,6 +276,8 @@ public class SudokuMain extends Application {
 	    GridPane stortBrett = hentStortSudokubrett(beholder.taUt());
 	    root.setCenter(stortBrett);
 	    root.setMargin(stortBrett, new Insets(10,10,10,10));
+	} else {
+	    hentNyttBrett();
 	}
     }
     
@@ -299,6 +292,17 @@ public class SudokuMain extends Application {
 	File valgtFil = filVelger.showOpenDialog(stage);
 
 	return valgtFil;
+    }
+
+    public static File hentLagreFil(Stage stage) {
+	
+	FileChooser filVelger = new FileChooser();
+
+	filVelger.setTitle("Lagre som");
+
+	File lagreFil = filVelger.showSaveDialog(stage);
+
+	return lagreFil;
     }
 
     public static VBox hentVBoks() {
@@ -317,7 +321,6 @@ public class SudokuMain extends Application {
 	Button avsluttKnapp = new Button("Avslutt");
 
 	lastInnKnapp.setPrefSize(200, 40);
-	lagBrettKnapp.setPrefSize(200, 40);
 	skrivBrettTilFilKnapp.setPrefSize(200, 40);
 	skrivLosningerTilFilKnapp.setPrefSize(200, 40);
 	avsluttKnapp.setPrefSize(200, 40);
@@ -326,24 +329,25 @@ public class SudokuMain extends Application {
 				  hentNyttBrett()
 				  );
 
-	lagBrettKnapp.setOnAction( new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent e) {
-		    System.out.println("Ikke implementert enda");
-		}
-	    });
-
         skrivBrettTilFilKnapp.setOnAction( new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent e) {
-		    System.out.println("Ikke implementert enda");
+		    File lagreFil = hentLagreFil(new Stage());
+		    
+		    if (lagreFil != null) {
+			skrivBrettTilFil(lagreFil.getPath());
+		    }
 		}
 	    });
 
         skrivLosningerTilFilKnapp.setOnAction( new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent e) {
-		    System.out.println("Ikke implementert enda");
+		    File lagreFil = hentLagreFil(new Stage());
+		    
+		    if (lagreFil != null) {
+			skrivLosningerTilFil(lagreFil.getPath());
+		    }
 		}
 	    });
 
@@ -351,7 +355,7 @@ public class SudokuMain extends Application {
 				  Platform.exit()
 				  );
 
-	vboks.getChildren().addAll(liteBrett, lastInnKnapp, lagBrettKnapp, skrivBrettTilFilKnapp, skrivLosningerTilFilKnapp, avsluttKnapp);
+	vboks.getChildren().addAll(liteBrett, lastInnKnapp,  skrivBrettTilFilKnapp, skrivLosningerTilFilKnapp, avsluttKnapp);
 	
 	return vboks;
     }
